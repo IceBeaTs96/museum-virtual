@@ -367,61 +367,61 @@ function initSurprise() {
 //  SCENE TRANSITIONS
 // ═══════════════════════════════════════════════════════════════════════════════
 function enterMuseum() {
-  if (isInMuseum) return;
+  if (isInMuseum) { console.log("enterMuseum: already in museum, ignoring"); return; }
   if (!currentEpoch) {
     currentEpoch = epochDefs[0].id;
     currentEpochArtists = allArtists.filter(a => a.epoch === currentEpoch);
   }
+  console.log("enterMuseum: entering", currentEpoch, "artists:", currentEpochArtists.length);
   isInMuseum = true;
 
-  // Loading overlay
-  const loading = document.createElement("div");
-  loading.id = "museum-loading";
-  loading.innerHTML = `<div class="loading-spinner"></div><p>Entering ${getDisplayName(currentEpoch)} Hall…</p>`;
-  loading.style.cssText = "position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(5,3,10,0.95);color:#c4b5fd;font-family:Inter,sans-serif;font-size:1.1rem;gap:16px";
-  document.body.appendChild(loading);
+  // Direct show/hide — no animation, no loading overlay
+  timelineOverlay.hidden = true;
+  museumView.hidden = false;
+  hudTitle.textContent = `${getDisplayName(currentEpoch)} Hall`;
 
-  const anim = timelineOverlay.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, easing: "ease-out" });
-  anim.onfinish = () => {
-    timelineOverlay.hidden = true;
-    timelineOverlay.style.opacity = "";
-    museumView.hidden = false;
-    hudTitle.textContent = `${getDisplayName(currentEpoch)} Hall`;
+  // Force layout before init
+  museumView.offsetHeight;
 
-    requestAnimationFrame(() => {
-      try {
-        initMuseumScene();
-      } catch (err) {
-        console.error("Museum init failed:", err);
-        exitMuseum();
-      }
-      loading.remove();
-    });
-  };
+  try {
+    initMuseumScene();
+    console.log("enterMuseum: scene initialized");
+  } catch (err) {
+    console.error("enterMuseum: init failed", err);
+    exitMuseum();
+  }
 }
 
 function exitMuseum() {
+  console.log("exitMuseum: leaving");
   isInMuseum = false;
-  epochDetail.hidden = true;
   if (renderer) { renderer.dispose(); renderer = null; }
   paintings = [];
   museumView.hidden = true;
   panel.hidden = true;
   timelineOverlay.hidden = false;
-  timelineOverlay.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out" });
   unbindMuseumControls();
   if (sctx) { resizeStarfield(); requestAnimationFrame(drawStarfield); }
+  console.log("exitMuseum: done");
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  3D MUSEUM SCENE
 // ═══════════════════════════════════════════════════════════════════════════════
 function initMuseumScene() {
+  console.log("initMuseumScene: starting, canvas size:", canvas.clientWidth, "x", canvas.clientHeight);
   if (renderer) renderer.dispose();
   paintings = [];
+
+  // Force canvas to have dimensions
+  canvas.style.width = "100vw";
+  canvas.style.height = "100vh";
+
   renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
   renderer.shadowMap.enabled = true;
+  console.log("initMuseumScene: renderer created, size:", renderer.domElement.width, "x", renderer.domElement.height);
   scene = new THREE.Scene();
 
   const colors = {
@@ -467,6 +467,7 @@ function initMuseumScene() {
   resizeRenderer();
   bindMuseumControls();
   animateMuseum();
+  console.log("initMuseumScene: complete, paintings:", paintings.length);
 }
 
 function createFallbackTexture(artist, color) {
@@ -578,11 +579,15 @@ function unbindMuseumControls() {
 }
 
 let animFrameId = null;
+let frameCount = 0;
 function animateMuseum() {
   if (animFrameId) cancelAnimationFrame(animFrameId);
+  frameCount = 0;
   let prev = performance.now();
   function frame(now) {
-    if (!isInMuseum) return;
+    if (!isInMuseum) { console.log("animateMuseum: stopped, isInMuseum=false"); return; }
+    frameCount++;
+    if (frameCount === 1) console.log("animateMuseum: first frame rendered");
     const d = Math.min((now - prev) / 1000, 0.05); prev = now;
     resizeRenderer(); moveCamera(d); renderer.render(scene, camera);
     animFrameId = requestAnimationFrame(frame);
