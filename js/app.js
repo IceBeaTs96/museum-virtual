@@ -226,8 +226,11 @@ function buildTimeline() {
     cnt.textContent = `${count} artist${count !== 1 ? "s" : ""}`;
     marker.appendChild(cnt);
 
-    marker.addEventListener("click", () => {
-      selectEpoch(epoch.id, `${epoch.start}–${epoch.end}`);
+    marker.addEventListener("click", (e) => {
+      e.stopPropagation();
+      currentEpoch = epoch.id;
+      currentEpochArtists = allArtists.filter(a => a.epoch === epoch.id);
+      enterMuseum();
     });
 
     timelineWorld.appendChild(marker);
@@ -269,6 +272,8 @@ function bindTimelineControls() {
   }, { passive: false });
 
   timelineViewport.addEventListener("pointerdown", e => {
+    // Only start panning if clicking on the viewport background, not a child marker
+    if (e.target.closest(".epoch-marker")) return;
     isPanningTL = true;
     panStartTL = { x: e.clientX, panX: viewPanX };
     timelineViewport.setPointerCapture(e.pointerId);
