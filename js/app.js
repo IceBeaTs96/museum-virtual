@@ -390,9 +390,11 @@ function exitMuseum() {
   isInMuseum = false;
   if (renderer) { renderer.dispose(); renderer = null; }
   paintings = [];
-  // Remove dynamically created canvas
+  // Remove any dynamically created elements
   const dynCanvas = museumView.querySelector("canvas");
   if (dynCanvas) dynCanvas.remove();
+  const placeholder = museumView.querySelector("#museum-placeholder");
+  if (placeholder) placeholder.remove();
   museumView.hidden = true;
   panel.hidden = true;
   timelineOverlay.hidden = false;
@@ -404,70 +406,20 @@ function exitMuseum() {
 //  3D MUSEUM SCENE
 // ═══════════════════════════════════════════════════════════════════════════════
 function initMuseumScene() {
-  if (renderer) renderer.dispose();
-  paintings = [];
-
-  // Remove old canvas, create fresh one with explicit pixel dimensions
+  // Step 1: Simple placeholder to verify flow works
   const oldCanvas = museumView.querySelector("canvas");
   if (oldCanvas) oldCanvas.remove();
 
-  const newCanvas = document.createElement("canvas");
-  newCanvas.id = "museum-canvas";
-  newCanvas.style.cssText = "position:fixed;inset:0;display:block;cursor:crosshair;z-index:1";
-  newCanvas.width = window.innerWidth;
-  newCanvas.height = window.innerHeight;
-  museumView.appendChild(newCanvas);
-  canvas = newCanvas;
-
-  renderer = new THREE.WebGLRenderer({ canvas: newCanvas, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(newCanvas.width, newCanvas.height, false);
-  renderer.shadowMap.enabled = true;
-  scene = new THREE.Scene();
-
-  const colors = {
-    Vorreformatorisch: { bg: 0x1a1510, fog: 0x1a1510, wall: 0xf0e8d8, floor: 0x6b5540 },
-    Renaissance: { bg: 0x15110d, fog: 0x15110d, wall: 0xf5f0e7, floor: 0x8a6b4b },
-    Barock: { bg: 0x1a1210, fog: 0x1a1210, wall: 0xe8ddd0, floor: 0x5c3a20 },
-    Romantik: { bg: 0x0f1815, fog: 0x0f1815, wall: 0xe0e8e3, floor: 0x3d5a45 },
-    Impressionismus: { bg: 0x121318, fog: 0x121318, wall: 0xf0f0f8, floor: 0x6b6b8a },
-    Moderne: { bg: 0x141414, fog: 0x141414, wall: 0xf5f5f5, floor: 0x2a2a2a },
-    Zeitgenössisch: { bg: 0x0f1117, fog: 0x0f1117, wall: 0xfafafa, floor: 0x1e1e2e },
-    "Asiatische Kunst": { bg: 0x1a1410, fog: 0x1a1410, wall: 0xf5ede0, floor: 0x5c4030 },
-  };
-  const t = colors[currentEpoch] || colors.Renaissance;
-  scene.background = new THREE.Color(t.bg);
-  scene.fog = new THREE.Fog(t.fog, 12, 32);
-
-  camera = new THREE.PerspectiveCamera(70, 1, 0.1, 100);
-  camera.position.set(0, 1.65, 4.5);
-  yaw = Math.PI; pitch = 0;
-  updateCameraRotation();
-
-  const wm = new THREE.MeshStandardMaterial({ color: t.wall, roughness: 0.82 });
-  const fm = new THREE.MeshStandardMaterial({ color: t.floor, roughness: 0.72 });
-  const cm = new THREE.MeshStandardMaterial({ color: 0xe6dfd2, roughness: 0.88 });
-
-  const fl = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), fm);
-  fl.rotation.x = -Math.PI / 2; fl.receiveShadow = true; scene.add(fl);
-  const cl = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), cm);
-  cl.position.y = 3.4; cl.rotation.x = Math.PI / 2; scene.add(cl);
-  [[0, 1.7, -6, 0], [0, 1.7, 6, Math.PI], [-6, 1.7, 0, Math.PI / 2], [6, 1.7, 0, -Math.PI / 2]].forEach(([x, y, z, ry]) => {
-    const w = new THREE.Mesh(new THREE.PlaneGeometry(12, 3.4), wm);
-    w.position.set(x, y, z); w.rotation.y = ry; w.receiveShadow = true; scene.add(w);
-  });
-
-  scene.add(new THREE.HemisphereLight(0xfff3dc, 0x5c4837, 1.5));
-  const ml = new THREE.DirectionalLight(0xfff2d8, 1.4);
-  ml.position.set(2.5, 5, 3); ml.castShadow = true; scene.add(ml);
-  [[-3, 3.15, -2], [3, 3.15, -2], [0, 3.15, 2.5]].forEach(([x, y, z]) => {
-    const l = new THREE.PointLight(0xffe6bd, 2.4, 8); l.position.set(x, y, z); scene.add(l);
-  });
-
-  placePaintings(currentEpochArtists);
-  resizeRenderer();
-  bindMuseumControls();
-  animateMuseum();
+  const div = document.createElement("div");
+  div.id = "museum-placeholder";
+  div.style.cssText = "position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;z-index:1";
+  div.innerHTML = `
+    <div style="width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #c9a96e 40%, #8b6914);box-shadow:0 0 40px rgba(201,169,110,0.4)"></div>
+    <h2 style="color:#f5f0e7;font-family:Inter,sans-serif;margin:0">${getDisplayName(currentEpoch)} Hall</h2>
+    <p style="color:rgba(200,190,240,0.6);font-family:Inter,sans-serif;margin:0">${currentEpochArtists.length} artists · ${currentEpochArtists.map(a => a.name).join(", ")}</p>
+    <p style="color:rgba(200,190,240,0.3);font-family:Inter,sans-serif;margin:0;font-size:0.8rem">3D scene loading...</p>
+  `;
+  museumView.appendChild(div);
 }
 
 function createFallbackTexture(artist, color) {
