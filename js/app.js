@@ -419,7 +419,9 @@ function initMuseumScene() {
 
   const newCanvas = document.createElement("canvas");
   newCanvas.id = "museum-canvas";
-  newCanvas.style.cssText = "display:block;width:100vw;height:100vh;cursor:crosshair";
+  newCanvas.style.cssText = "position:fixed;inset:0;display:block;cursor:crosshair;z-index:1";
+  newCanvas.width = window.innerWidth;
+  newCanvas.height = window.innerHeight;
   museumView.appendChild(newCanvas);
 
   // Update the global canvas ref for all other functions
