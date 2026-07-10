@@ -16,9 +16,7 @@ const epochDetail = document.querySelector("#epoch-detail");
 const epochDetailName = document.querySelector("#epoch-detail-name");
 const epochDetailRange = document.querySelector("#epoch-detail-range");
 const epochArtistsGrid = document.querySelector("#epoch-artists-grid");
-const enterMuseumBtn = document.querySelector("#enter-museum-btn");
 const backToTimelineBtn = document.querySelector("#back-to-timeline");
-const closeEpochDetailBtn = document.querySelector("#close-epoch-detail");
 const hudTitle = document.querySelector("#hud-title");
 const searchInput = document.querySelector("#artist-search");
 const searchResults = document.querySelector("#search-results");
@@ -383,7 +381,7 @@ function initFilters() {
   });
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════
 //  SURPRISE ME
 // ═══════════════════════════════════════════════════════════════════════════════
 function initSurprise() {
@@ -391,34 +389,19 @@ function initSurprise() {
     const ra = allArtists[Math.floor(Math.random() * allArtists.length)];
     currentEpoch = ra.epoch;
     currentEpochArtists = allArtists.filter(a => a.epoch === ra.epoch);
-    selectEpoch(ra.epoch, ra.epochRange || "");
-    setTimeout(() => enterMuseum(), 800);
+    enterMuseum();
   });
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-//  EPOCH SELECTION
-// ═══════════════════════════════════════════════════════════════════════════════
-function selectEpoch(epochName, epochRange) {
-  currentEpoch = epochName;
-  currentEpochArtists = allArtists.filter(a => a.epoch === epochName);
-  epochDetailName.textContent = getDisplayName(epochName);
-  epochDetailRange.textContent = epochRange;
-  epochArtistsGrid.innerHTML = "";
-  currentEpochArtists.forEach(a => {
-    const c = document.createElement("div");
-    c.className = "epoch-artist-card";
-    c.innerHTML = `<img class="artist-thumb" src="${a.imageUrl}" alt="${a.name}" loading="lazy" onerror="this.style.display='none'" /><span class="artist-name">${a.name}</span><span class="artist-years">${a.years}</span>`;
-    c.addEventListener("click", () => showArtistInPanel(a));
-    epochArtistsGrid.appendChild(c);
-  });
-  epochDetail.hidden = false;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  SCENE TRANSITIONS
 // ═══════════════════════════════════════════════════════════════════════════════
 function enterMuseum() {
+  if (!currentEpoch) {
+    // Fallback: pick first epoch
+    currentEpoch = epochDefs[0].id;
+    currentEpochArtists = allArtists.filter(a => a.epoch === currentEpoch);
+  }
   isInMuseum = true;
   const anim = timelineOverlay.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, easing: "ease-out" });
   anim.onfinish = () => {
@@ -439,8 +422,8 @@ function exitMuseum() {
   panel.hidden = true;
   timelineOverlay.hidden = false;
   timelineOverlay.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out" });
-  resizeStarfield();
-  requestAnimationFrame(drawStarfield);
+  // Reset starfield canvas size and restart
+  if (sctx) { resizeStarfield(); requestAnimationFrame(drawStarfield); }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -570,20 +553,26 @@ function onCanvasClick(e) {
   if (hit?.object.userData.artist) showArtistInPanel(hit.object.userData.artist);
   else if (!document.pointerLockElement && !isClickModeActive()) canvas.requestPointerLock?.();
 }
+let museumListenersBound = false;
 function bindMuseumControls() {
-  const nc = canvas.cloneNode(true); canvas.parentNode.replaceChild(nc, canvas);
-  const mc = document.querySelector("#museum-canvas");
-  mc.addEventListener("click", onCanvasClick);
-  mc.addEventListener("pointerdown", e => { if (isClickModeActive()) { releasePointerLock(); return; } isDragging = true; lastPointer = { x: e.clientX, y: e.clientY }; });
-  window.addEventListener("pointerup", () => { isDragging = false; });
-  window.addEventListener("pointermove", e => {
-    const locked = document.pointerLockElement === mc;
-    if (!isDragging && !locked) return;
-    const mx = locked ? e.movementX : e.clientX - lastPointer.x;
-    const my = locked ? e.movementY : e.clientY - lastPointer.y;
-    yaw -= mx * 0.0026; pitch -= my * 0.0026;
-    lastPointer = { x: e.clientX, y: e.clientY }; updateCameraRotation();
-  });
+  if (museumListenersBound) return; // Don't double-bind or clone
+  museumListenersBound = true;
+
+  canvas.addEventListener("click", onCanvasClick);
+  canvas.addEventListener("pointerdown", e => { if (isClickModeActive()) { releasePointerLock(); return; } isDragging = true; lastPointer = { x: e.clientX, y: e.clientY }; });
+  window.addEventListener("pointerup", onPointerUp);
+  window.addEventListener("pointermove", onPointerMove);
+}
+
+function onPointerUp() { isDragging = false; }
+function onPointerMove(e) {
+  if (!isInMuseum) return;
+  const locked = document.pointerLockElement === canvas;
+  if (!isDragging && !locked) return;
+  const mx = locked ? e.movementX : e.clientX - lastPointer.x;
+  const my = locked ? e.movementY : e.clientY - lastPointer.y;
+  yaw -= mx * 0.0026; pitch -= my * 0.0026;
+  lastPointer = { x: e.clientX, y: e.clientY }; updateCameraRotation();
 }
 
 let animFrameId = null;
@@ -613,8 +602,6 @@ function bindGlobalControls() {
     else resizeStarfield();
   });
   closePanel.addEventListener("click", () => { panel.hidden = true; });
-  closeEpochDetailBtn.addEventListener("click", () => { epochDetail.hidden = true; });
-  enterMuseumBtn.addEventListener("click", () => enterMuseum());
   backToTimelineBtn.addEventListener("click", () => exitMuseum());
 }
 
