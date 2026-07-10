@@ -367,53 +367,47 @@ function initSurprise() {
 //  SCENE TRANSITIONS
 // ═══════════════════════════════════════════════════════════════════════════════
 function enterMuseum() {
-  if (isInMuseum) { console.log("enterMuseum: already in museum, ignoring"); return; }
+  if (isInMuseum) return;
   if (!currentEpoch) {
     currentEpoch = epochDefs[0].id;
     currentEpochArtists = allArtists.filter(a => a.epoch === currentEpoch);
   }
-  console.log("enterMuseum: entering", currentEpoch, "artists:", currentEpochArtists.length);
   isInMuseum = true;
 
-  // Direct show/hide — no animation, no loading overlay
   timelineOverlay.hidden = true;
   museumView.hidden = false;
   hudTitle.textContent = `${getDisplayName(currentEpoch)} Hall`;
 
-  // Force layout before init
-  museumView.offsetHeight;
-
   try {
     initMuseumScene();
-    console.log("enterMuseum: scene initialized");
   } catch (err) {
-    console.error("enterMuseum: init failed", err);
+    console.error("Museum init failed:", err);
     exitMuseum();
   }
 }
 
 function exitMuseum() {
-  console.log("exitMuseum: leaving");
   isInMuseum = false;
   if (renderer) { renderer.dispose(); renderer = null; }
   paintings = [];
+  // Remove dynamically created canvas
+  const dynCanvas = museumView.querySelector("canvas");
+  if (dynCanvas) dynCanvas.remove();
   museumView.hidden = true;
   panel.hidden = true;
   timelineOverlay.hidden = false;
   unbindMuseumControls();
   if (sctx) { resizeStarfield(); requestAnimationFrame(drawStarfield); }
-  console.log("exitMuseum: done");
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  3D MUSEUM SCENE
 // ═══════════════════════════════════════════════════════════════════════════════
 function initMuseumScene() {
-  console.log("initMuseumScene: starting");
   if (renderer) renderer.dispose();
   paintings = [];
 
-  // Remove old canvas, create fresh one with proper dimensions
+  // Remove old canvas, create fresh one with explicit pixel dimensions
   const oldCanvas = museumView.querySelector("canvas");
   if (oldCanvas) oldCanvas.remove();
 
@@ -423,17 +417,12 @@ function initMuseumScene() {
   newCanvas.width = window.innerWidth;
   newCanvas.height = window.innerHeight;
   museumView.appendChild(newCanvas);
-
-  // Update the global canvas ref for all other functions
   canvas = newCanvas;
-
-  console.log("initMuseumScene: canvas size:", newCanvas.clientWidth, "x", newCanvas.clientHeight);
 
   renderer = new THREE.WebGLRenderer({ canvas: newCanvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(newCanvas.clientWidth, newCanvas.clientHeight, false);
+  renderer.setSize(newCanvas.width, newCanvas.height, false);
   renderer.shadowMap.enabled = true;
-  console.log("initMuseumScene: renderer created, size:", renderer.domElement.width, "x", renderer.domElement.height);
   scene = new THREE.Scene();
 
   const colors = {
@@ -479,7 +468,6 @@ function initMuseumScene() {
   resizeRenderer();
   bindMuseumControls();
   animateMuseum();
-  console.log("initMuseumScene: complete, paintings:", paintings.length);
 }
 
 function createFallbackTexture(artist, color) {
@@ -591,15 +579,11 @@ function unbindMuseumControls() {
 }
 
 let animFrameId = null;
-let frameCount = 0;
 function animateMuseum() {
   if (animFrameId) cancelAnimationFrame(animFrameId);
-  frameCount = 0;
   let prev = performance.now();
   function frame(now) {
-    if (!isInMuseum) { console.log("animateMuseum: stopped, isInMuseum=false"); return; }
-    frameCount++;
-    if (frameCount === 1) console.log("animateMuseum: first frame rendered");
+    if (!isInMuseum) return;
     const d = Math.min((now - prev) / 1000, 0.05); prev = now;
     resizeRenderer(); moveCamera(d); renderer.render(scene, camera);
     animFrameId = requestAnimationFrame(frame);
