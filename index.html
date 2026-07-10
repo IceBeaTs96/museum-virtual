@@ -11,20 +11,53 @@
     <div id="timeline-overlay" class="timeline-overlay">
       <header class="timeline-header">
         <h1>🎨 Virtual Museum</h1>
-        <p>Choose an epoch on the timeline to enter a 3D museum hall</p>
+        <p>Explore 50+ masterpieces across 8 epochs of art history</p>
       </header>
+
+      <!-- Search & Filter Bar -->
+      <div class="search-bar">
+        <input type="text" id="artist-search" class="search-input" placeholder="🔍 Search artists, movements, nationalities..." autocomplete="off" />
+        <div class="filter-chips" id="filter-chips">
+          <button class="filter-chip active" data-filter="all">All</button>
+          <button class="filter-chip" data-filter="Renaissance">Renaissance</button>
+          <button class="filter-chip" data-filter="Barock">Baroque</button>
+          <button class="filter-chip" data-filter="Romantik">Romanticism</button>
+          <button class="filter-chip" data-filter="Impressionismus">Impressionism</button>
+          <button class="filter-chip" data-filter="Moderne">Modern</button>
+          <button class="filter-chip" data-filter="Zeitgenössisch">Contemporary</button>
+          <button class="filter-chip" data-filter="Asiatische Kunst">Asian Art</button>
+        </div>
+        <button id="surprise-btn" class="surprise-button">🎲 Surprise Me!</button>
+      </div>
+
+      <!-- Search Results Panel -->
+      <div id="search-results" class="search-results" hidden>
+        <div class="search-results-header">
+          <span id="search-results-count"></span>
+          <button id="clear-search" class="icon-button small" type="button">×</button>
+        </div>
+        <div class="search-results-grid" id="search-results-grid"></div>
+      </div>
 
       <div class="timeline-wrapper">
         <div class="timeline-track" id="timeline-track">
           <div class="timeline-line"></div>
           
-          <!-- Epoch markers -->
-          <div class="epoch-marker" data-epoch="Renaissance" data-range="1400–1600" data-color="#c9a96e" style="left: 12%">
+          <div class="epoch-marker" data-epoch="Vorreformatorisch" data-range="1200–1400" data-color="#8b7355" style="left: 5%">
+            <div class="epoch-dot"></div>
+            <div class="epoch-label">
+              <span class="epoch-name">Proto-Renaissance</span>
+              <span class="epoch-years">1200–1400</span>
+              <span class="epoch-count">1 artist</span>
+            </div>
+          </div>
+
+          <div class="epoch-marker" data-epoch="Renaissance" data-range="1400–1600" data-color="#c9a96e" style="left: 18%">
             <div class="epoch-dot"></div>
             <div class="epoch-label">
               <span class="epoch-name">Renaissance</span>
               <span class="epoch-years">1400–1600</span>
-              <span class="epoch-count">5 artists</span>
+              <span class="epoch-count">8 artists</span>
             </div>
           </div>
           
@@ -33,34 +66,52 @@
             <div class="epoch-label">
               <span class="epoch-name">Baroque</span>
               <span class="epoch-years">1600–1750</span>
-              <span class="epoch-count">5 artists</span>
+              <span class="epoch-count">7 artists</span>
+            </div>
+          </div>
+
+          <div class="epoch-marker" data-epoch="Asiatische Kunst" data-range="1600–1900" data-color="#d4a574" style="left: 44%">
+            <div class="epoch-dot"></div>
+            <div class="epoch-label">
+              <span class="epoch-name">Asian Art</span>
+              <span class="epoch-years">1600–1900</span>
+              <span class="epoch-count">2 artists</span>
             </div>
           </div>
           
-          <div class="epoch-marker" data-epoch="Romantik" data-range="1780–1850" data-color="#4a7c59" style="left: 52%">
+          <div class="epoch-marker" data-epoch="Romantik" data-range="1780–1850" data-color="#4a7c59" style="left: 56%">
             <div class="epoch-dot"></div>
             <div class="epoch-label">
               <span class="epoch-name">Romanticism</span>
               <span class="epoch-years">1780–1850</span>
-              <span class="epoch-count">3 artists</span>
-            </div>
-          </div>
-          
-          <div class="epoch-marker" data-epoch="Impressionismus" data-range="1860–1886" data-color="#6b5b95" style="left: 72%">
-            <div class="epoch-dot"></div>
-            <div class="epoch-label">
-              <span class="epoch-name">Impressionism</span>
-              <span class="epoch-years">1860–1886</span>
               <span class="epoch-count">4 artists</span>
             </div>
           </div>
           
-          <div class="epoch-marker" data-epoch="Moderne" data-range="1900–1945" data-color="#d4574a" style="left: 92%">
+          <div class="epoch-marker" data-epoch="Impressionismus" data-range="1860–1900" data-color="#6b5b95" style="left: 68%">
+            <div class="epoch-dot"></div>
+            <div class="epoch-label">
+              <span class="epoch-name">Impressionism</span>
+              <span class="epoch-years">1860–1900</span>
+              <span class="epoch-count">6 artists</span>
+            </div>
+          </div>
+          
+          <div class="epoch-marker" data-epoch="Moderne" data-range="1900–1945" data-color="#d4574a" style="left: 80%">
             <div class="epoch-dot"></div>
             <div class="epoch-label">
               <span class="epoch-name">Modern</span>
               <span class="epoch-years">1900–1945</span>
-              <span class="epoch-count">4 artists</span>
+              <span class="epoch-count">10 artists</span>
+            </div>
+          </div>
+
+          <div class="epoch-marker" data-epoch="Zeitgenössisch" data-range="1945–today" data-color="#3b82f6" style="left: 94%">
+            <div class="epoch-dot"></div>
+            <div class="epoch-label">
+              <span class="epoch-name">Contemporary</span>
+              <span class="epoch-years">1945–today</span>
+              <span class="epoch-count">8 artists</span>
             </div>
           </div>
         </div>

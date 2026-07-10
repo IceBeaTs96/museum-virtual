@@ -7,6 +7,7 @@ let allArtists = [];
 let currentEpoch = null;
 let currentEpochArtists = [];
 let isInMuseum = false;
+let activeFilter = "all";
 
 // DOM refs
 const timelineOverlay = document.querySelector("#timeline-overlay");
@@ -19,6 +20,13 @@ const enterMuseumBtn = document.querySelector("#enter-museum-btn");
 const backToTimelineBtn = document.querySelector("#back-to-timeline");
 const closeEpochDetailBtn = document.querySelector("#close-epoch-detail");
 const hudTitle = document.querySelector("#hud-title");
+const searchInput = document.querySelector("#artist-search");
+const searchResults = document.querySelector("#search-results");
+const searchResultsGrid = document.querySelector("#search-results-grid");
+const searchResultsCount = document.querySelector("#search-results-count");
+const clearSearchBtn = document.querySelector("#clear-search");
+const filterChips = document.querySelector("#filter-chips");
+const surpriseBtn = document.querySelector("#surprise-btn");
 
 const canvas = document.querySelector("#museum-canvas");
 const panel = document.querySelector("#info-panel");
@@ -51,6 +59,151 @@ async function loadArtists() {
     throw new Error(`Unable to load artist data: ${response.status}`);
   }
   return response.json();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  EPOCH DISPLAY NAMES
+// ═══════════════════════════════════════════════════════════════════════════════
+const epochDisplayNames = {
+  "Vorreformatorisch": "Proto-Renaissance",
+  "Renaissance": "Renaissance",
+  "Barock": "Baroque",
+  "Romantik": "Romanticism",
+  "Impressionismus": "Impressionism",
+  "Moderne": "Modern",
+  "Zeitgenössisch": "Contemporary",
+  "Asiatische Kunst": "Asian Art",
+};
+
+function getDisplayName(epoch) {
+  return epochDisplayNames[epoch] || epoch;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  SEARCH & FILTER LOGIC
+// ═══════════════════════════════════════════════════════════════════════════════
+function initSearch() {
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (query.length < 2) {
+      searchResults.hidden = true;
+      return;
+    }
+    performSearch(query);
+  });
+
+  clearSearchBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    searchResults.hidden = true;
+  });
+
+  // Close search on Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !searchResults.hidden) {
+      searchInput.value = "";
+      searchResults.hidden = true;
+    }
+  });
+}
+
+function performSearch(query) {
+  const results = allArtists.filter((a) => {
+    const searchable = `${a.name} ${a.movement} ${a.nationality} ${a.epoch} ${a.bio}`.toLowerCase();
+    return searchable.includes(query);
+  });
+
+  if (results.length === 0) {
+    searchResultsCount.textContent = "No artists found";
+    searchResultsGrid.innerHTML = '<p style="color:var(--muted);text-align:center;grid-column:1/-1">Try a different search term</p>';
+    searchResults.hidden = false;
+    return;
+  }
+
+  searchResultsCount.textContent = `${results.length} artist${results.length > 1 ? "s" : ""} found`;
+  searchResultsGrid.innerHTML = "";
+
+  results.forEach((artist) => {
+    const card = document.createElement("div");
+    card.className = "search-result-card";
+    card.innerHTML = `
+      <img class="artist-thumb" src="${artist.imageUrl}" alt="${artist.name}" loading="lazy" onerror="this.style.display='none'" />
+      <span class="artist-name">${artist.name}</span>
+      <span class="artist-meta">${artist.years} · ${getDisplayName(artist.epoch)}</span>
+    `;
+    card.addEventListener("click", () => {
+      searchResults.hidden = true;
+      searchInput.value = "";
+      showArtistInPanel(artist);
+    });
+    searchResultsGrid.appendChild(card);
+  });
+
+  searchResults.hidden = false;
+}
+
+function showArtistInPanel(artist) {
+  artistName.textContent = artist.name;
+  artistYears.textContent = `${artist.years} · ${artist.movement}`;
+  artistBio.textContent = artist.bio;
+  artistImage.src = artist.imageUrl;
+  artistImage.alt = `Artwork associated with ${artist.name}`;
+  artistUrl.href = artist.imageUrl;
+  panel.hidden = false;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  FILTER CHIPS
+// ═══════════════════════════════════════════════════════════════════════════════
+function initFilters() {
+  filterChips.addEventListener("click", (e) => {
+    const chip = e.target.closest(".filter-chip");
+    if (!chip) return;
+
+    const filter = chip.dataset.filter;
+    activeFilter = filter;
+
+    // Update active state
+    filterChips.querySelectorAll(".filter-chip").forEach((c) => c.classList.remove("active"));
+    chip.classList.add("active");
+
+    // Filter timeline markers
+    const markers = document.querySelectorAll(".epoch-marker");
+    markers.forEach((m) => {
+      if (filter === "all" || m.dataset.epoch === filter) {
+        m.style.display = "";
+      } else {
+        m.style.display = "none";
+      }
+    });
+
+    // Clear search
+    searchInput.value = "";
+    searchResults.hidden = true;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  SURPRISE ME
+// ═══════════════════════════════════════════════════════════════════════════════
+function initSurprise() {
+  surpriseBtn.addEventListener("click", () => {
+    const randomArtist = allArtists[Math.floor(Math.random() * allArtists.length)];
+    currentEpoch = randomArtist.epoch;
+    currentEpochArtists = allArtists.filter((a) => a.epoch === randomArtist.epoch);
+
+    // Highlight the right marker
+    document.querySelectorAll(".epoch-marker").forEach((m) => m.classList.remove("active"));
+    const marker = document.querySelector(`.epoch-marker[data-epoch="${CSS.escape(randomArtist.epoch)}"]`);
+    if (marker) marker.classList.add("active");
+
+    // Show epoch detail
+    selectEpoch(randomArtist.epoch, randomArtist.epochRange);
+
+    // Auto-enter museum after a short delay
+    setTimeout(() => {
+      enterMuseum();
+    }, 800);
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -88,17 +241,7 @@ function selectEpoch(epochName, epochRange) {
   currentEpoch = epochName;
   currentEpochArtists = allArtists.filter((a) => a.epoch === epochName);
 
-  const displayName =
-    epochName === "Romantik"
-      ? "Romanticism"
-      : epochName === "Impressionismus"
-      ? "Impressionism"
-      : epochName === "Moderne"
-      ? "Modern"
-      : epochName === "Barock"
-      ? "Baroque"
-      : epochName;
-  epochDetailName.textContent = displayName;
+  epochDetailName.textContent = getDisplayName(epochName);
   epochDetailRange.textContent = epochRange;
 
   // Build artist grid
@@ -111,6 +254,9 @@ function selectEpoch(epochName, epochRange) {
       <span class="artist-name">${artist.name}</span>
       <span class="artist-years">${artist.years}</span>
     `;
+    card.addEventListener("click", () => {
+      showArtistInPanel(artist);
+    });
     epochArtistsGrid.appendChild(card);
   });
 
@@ -133,17 +279,7 @@ function enterMuseum() {
     timelineOverlay.style.opacity = "";
     museumView.hidden = false;
 
-    const displayEpoch =
-      currentEpoch === "Romantik"
-        ? "Romanticism"
-        : currentEpoch === "Impressionismus"
-        ? "Impressionism"
-        : currentEpoch === "Moderne"
-        ? "Modern"
-        : currentEpoch === "Barock"
-        ? "Baroque"
-        : currentEpoch;
-    hudTitle.textContent = `${displayEpoch} Hall`;
+    hudTitle.textContent = `${getDisplayName(currentEpoch)} Hall`;
 
     initMuseumScene();
   };
@@ -185,11 +321,14 @@ function initMuseumScene() {
   scene = new THREE.Scene();
 
   const epochColors = {
+    Vorreformatorisch: { bg: 0x1a1510, fog: 0x1a1510, wall: 0xf0e8d8, floor: 0x6b5540 },
     Renaissance: { bg: 0x15110d, fog: 0x15110d, wall: 0xf5f0e7, floor: 0x8a6b4b },
     Barock: { bg: 0x1a1210, fog: 0x1a1210, wall: 0xe8ddd0, floor: 0x5c3a20 },
     Romantik: { bg: 0x0f1815, fog: 0x0f1815, wall: 0xe0e8e3, floor: 0x3d5a45 },
     Impressionismus: { bg: 0x121318, fog: 0x121318, wall: 0xf0f0f8, floor: 0x6b6b8a },
     Moderne: { bg: 0x141414, fog: 0x141414, wall: 0xf5f5f5, floor: 0x2a2a2a },
+    Zeitgenössisch: { bg: 0x0f1117, fog: 0x0f1117, wall: 0xfafafa, floor: 0x1e1e2e },
+    "Asiatische Kunst": { bg: 0x1a1410, fog: 0x1a1410, wall: 0xf5ede0, floor: 0x5c4030 },
   };
 
   const theme = epochColors[currentEpoch] || epochColors.Renaissance;
@@ -338,15 +477,23 @@ function addPainting(artist, transform, color) {
 }
 
 function placePaintings(artists) {
-  const displayArtists = artists.slice(0, 5);
+  // Show up to 8 paintings in the room
+  const displayArtists = artists.slice(0, 8);
   const placements = [
+    // Back wall (3 paintings)
     { position: [-3.6, 1.75, -5.92], rotationY: 0 },
     { position: [0, 1.75, -5.92], rotationY: 0 },
     { position: [3.6, 1.75, -5.92], rotationY: 0 },
-    { position: [-5.92, 1.75, -1.8], rotationY: Math.PI / 2 },
-    { position: [5.92, 1.75, -1.8], rotationY: -Math.PI / 2 },
+    // Left wall (2 paintings)
+    { position: [-5.92, 1.75, -2.5], rotationY: Math.PI / 2 },
+    { position: [-5.92, 1.75, 1.5], rotationY: Math.PI / 2 },
+    // Right wall (2 paintings)
+    { position: [5.92, 1.75, -2.5], rotationY: -Math.PI / 2 },
+    { position: [5.92, 1.75, 1.5], rotationY: -Math.PI / 2 },
+    // Front wall (1 painting, near door)
+    { position: [0, 1.75, 5.92], rotationY: Math.PI },
   ];
-  const colors = ["#b98b5d", "#9f6f60", "#c2a15b", "#9aa56b", "#7d8b9b"];
+  const colors = ["#b98b5d", "#9f6f60", "#c2a15b", "#9aa56b", "#7d8b9b", "#b57a6a", "#8b9a6b", "#a08b7b"];
 
   displayArtists.forEach((artist, index) => {
     if (placements[index]) {
@@ -356,13 +503,7 @@ function placePaintings(artists) {
 }
 
 function showArtist(artist) {
-  artistName.textContent = artist.name;
-  artistYears.textContent = `${artist.years} · ${artist.movement}`;
-  artistBio.textContent = artist.bio;
-  artistImage.src = artist.imageUrl;
-  artistImage.alt = `Artwork associated with ${artist.name}`;
-  artistUrl.href = artist.imageUrl;
-  panel.hidden = false;
+  showArtistInPanel(artist);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -517,6 +658,9 @@ async function init() {
   try {
     allArtists = await loadArtists();
     initTimeline();
+    initSearch();
+    initFilters();
+    initSurprise();
     bindGlobalControls();
 
     museumView.hidden = true;
