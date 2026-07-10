@@ -6,13 +6,15 @@
   --accent: #9b402f;
   --panel: rgba(250, 247, 240, 0.96);
   --shadow: rgba(18, 13, 9, 0.28);
-  --timeline-bg: #1a1612;
+  --timeline-bg: #0a0a14;
   --timeline-line: #4a3f35;
   --epoch-gold: #c9a96e;
   --epoch-brown: #8b4513;
   --epoch-green: #4a7c59;
   --epoch-purple: #6b5b95;
   --epoch-red: #d4574a;
+  --cosmic-blue: #3b82f6;
+  --cosmic-teal: #14b8a6;
 }
 
 * {
@@ -28,7 +30,7 @@ body {
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  background: #15110d;
+  background: #0a0a14;
 }
 
 /* ── Timeline Overlay ─────────────────────────────── */
@@ -39,7 +41,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background: var(--timeline-bg);
   z-index: 100;
   overflow: hidden;
@@ -47,16 +48,19 @@ body {
 
 .timeline-header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-top: 20px;
+  margin-bottom: 8px;
   padding: 0 20px;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .timeline-header h1 {
-  margin: 0 0 8px;
-  font-size: 2.8rem;
+  margin: 0 0 4px;
+  font-size: 2.4rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #f5f0e7 0%, #c9a96e 100%);
+  background: linear-gradient(135deg, #f5f0e7 0%, #c9a96e 40%, #a78bfa 70%, #60a5fa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -64,8 +68,8 @@ body {
 
 .timeline-header p {
   margin: 0;
-  color: rgba(245, 240, 231, 0.6);
-  font-size: 1.05rem;
+  color: rgba(200, 190, 240, 0.5);
+  font-size: 0.9rem;
 }
 
 /* ── Search & Filter Bar ──────────────────────────── */
@@ -77,18 +81,20 @@ body {
   justify-content: center;
   gap: 10px;
   width: min(900px, calc(100vw - 40px));
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   padding: 0 10px;
+  z-index: 2;
 }
 
 .search-input {
   flex: 1 1 240px;
   max-width: 360px;
   padding: 10px 16px;
-  border: 1px solid rgba(245, 240, 231, 0.2);
+  border: 1px solid rgba(160, 140, 220, 0.25);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #f5f0e7;
+  background: rgba(30, 20, 60, 0.5);
+  backdrop-filter: blur(8px);
+  color: #e8e0f0;
   font-size: 0.9rem;
   font-family: inherit;
   outline: none;
@@ -96,12 +102,12 @@ body {
 }
 
 .search-input::placeholder {
-  color: rgba(245, 240, 231, 0.35);
+  color: rgba(200, 180, 230, 0.35);
 }
 
 .search-input:focus {
-  border-color: var(--epoch-gold);
-  background: rgba(255, 255, 255, 0.1);
+  border-color: #a78bfa;
+  background: rgba(40, 30, 80, 0.6);
 }
 
 .filter-chips {
@@ -113,10 +119,11 @@ body {
 
 .filter-chip {
   padding: 6px 14px;
-  border: 1px solid rgba(245, 240, 231, 0.2);
+  border: 1px solid rgba(160, 140, 220, 0.2);
   border-radius: 20px;
-  background: transparent;
-  color: rgba(245, 240, 231, 0.6);
+  background: rgba(30, 20, 60, 0.3);
+  backdrop-filter: blur(4px);
+  color: rgba(200, 190, 230, 0.6);
   font-size: 0.78rem;
   font-family: inherit;
   cursor: pointer;
@@ -125,22 +132,25 @@ body {
 }
 
 .filter-chip:hover {
-  border-color: rgba(245, 240, 231, 0.4);
-  color: #f5f0e7;
+  border-color: rgba(180, 160, 240, 0.5);
+  color: #e8e0f0;
+  background: rgba(50, 30, 90, 0.4);
 }
 
 .filter-chip.active {
-  background: var(--epoch-gold);
-  border-color: var(--epoch-gold);
-  color: #1a1612;
+  background: rgba(167, 139, 250, 0.25);
+  border-color: #a78bfa;
+  color: #c4b5fd;
   font-weight: 600;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.2);
 }
 
 .surprise-button {
   padding: 8px 18px;
   border: 1px solid rgba(201, 169, 110, 0.4);
   border-radius: 8px;
-  background: rgba(201, 169, 110, 0.1);
+  background: rgba(201, 169, 110, 0.08);
+  backdrop-filter: blur(4px);
   color: var(--epoch-gold);
   font-size: 0.85rem;
   font-weight: 600;
@@ -151,9 +161,49 @@ body {
 }
 
 .surprise-button:hover {
-  background: rgba(201, 169, 110, 0.2);
+  background: rgba(201, 169, 110, 0.18);
   border-color: var(--epoch-gold);
   transform: translateY(-1px);
+  box-shadow: 0 0 16px rgba(201, 169, 110, 0.2);
+}
+
+/* ── Galaxy Timeline Canvas ────────────────────────── */
+
+.timeline-canvas-wrapper {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  cursor: grab;
+  z-index: 1;
+}
+
+.timeline-canvas-wrapper:active {
+  cursor: grabbing;
+}
+
+.timeline-canvas-wrapper.grabbing {
+  cursor: grabbing;
+}
+
+#timeline-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.timeline-hint {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: rgba(20, 10, 40, 0.6);
+  backdrop-filter: blur(8px);
+  color: rgba(200, 190, 230, 0.5);
+  font-size: 0.75rem;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 
 /* ── Search Results Panel ──────────────────────────── */
@@ -245,137 +295,6 @@ body {
   height: 28px;
   font-size: 16px;
   position: static;
-}
-
-.timeline-wrapper {
-  width: min(1000px, calc(100vw - 40px));
-  padding: 20px 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-}
-
-.timeline-track {
-  position: relative;
-  height: 280px;
-  min-width: 700px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-}
-
-.timeline-line {
-  position: absolute;
-  top: 50%;
-  left: 40px;
-  right: 40px;
-  height: 3px;
-  background: var(--timeline-line);
-  border-radius: 2px;
-  transform: translateY(-50%);
-}
-
-.epoch-marker {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  z-index: 2;
-}
-
-.epoch-marker:hover {
-  transform: translate(-50%, -50%) scale(1.08);
-}
-
-.epoch-dot {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--timeline-line);
-  border: 3px solid #2a2420;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 0 0 rgba(201, 169, 110, 0);
-}
-
-.epoch-marker:hover .epoch-dot,
-.epoch-marker.active .epoch-dot {
-  background: var(--epoch-gold);
-  border-color: #f5f0e7;
-  box-shadow: 0 0 20px rgba(201, 169, 110, 0.4);
-}
-
-.epoch-marker[data-epoch="Barock"] .epoch-dot,
-.epoch-marker[data-epoch="Barock"].active .epoch-dot {
-  background: var(--epoch-brown);
-}
-
-.epoch-marker[data-epoch="Barock"]:hover .epoch-dot {
-  box-shadow: 0 0 20px rgba(139, 69, 19, 0.4);
-}
-
-.epoch-marker[data-epoch="Romantik"] .epoch-dot,
-.epoch-marker[data-epoch="Romantik"].active .epoch-dot {
-  background: var(--epoch-green);
-}
-
-.epoch-marker[data-epoch="Romantik"]:hover .epoch-dot {
-  box-shadow: 0 0 20px rgba(74, 124, 89, 0.4);
-}
-
-.epoch-marker[data-epoch="Impressionismus"] .epoch-dot,
-.epoch-marker[data-epoch="Impressionismus"].active .epoch-dot {
-  background: var(--epoch-purple);
-}
-
-.epoch-marker[data-epoch="Impressionismus"]:hover .epoch-dot {
-  box-shadow: 0 0 20px rgba(107, 91, 149, 0.4);
-}
-
-.epoch-marker[data-epoch="Moderne"] .epoch-dot,
-.epoch-marker[data-epoch="Moderne"].active .epoch-dot {
-  background: var(--epoch-red);
-}
-
-.epoch-marker[data-epoch="Moderne"]:hover .epoch-dot {
-  box-shadow: 0 0 20px rgba(212, 87, 74, 0.4);
-}
-
-.epoch-label {
-  position: absolute;
-  top: 34px;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-.epoch-name {
-  display: block;
-  color: #f5f0e7;
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
-.epoch-years {
-  display: block;
-  color: rgba(245, 240, 231, 0.5);
-  font-size: 0.75rem;
-  margin-top: 2px;
-}
-
-.epoch-count {
-  display: block;
-  color: rgba(245, 240, 231, 0.35);
-  font-size: 0.7rem;
-  margin-top: 3px;
-  font-style: italic;
 }
 
 /* ── Epoch Detail Panel ─────────────────────────────── */
@@ -631,25 +550,11 @@ body {
 
 @media (max-width: 700px) {
   .timeline-header h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
-  .timeline-track {
-    min-width: 500px;
-    height: 240px;
-  }
-
-  .epoch-label {
-    top: 28px;
-  }
-
-  .epoch-name {
+  .timeline-header p {
     font-size: 0.8rem;
-  }
-
-  .epoch-years,
-  .epoch-count {
-    display: none;
   }
 
   .epoch-detail {
@@ -667,5 +572,10 @@ body {
     left: 12px;
     bottom: 12px;
     width: calc(100vw - 24px);
+  }
+
+  .timeline-hint {
+    font-size: 0.7rem;
+    padding: 4px 12px;
   }
 }

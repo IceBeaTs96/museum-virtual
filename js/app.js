@@ -27,6 +27,7 @@ const searchResultsCount = document.querySelector("#search-results-count");
 const clearSearchBtn = document.querySelector("#clear-search");
 const filterChips = document.querySelector("#filter-chips");
 const surpriseBtn = document.querySelector("#surprise-btn");
+const timelineHint = document.querySelector(".timeline-hint");
 
 const canvas = document.querySelector("#museum-canvas");
 const panel = document.querySelector("#info-panel");
@@ -49,6 +50,46 @@ let yaw = Math.PI;
 let pitch = 0;
 let isDragging = false;
 let lastPointer = { x: 0, y: 0 };
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  GALAXY TIMELINE STATE
+// ═══════════════════════════════════════════════════════════════════════════════
+const timelineCanvas = document.querySelector("#timeline-canvas");
+const timelineWrapper = document.querySelector("#timeline-canvas-wrapper");
+let tctx;
+let timelineStars = [];
+let timelineNebulae = [];
+let timelineParticles = [];
+
+// Timeline view state
+let viewOffsetX = 0;        // pan X in world-space years
+let viewZoom = 1;           // 1 = full timeline, higher = zoomed in
+const MIN_ZOOM = 0.5;       // zoomed out: see everything
+const MAX_ZOOM = 12;        // zoomed in: see individual years
+const TIMELINE_START = 1200;
+const TIMELINE_END = 2025;
+const TIMELINE_SPAN = TIMELINE_END - TIMELINE_START;
+
+// Interaction state
+let isPanning = false;
+let panStart = { x: 0, y: 0 };
+let panStartOffset = 0;
+let hoveredEpoch = null;
+let targetZoom = 1;
+let targetOffsetX = 0;
+let zoomOriginX = 0; // where the zoom is centered
+
+// Epoch definitions
+const epochDefs = [
+  { id: "Vorreformatorisch", name: "Proto-Renaissance", start: 1200, end: 1400, color: "#8b7355", glow: "#c4a87c" },
+  { id: "Renaissance", name: "Renaissance", start: 1400, end: 1600, color: "#c9a96e", glow: "#f0d68a" },
+  { id: "Barock", name: "Baroque", start: 1600, end: 1750, color: "#8b4513", glow: "#c4723a" },
+  { id: "Asiatische Kunst", name: "Asian Art", start: 1600, end: 1900, color: "#d4a574", glow: "#f0c8a0" },
+  { id: "Romantik", name: "Romanticism", start: 1780, end: 1850, color: "#4a7c59", glow: "#6db87d" },
+  { id: "Impressionismus", name: "Impressionism", start: 1860, end: 1900, color: "#6b5b95", glow: "#9b8bc5" },
+  { id: "Moderne", name: "Modern", start: 1900, end: 1945, color: "#d4574a", glow: "#f08070" },
+  { id: "Zeitgenössisch", name: "Contemporary", start: 1945, end: 2025, color: "#3b82f6", glow: "#60a5fa" },
+];
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  DATA LOADING
@@ -80,6 +121,455 @@ function getDisplayName(epoch) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+//  GALAXY TIMELINE — STARFIELD & NEBULAE
+// ═══════════════════════════════════════════════════════════════════════════════
+function initTimelineCanvas() {
+  tctx = timelineCanvas.getContext("2d");
+  resizeTimelineCanvas();
+  generateStars();
+  generateNebulae();
+  generateParticles();
+  drawTimeline();
+}
+
+function resizeTimelineCanvas() {
+  const rect = timelineWrapper.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  timelineCanvas.width = rect.width * dpr;
+  timelineCanvas.height = rect.height * dpr;
+  tctx.setTransform(1, 0, 0, 1, 0, 0);
+  tctx.scale(dpr, dpr);
+  timelineCanvas.style.width = rect.width + "px";
+  timelineCanvas.style.height = rect.height + "px";
+}
+
+function generateStars() {
+  timelineStars = [];
+  const count = 400;
+  for (let i = 0; i < count; i++) {
+    timelineStars.push({
+      x: Math.random(),
+      y: Math.random(),
+      r: Math.random() * 1.8 + 0.2,
+      brightness: Math.random(),
+      twinkleSpeed: Math.random() * 0.02 + 0.005,
+      twinkleOffset: Math.random() * Math.PI * 2,
+    });
+  }
+}
+
+function generateNebulae() {
+  timelineNebulae = [];
+  // Create several nebula clouds
+  const nebulaColors = [
+    { r: 80, g: 40, b: 120 },   // purple
+    { r: 30, g: 60, b: 140 },   // blue
+    { r: 120, g: 40, b: 80 },   // magenta
+    { r: 20, g: 80, b: 100 },   // teal
+    { r: 100, g: 60, b: 30 },   // warm
+  ];
+  for (let i = 0; i < 5; i++) {
+    const c = nebulaColors[i];
+    timelineNebulae.push({
+      x: Math.random() * 0.6 + 0.2,
+      y: Math.random() * 0.5 + 0.25,
+      rx: Math.random() * 0.3 + 0.15,
+      ry: Math.random() * 0.2 + 0.08,
+      color: c,
+      opacity: Math.random() * 0.15 + 0.05,
+      angle: Math.random() * Math.PI * 2,
+    });
+  }
+}
+
+function generateParticles() {
+  timelineParticles = [];
+  for (let i = 0; i < 200; i++) {
+    timelineParticles.push({
+      x: Math.random(),
+      y: Math.random(),
+      r: Math.random() * 1.2 + 0.3,
+      vx: (Math.random() - 0.5) * 0.0003,
+      vy: (Math.random() - 0.5) * 0.0003,
+      opacity: Math.random() * 0.6 + 0.2,
+    });
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  GALAXY TIMELINE — DRAWING
+// ═══════════════════════════════════════════════════════════════════════════════
+function drawTimeline(timestamp = 0) {
+  if (!tctx || isInMuseum) return;
+
+  const w = timelineCanvas.width / (window.devicePixelRatio || 1);
+  const h = timelineCanvas.height / (window.devicePixelRatio || 1);
+
+  // Smooth zoom animation
+  viewZoom += (targetZoom - viewZoom) * 0.12;
+  viewOffsetX += (targetOffsetX - viewOffsetX) * 0.12;
+
+  // Clamp
+  const visibleSpan = TIMELINE_SPAN / viewZoom;
+  viewOffsetX = Math.max(TIMELINE_START - visibleSpan * 0.1, Math.min(TIMELINE_END - visibleSpan * 0.9, viewOffsetX));
+
+  // Clear
+  tctx.clearRect(0, 0, w, h);
+
+  // Deep space background gradient
+  const bgGrad = tctx.createRadialGradient(w * 0.5, h * 0.4, 0, w * 0.5, h * 0.5, Math.max(w, h) * 0.8);
+  bgGrad.addColorStop(0, "#0d0b1a");
+  bgGrad.addColorStop(0.5, "#080614");
+  bgGrad.addColorStop(1, "#020108");
+  tctx.fillStyle = bgGrad;
+  tctx.fillRect(0, 0, w, h);
+
+  // Draw nebulae
+  timelineNebulae.forEach((neb) => {
+    const nx = neb.x * w;
+    const ny = neb.y * h;
+    const nrx = neb.rx * w;
+    const nry = neb.ry * h;
+    const grad = tctx.createRadialGradient(nx, ny, 0, nx, ny, Math.max(nrx, nry));
+    const { r, g, b } = neb.color;
+    grad.addColorStop(0, `rgba(${r},${g},${b},${neb.opacity * 1.5})`);
+    grad.addColorStop(0.5, `rgba(${r},${g},${b},${neb.opacity * 0.6})`);
+    grad.addColorStop(1, "rgba(0,0,0,0)");
+    tctx.save();
+    tctx.translate(nx, ny);
+    tctx.rotate(neb.angle);
+    tctx.scale(1, nry / nrx);
+    tctx.fillStyle = grad;
+    tctx.beginPath();
+    tctx.arc(0, 0, nrx, 0, Math.PI * 2);
+    tctx.fill();
+    tctx.restore();
+  });
+
+  // Draw stars
+  const time = timestamp * 0.001;
+  timelineStars.forEach((star) => {
+    const sx = star.x * w;
+    const sy = star.y * h;
+    const twinkle = 0.5 + 0.5 * Math.sin(time * star.twinkleSpeed * 60 + star.twinkleOffset);
+    const alpha = star.brightness * 0.6 + twinkle * 0.4;
+    tctx.fillStyle = `rgba(220,210,255,${alpha})`;
+    tctx.beginPath();
+    tctx.arc(sx, sy, star.r, 0, Math.PI * 2);
+    tctx.fill();
+  });
+
+  // Draw floating particles
+  timelineParticles.forEach((p) => {
+    p.x += p.vx;
+    p.y += p.vy;
+    if (p.x < 0) p.x = 1;
+    if (p.x > 1) p.x = 0;
+    if (p.y < 0) p.y = 1;
+    if (p.y > 1) p.y = 0;
+    const px = p.x * w;
+    const py = p.y * h;
+    tctx.fillStyle = `rgba(180,160,220,${p.opacity})`;
+    tctx.beginPath();
+    tctx.arc(px, py, p.r, 0, Math.PI * 2);
+    tctx.fill();
+  });
+
+  // ── TIMELINE AXIS ──────────────────────────────────
+  const axisY = h * 0.55;
+  const paddingX = w * 0.08;
+  const usableWidth = w - paddingX * 2;
+
+  // World-space to screen mapping
+  const worldToScreen = (year) => {
+    return paddingX + ((year - viewOffsetX) / visibleSpan + 0.5) * usableWidth;
+  };
+
+  const screenToWorld = (sx) => {
+    return viewOffsetX + ((sx - paddingX) / usableWidth - 0.5) * visibleSpan;
+  };
+
+  // Draw the main timeline axis as a glowing cosmic thread
+  const axisGrad = tctx.createLinearGradient(paddingX, axisY, w - paddingX, axisY);
+  axisGrad.addColorStop(0, "rgba(100,80,180,0.1)");
+  axisGrad.addColorStop(0.2, "rgba(140,120,220,0.4)");
+  axisGrad.addColorStop(0.5, "rgba(180,160,240,0.6)");
+  axisGrad.addColorStop(0.8, "rgba(140,120,220,0.4)");
+  axisGrad.addColorStop(1, "rgba(100,80,180,0.1)");
+  tctx.strokeStyle = axisGrad;
+  tctx.lineWidth = 2;
+  tctx.beginPath();
+  tctx.moveTo(paddingX, axisY);
+  tctx.lineTo(w - paddingX, axisY);
+  tctx.stroke();
+
+  // Outer glow on the axis
+  tctx.strokeStyle = "rgba(160,140,220,0.15)";
+  tctx.lineWidth = 8;
+  tctx.beginPath();
+  tctx.moveTo(paddingX, axisY);
+  tctx.lineTo(w - paddingX, axisY);
+  tctx.stroke();
+
+  // ── YEAR TICK MARKS ────────────────────────────────
+  const tickInterval = getTickInterval(visibleSpan);
+  const firstTick = Math.ceil((viewOffsetX - visibleSpan * 0.5) / tickInterval) * tickInterval;
+  const lastTick = Math.floor((viewOffsetX + visibleSpan * 0.5) / tickInterval) * tickInterval;
+
+  for (let year = firstTick; year <= lastTick; year += tickInterval) {
+    const sx = worldToScreen(year);
+    if (sx < paddingX - 20 || sx > w - paddingX + 20) continue;
+
+    const isMajor = year % (tickInterval * 5) === 0 || tickInterval >= 50;
+    const tickHeight = isMajor ? 14 : 7;
+    const tickAlpha = isMajor ? 0.5 : 0.25;
+
+    tctx.strokeStyle = `rgba(180,160,220,${tickAlpha})`;
+    tctx.lineWidth = isMajor ? 1.5 : 0.8;
+    tctx.beginPath();
+    tctx.moveTo(sx, axisY - tickHeight);
+    tctx.lineTo(sx, axisY + tickHeight);
+    tctx.stroke();
+
+    if (isMajor) {
+      tctx.fillStyle = `rgba(200,180,230,0.6)`;
+      tctx.font = `${Math.max(10, 12 / Math.sqrt(viewZoom))}px Inter, sans-serif`;
+      tctx.textAlign = "center";
+      tctx.fillText(year.toString(), sx, axisY + tickHeight + 16);
+    }
+  }
+
+  // ── EPOCH MARKERS ──────────────────────────────────
+  hoveredEpoch = null;
+  const mouseX = lastPointer.x;
+  const mouseY = lastPointer.y;
+
+  epochDefs.forEach((epoch) => {
+    if (activeFilter !== "all" && epoch.id !== activeFilter) return;
+
+    const startX = worldToScreen(epoch.start);
+    const endX = worldToScreen(epoch.end);
+    const centerX = (startX + endX) / 2;
+
+    // Only draw if visible
+    if (endX < paddingX - 50 || startX > w - paddingX + 50) return;
+
+    const artistCount = allArtists.filter((a) => a.epoch === epoch.id).length;
+    const isHovered = mouseX >= startX - 10 && mouseX <= endX + 10 && Math.abs(mouseY - axisY) < 60;
+
+    if (isHovered) {
+      hoveredEpoch = epoch;
+    }
+
+    // Epoch span glow
+    const spanAlpha = isHovered ? 0.25 : 0.08;
+    const spanGrad = tctx.createLinearGradient(startX, 0, endX, 0);
+    spanGrad.addColorStop(0, `rgba(0,0,0,0)`);
+    spanGrad.addColorStop(0.2, epoch.glow.replace(")", `,${spanAlpha})`).replace("rgb", "rgba"));
+    spanGrad.addColorStop(0.8, epoch.glow.replace(")", `,${spanAlpha})`).replace("rgb", "rgba"));
+    spanGrad.addColorStop(1, "rgba(0,0,0,0)");
+    tctx.fillStyle = spanGrad;
+    tctx.fillRect(startX, axisY - 40, endX - startX, 80);
+
+    // Epoch dot (celestial body)
+    const dotR = isHovered ? 14 : 8 + artistCount * 0.5;
+    const dotY = axisY;
+
+    // Outer glow
+    const glowGrad = tctx.createRadialGradient(centerX, dotY, dotR * 0.3, centerX, dotY, dotR * 2.5);
+    glowGrad.addColorStop(0, epoch.glow);
+    glowGrad.addColorStop(0.5, epoch.glow.replace(")", ",0.3)").replace("rgb", "rgba"));
+    glowGrad.addColorStop(1, "rgba(0,0,0,0)");
+    tctx.fillStyle = glowGrad;
+    tctx.beginPath();
+    tctx.arc(centerX, dotY, dotR * 2.5, 0, Math.PI * 2);
+    tctx.fill();
+
+    // Inner dot
+    const dotGrad = tctx.createRadialGradient(centerX - dotR * 0.3, dotY - dotR * 0.3, 0, centerX, dotY, dotR);
+    dotGrad.addColorStop(0, "#ffffff");
+    dotGrad.addColorStop(0.4, epoch.glow);
+    dotGrad.addColorStop(1, epoch.color);
+    tctx.fillStyle = dotGrad;
+    tctx.beginPath();
+    tctx.arc(centerX, dotY, dotR, 0, Math.PI * 2);
+    tctx.fill();
+
+    // Epoch label
+    const labelY = axisY - 28 - dotR;
+    const labelAlpha = isHovered ? 1 : 0.7;
+    tctx.fillStyle = `rgba(220,210,240,${labelAlpha})`;
+    tctx.font = `700 ${Math.max(11, 13 / Math.sqrt(viewZoom))}px Inter, sans-serif`;
+    tctx.textAlign = "center";
+    tctx.fillText(epoch.name, centerX, labelY);
+
+    // Year range below
+    tctx.fillStyle = `rgba(180,160,210,${labelAlpha * 0.7})`;
+    tctx.font = `${Math.max(9, 10 / Math.sqrt(viewZoom))}px Inter, sans-serif`;
+    tctx.fillText(`${epoch.start}–${epoch.end}`, centerX, labelY + 16);
+
+    // Artist count
+    if (viewZoom > 2) {
+      tctx.fillStyle = `rgba(160,140,200,${labelAlpha * 0.5})`;
+      tctx.font = `${Math.max(8, 9 / Math.sqrt(viewZoom))}px Inter, sans-serif`;
+      tctx.fillText(`${artistCount} artist${artistCount !== 1 ? "s" : ""}`, centerX, labelY + 28);
+    }
+  });
+
+  // ── ARTIST DOTS (visible when zoomed in) ────────────
+  if (viewZoom > 3) {
+    allArtists.forEach((artist) => {
+      if (activeFilter !== "all" && artist.epoch !== activeFilter) return;
+      const birthYear = artist.birthYear || (artist.deathYear ? artist.deathYear - 60 : 1500);
+      const deathYear = artist.deathYear || birthYear + 60;
+      const midYear = (birthYear + deathYear) / 2;
+      const sx = worldToScreen(midYear);
+      if (sx < paddingX || sx > w - paddingX) return;
+
+      const epochDef = epochDefs.find((e) => e.id === artist.epoch);
+      const color = epochDef ? epochDef.glow : "#a78bfa";
+
+      tctx.fillStyle = color;
+      tctx.beginPath();
+      tctx.arc(sx, axisY + 30, 1.5, 0, Math.PI * 2);
+      tctx.fill();
+
+      if (viewZoom > 8) {
+        tctx.fillStyle = `rgba(200,180,230,0.5)`;
+        tctx.font = "8px Inter, sans-serif";
+        tctx.textAlign = "center";
+        const name = artist.name.length > 18 ? artist.name.slice(0, 16) + "…" : artist.name;
+        tctx.fillText(name, sx, axisY + 38);
+      }
+    });
+  }
+
+  // ── CURSOR ─────────────────────────────────────────
+  if (hoveredEpoch) {
+    timelineWrapper.style.cursor = "pointer";
+  } else if (isPanning) {
+    timelineWrapper.style.cursor = "grabbing";
+  } else {
+    timelineWrapper.style.cursor = "grab";
+  }
+
+  // Fade hint after interaction
+  if (viewZoom !== 1 || viewOffsetX !== 0) {
+    timelineHint.style.opacity = "0.3";
+  } else {
+    timelineHint.style.opacity = "1";
+  }
+
+  requestAnimationFrame(drawTimeline);
+}
+
+function getTickInterval(visibleSpan) {
+  if (visibleSpan < 30) return 1;
+  if (visibleSpan < 80) return 5;
+  if (visibleSpan < 200) return 10;
+  if (visibleSpan < 500) return 25;
+  if (visibleSpan < 1000) return 50;
+  return 100;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  GALAXY TIMELINE — INTERACTION
+// ═══════════════════════════════════════════════════════════════════════════════
+function bindTimelineControls() {
+  timelineWrapper.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const rect = timelineWrapper.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const w = rect.width;
+    const paddingX = w * 0.08;
+    const usableWidth = w - paddingX * 2;
+    const visibleSpan = TIMELINE_SPAN / viewZoom;
+
+    // Zoom centered on mouse position
+    const worldX = viewOffsetX + ((mouseX - paddingX) / usableWidth - 0.5) * visibleSpan;
+    const zoomFactor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+    const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, targetZoom * zoomFactor));
+    const newVisibleSpan = TIMELINE_SPAN / newZoom;
+
+    targetZoom = newZoom;
+    targetOffsetX = worldX - ((mouseX - paddingX) / usableWidth - 0.5) * newVisibleSpan;
+
+    // Clamp
+    targetOffsetX = Math.max(TIMELINE_START - newVisibleSpan * 0.1, Math.min(TIMELINE_END - newVisibleSpan * 0.9, targetOffsetX));
+  }, { passive: false });
+
+  timelineWrapper.addEventListener("pointerdown", (e) => {
+    isPanning = true;
+    panStart = { x: e.clientX, y: e.clientY };
+    panStartOffset = viewOffsetX;
+    timelineWrapper.setPointerCapture(e.pointerId);
+  });
+
+  timelineWrapper.addEventListener("pointermove", (e) => {
+    lastPointer.x = e.clientX;
+    lastPointer.y = e.clientY;
+
+    if (isPanning) {
+      const dx = e.clientX - panStart.x;
+      const w = timelineWrapper.getBoundingClientRect().width;
+      const paddingX = w * 0.08;
+      const usableWidth = w - paddingX * 2;
+      const visibleSpan = TIMELINE_SPAN / viewZoom;
+      const worldDx = -(dx / usableWidth) * visibleSpan;
+      targetOffsetX = panStartOffset + worldDx;
+    }
+  });
+
+  window.addEventListener("pointerup", () => {
+    if (isPanning) {
+      const dx = Math.abs(lastPointer.x - panStart.x);
+      const dy = Math.abs(lastPointer.y - panStart.y);
+      // If barely moved, treat as click
+      if (dx < 5 && dy < 5 && hoveredEpoch) {
+        selectEpoch(hoveredEpoch.id, `${hoveredEpoch.start}–${hoveredEpoch.end}`);
+      }
+    }
+    isPanning = false;
+  });
+
+  // Touch pinch zoom
+  let pinchStartDist = 0;
+  let pinchStartZoom = 1;
+  let pinchCenter = { x: 0, y: 0 };
+
+  timelineWrapper.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 2) {
+      pinchStartDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      pinchStartZoom = targetZoom;
+      pinchCenter = {
+        x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
+        y: (e.touches[0].clientY + e.touches[1].clientY) / 2,
+      };
+    }
+  }, { passive: true });
+
+  timelineWrapper.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      const scale = dist / pinchStartDist;
+      const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, pinchStartZoom * scale));
+      targetZoom = newZoom;
+    }
+  }, { passive: true });
+
+  // Resize handler
+  window.addEventListener("resize", () => {
+    resizeTimelineCanvas();
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 //  SEARCH & FILTER LOGIC
 // ═══════════════════════════════════════════════════════════════════════════════
 function initSearch() {
@@ -97,7 +587,6 @@ function initSearch() {
     searchResults.hidden = true;
   });
 
-  // Close search on Escape
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !searchResults.hidden) {
       searchInput.value = "";
@@ -162,21 +651,9 @@ function initFilters() {
     const filter = chip.dataset.filter;
     activeFilter = filter;
 
-    // Update active state
     filterChips.querySelectorAll(".filter-chip").forEach((c) => c.classList.remove("active"));
     chip.classList.add("active");
 
-    // Filter timeline markers
-    const markers = document.querySelectorAll(".epoch-marker");
-    markers.forEach((m) => {
-      if (filter === "all" || m.dataset.epoch === filter) {
-        m.style.display = "";
-      } else {
-        m.style.display = "none";
-      }
-    });
-
-    // Clear search
     searchInput.value = "";
     searchResults.hidden = true;
   });
@@ -191,15 +668,8 @@ function initSurprise() {
     currentEpoch = randomArtist.epoch;
     currentEpochArtists = allArtists.filter((a) => a.epoch === randomArtist.epoch);
 
-    // Highlight the right marker
-    document.querySelectorAll(".epoch-marker").forEach((m) => m.classList.remove("active"));
-    const marker = document.querySelector(`.epoch-marker[data-epoch="${CSS.escape(randomArtist.epoch)}"]`);
-    if (marker) marker.classList.add("active");
+    selectEpoch(randomArtist.epoch, `${randomArtist.epochRange || ""}`);
 
-    // Show epoch detail
-    selectEpoch(randomArtist.epoch, randomArtist.epochRange);
-
-    // Auto-enter museum after a short delay
     setTimeout(() => {
       enterMuseum();
     }, 800);
@@ -207,36 +677,8 @@ function initSurprise() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  TIMELINE LOGIC
+//  EPOCH SELECTION
 // ═══════════════════════════════════════════════════════════════════════════════
-function initTimeline() {
-  const markers = document.querySelectorAll(".epoch-marker");
-
-  markers.forEach((marker) => {
-    marker.addEventListener("click", () => {
-      markers.forEach((m) => m.classList.remove("active"));
-      marker.classList.add("active");
-
-      const epoch = marker.dataset.epoch;
-      const range = marker.dataset.range;
-      selectEpoch(epoch, range);
-    });
-  });
-
-  closeEpochDetailBtn.addEventListener("click", () => {
-    epochDetail.hidden = true;
-    markers.forEach((m) => m.classList.remove("active"));
-  });
-
-  enterMuseumBtn.addEventListener("click", () => {
-    enterMuseum();
-  });
-
-  backToTimelineBtn.addEventListener("click", () => {
-    exitMuseum();
-  });
-}
-
 function selectEpoch(epochName, epochRange) {
   currentEpoch = epochName;
   currentEpochArtists = allArtists.filter((a) => a.epoch === epochName);
@@ -244,7 +686,6 @@ function selectEpoch(epochName, epochRange) {
   epochDetailName.textContent = getDisplayName(epochName);
   epochDetailRange.textContent = epochRange;
 
-  // Build artist grid
   epochArtistsGrid.innerHTML = "";
   currentEpochArtists.forEach((artist) => {
     const card = document.createElement("div");
@@ -303,6 +744,10 @@ function exitMuseum() {
     duration: 300,
     easing: "ease-out",
   });
+
+  // Restart timeline animation
+  resizeTimelineCanvas();
+  requestAnimationFrame(drawTimeline);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -477,20 +922,15 @@ function addPainting(artist, transform, color) {
 }
 
 function placePaintings(artists) {
-  // Show up to 8 paintings in the room
   const displayArtists = artists.slice(0, 8);
   const placements = [
-    // Back wall (3 paintings)
     { position: [-3.6, 1.75, -5.92], rotationY: 0 },
     { position: [0, 1.75, -5.92], rotationY: 0 },
     { position: [3.6, 1.75, -5.92], rotationY: 0 },
-    // Left wall (2 paintings)
     { position: [-5.92, 1.75, -2.5], rotationY: Math.PI / 2 },
     { position: [-5.92, 1.75, 1.5], rotationY: Math.PI / 2 },
-    // Right wall (2 paintings)
     { position: [5.92, 1.75, -2.5], rotationY: -Math.PI / 2 },
     { position: [5.92, 1.75, 1.5], rotationY: -Math.PI / 2 },
-    // Front wall (1 painting, near door)
     { position: [0, 1.75, 5.92], rotationY: Math.PI },
   ];
   const colors = ["#b98b5d", "#9f6f60", "#c2a15b", "#9aa56b", "#7d8b9b", "#b57a6a", "#8b9a6b", "#a08b7b"];
@@ -643,11 +1083,25 @@ function bindGlobalControls() {
   window.addEventListener("resize", () => {
     if (isInMuseum && renderer) {
       resizeRenderer();
+    } else {
+      resizeTimelineCanvas();
     }
   });
 
   closePanel.addEventListener("click", () => {
     panel.hidden = true;
+  });
+
+  closeEpochDetailBtn.addEventListener("click", () => {
+    epochDetail.hidden = true;
+  });
+
+  enterMuseumBtn.addEventListener("click", () => {
+    enterMuseum();
+  });
+
+  backToTimelineBtn.addEventListener("click", () => {
+    exitMuseum();
   });
 }
 
@@ -657,7 +1111,8 @@ function bindGlobalControls() {
 async function init() {
   try {
     allArtists = await loadArtists();
-    initTimeline();
+    initTimelineCanvas();
+    bindTimelineControls();
     initSearch();
     initFilters();
     initSurprise();
