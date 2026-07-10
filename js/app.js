@@ -1,5 +1,25 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js";
 
+// ═══════════════════════════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════════════════════════
+let allArtists = [];
+let currentEpoch = null;
+let currentEpochArtists = [];
+let isInMuseum = false;
+
+// DOM refs
+const timelineOverlay = document.querySelector("#timeline-overlay");
+const museumView = document.querySelector("#museum-view");
+const epochDetail = document.querySelector("#epoch-detail");
+const epochDetailName = document.querySelector("#epoch-detail-name");
+const epochDetailRange = document.querySelector("#epoch-detail-range");
+const epochArtistsGrid = document.querySelector("#epoch-artists-grid");
+const enterMuseumBtn = document.querySelector("#enter-museum-btn");
+const backToTimelineBtn = document.querySelector("#back-to-timeline");
+const closeEpochDetailBtn = document.querySelector("#close-epoch-detail");
+const hudTitle = document.querySelector("#hud-title");
+
 const canvas = document.querySelector("#museum-canvas");
 const panel = document.querySelector("#info-panel");
 const closePanel = document.querySelector("#close-panel");
@@ -9,18 +29,9 @@ const artistBio = document.querySelector("#artist-bio");
 const artistImage = document.querySelector("#artist-image");
 const artistUrl = document.querySelector("#artist-url");
 
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.shadowMap.enabled = true;
-
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x15110d);
-scene.fog = new THREE.Fog(0x15110d, 12, 32);
-
-const camera = new THREE.PerspectiveCamera(70, 1, 0.1, 100);
-camera.position.set(0, 1.65, 4.5);
-
-const paintings = [];
+// Three.js refs
+let renderer, scene, camera;
+let paintings = [];
 const keys = new Set();
 const clickModeKeys = new Set(["ShiftLeft", "ShiftRight", "Space"]);
 const raycaster = new THREE.Raycaster();
@@ -31,19 +42,177 @@ let pitch = 0;
 let isDragging = false;
 let lastPointer = { x: 0, y: 0 };
 
-function isClickModeActive() {
-  return [...clickModeKeys].some((code) => keys.has(code));
-}
-
-function releasePointerLockForClickMode() {
-  if (document.pointerLockElement === canvas) {
-    document.exitPointerLock?.();
+// ═══════════════════════════════════════════════════════════════════════════════
+//  DATA LOADING
+// ═══════════════════════════════════════════════════════════════════════════════
+async function loadArtists() {
+  const response = await fetch("data/artists.json");
+  if (!response.ok) {
+    throw new Error(`Unable to load artist data: ${response.status}`);
   }
+  return response.json();
 }
 
-function createRoom() {
-  const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xf5f0e7, roughness: 0.82 });
-  const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x8a6b4b, roughness: 0.72 });
+// ═══════════════════════════════════════════════════════════════════════════════
+//  TIMELINE LOGIC
+// ═══════════════════════════════════════════════════════════════════════════════
+function initTimeline() {
+  const markers = document.querySelectorAll(".epoch-marker");
+
+  markers.forEach((marker) => {
+    marker.addEventListener("click", () => {
+      markers.forEach((m) => m.classList.remove("active"));
+      marker.classList.add("active");
+
+      const epoch = marker.dataset.epoch;
+      const range = marker.dataset.range;
+      selectEpoch(epoch, range);
+    });
+  });
+
+  closeEpochDetailBtn.addEventListener("click", () => {
+    epochDetail.hidden = true;
+    markers.forEach((m) => m.classList.remove("active"));
+  });
+
+  enterMuseumBtn.addEventListener("click", () => {
+    enterMuseum();
+  });
+
+  backToTimelineBtn.addEventListener("click", () => {
+    exitMuseum();
+  });
+}
+
+function selectEpoch(epochName, epochRange) {
+  currentEpoch = epochName;
+  currentEpochArtists = allArtists.filter((a) => a.epoch === epochName);
+
+  const displayName =
+    epochName === "Romantik"
+      ? "Romanticism"
+      : epochName === "Impressionismus"
+      ? "Impressionism"
+      : epochName === "Moderne"
+      ? "Modern"
+      : epochName === "Barock"
+      ? "Baroque"
+      : epochName;
+  epochDetailName.textContent = displayName;
+  epochDetailRange.textContent = epochRange;
+
+  // Build artist grid
+  epochArtistsGrid.innerHTML = "";
+  currentEpochArtists.forEach((artist) => {
+    const card = document.createElement("div");
+    card.className = "epoch-artist-card";
+    card.innerHTML = `
+      <img class="artist-thumb" src="${artist.imageUrl}" alt="${artist.name}" loading="lazy" onerror="this.style.display='none'" />
+      <span class="artist-name">${artist.name}</span>
+      <span class="artist-years">${artist.years}</span>
+    `;
+    epochArtistsGrid.appendChild(card);
+  });
+
+  epochDetail.hidden = false;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  SCENE TRANSITIONS
+// ═══════════════════════════════════════════════════════════════════════════════
+function enterMuseum() {
+  isInMuseum = true;
+  timelineOverlay.style.opacity = "1";
+
+  const fadeOut = timelineOverlay.animate(
+    [{ opacity: 1 }, { opacity: 0 }],
+    { duration: 400, easing: "ease-out" }
+  );
+  fadeOut.onfinish = () => {
+    timelineOverlay.hidden = true;
+    timelineOverlay.style.opacity = "";
+    museumView.hidden = false;
+
+    const displayEpoch =
+      currentEpoch === "Romantik"
+        ? "Romanticism"
+        : currentEpoch === "Impressionismus"
+        ? "Impressionism"
+        : currentEpoch === "Moderne"
+        ? "Modern"
+        : currentEpoch === "Barock"
+        ? "Baroque"
+        : currentEpoch;
+    hudTitle.textContent = `${displayEpoch} Hall`;
+
+    initMuseumScene();
+  };
+}
+
+function exitMuseum() {
+  isInMuseum = false;
+  epochDetail.hidden = true;
+
+  if (renderer) {
+    renderer.dispose();
+    renderer = null;
+  }
+  paintings = [];
+
+  museumView.hidden = true;
+  panel.hidden = true;
+  timelineOverlay.hidden = false;
+
+  timelineOverlay.animate([{ opacity: 0 }, { opacity: 1 }], {
+    duration: 300,
+    easing: "ease-out",
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  3D MUSEUM SCENE
+// ═══════════════════════════════════════════════════════════════════════════════
+function initMuseumScene() {
+  if (renderer) {
+    renderer.dispose();
+  }
+  paintings = [];
+
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+
+  scene = new THREE.Scene();
+
+  const epochColors = {
+    Renaissance: { bg: 0x15110d, fog: 0x15110d, wall: 0xf5f0e7, floor: 0x8a6b4b },
+    Barock: { bg: 0x1a1210, fog: 0x1a1210, wall: 0xe8ddd0, floor: 0x5c3a20 },
+    Romantik: { bg: 0x0f1815, fog: 0x0f1815, wall: 0xe0e8e3, floor: 0x3d5a45 },
+    Impressionismus: { bg: 0x121318, fog: 0x121318, wall: 0xf0f0f8, floor: 0x6b6b8a },
+    Moderne: { bg: 0x141414, fog: 0x141414, wall: 0xf5f5f5, floor: 0x2a2a2a },
+  };
+
+  const theme = epochColors[currentEpoch] || epochColors.Renaissance;
+  scene.background = new THREE.Color(theme.bg);
+  scene.fog = new THREE.Fog(theme.fog, 12, 32);
+
+  camera = new THREE.PerspectiveCamera(70, 1, 0.1, 100);
+  camera.position.set(0, 1.65, 4.5);
+  yaw = Math.PI;
+  pitch = 0;
+  updateCameraRotation();
+
+  createRoom(theme.wall, theme.floor);
+  addLighting();
+  placePaintings(currentEpochArtists);
+  resizeRenderer();
+  bindMuseumControls();
+  animateMuseum();
+}
+
+function createRoom(wallColor, floorColor) {
+  const wallMaterial = new THREE.MeshStandardMaterial({ color: wallColor, roughness: 0.82 });
+  const floorMaterial = new THREE.MeshStandardMaterial({ color: floorColor, roughness: 0.72 });
   const ceilingMaterial = new THREE.MeshStandardMaterial({ color: 0xe6dfd2, roughness: 0.88 });
 
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), floorMaterial);
@@ -81,7 +250,7 @@ function addLighting() {
   [
     [-3, 3.15, -2],
     [3, 3.15, -2],
-    [0, 3.15, 2.5]
+    [0, 3.15, 2.5],
   ].forEach(([x, y, z]) => {
     const light = new THREE.PointLight(0xffe6bd, 2.4, 8);
     light.position.set(x, y, z);
@@ -142,7 +311,7 @@ function addPainting(artist, transform, color) {
 
   const artMaterial = new THREE.MeshStandardMaterial({
     map: createFallbackTexture(artist, color),
-    roughness: 0.62
+    roughness: 0.62,
   });
   const art = new THREE.Mesh(new THREE.PlaneGeometry(1.78, 1.18), artMaterial);
   art.position.z = 0.071;
@@ -168,34 +337,45 @@ function addPainting(artist, transform, color) {
   scene.add(group);
 }
 
-async function loadArtists() {
-  const response = await fetch("data/artists.json");
-  if (!response.ok) {
-    throw new Error(`Unable to load artist data: ${response.status}`);
-  }
-  return response.json();
-}
-
 function placePaintings(artists) {
+  const displayArtists = artists.slice(0, 5);
   const placements = [
     { position: [-3.6, 1.75, -5.92], rotationY: 0 },
     { position: [0, 1.75, -5.92], rotationY: 0 },
     { position: [3.6, 1.75, -5.92], rotationY: 0 },
     { position: [-5.92, 1.75, -1.8], rotationY: Math.PI / 2 },
-    { position: [5.92, 1.75, -1.8], rotationY: -Math.PI / 2 }
+    { position: [5.92, 1.75, -1.8], rotationY: -Math.PI / 2 },
   ];
   const colors = ["#b98b5d", "#9f6f60", "#c2a15b", "#9aa56b", "#7d8b9b"];
-  artists.forEach((artist, index) => addPainting(artist, placements[index], colors[index]));
+
+  displayArtists.forEach((artist, index) => {
+    if (placements[index]) {
+      addPainting(artist, placements[index], colors[index % colors.length]);
+    }
+  });
 }
 
 function showArtist(artist) {
   artistName.textContent = artist.name;
-  artistYears.textContent = artist.years;
+  artistYears.textContent = `${artist.years} · ${artist.movement}`;
   artistBio.textContent = artist.bio;
   artistImage.src = artist.imageUrl;
   artistImage.alt = `Artwork associated with ${artist.name}`;
   artistUrl.href = artist.imageUrl;
   panel.hidden = false;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  CONTROLS
+// ═══════════════════════════════════════════════════════════════════════════════
+function isClickModeActive() {
+  return [...clickModeKeys].some((code) => keys.has(code));
+}
+
+function releasePointerLockForClickMode() {
+  if (document.pointerLockElement === canvas) {
+    document.exitPointerLock?.();
+  }
 }
 
 function updateCameraRotation() {
@@ -250,7 +430,66 @@ function onCanvasClick(event) {
   }
 }
 
-function bindControls() {
+function bindMuseumControls() {
+  const newCanvas = canvas.cloneNode(true);
+  canvas.parentNode.replaceChild(newCanvas, canvas);
+
+  const museumCanvas = document.querySelector("#museum-canvas");
+
+  museumCanvas.addEventListener("click", onCanvasClick);
+
+  museumCanvas.addEventListener("pointerdown", (event) => {
+    if (isClickModeActive()) {
+      releasePointerLockForClickMode();
+      return;
+    }
+    isDragging = true;
+    lastPointer = { x: event.clientX, y: event.clientY };
+  });
+
+  window.addEventListener("pointerup", () => {
+    isDragging = false;
+  });
+
+  window.addEventListener("pointermove", (event) => {
+    const locked = document.pointerLockElement === museumCanvas;
+    if (!isDragging && !locked) return;
+    const movementX = locked ? event.movementX : event.clientX - lastPointer.x;
+    const movementY = locked ? event.movementY : event.clientY - lastPointer.y;
+    yaw -= movementX * 0.0026;
+    pitch -= movementY * 0.0026;
+    lastPointer = { x: event.clientX, y: event.clientY };
+    updateCameraRotation();
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  ANIMATION LOOP
+// ═══════════════════════════════════════════════════════════════════════════════
+let animFrameId = null;
+
+function animateMuseum() {
+  if (animFrameId) {
+    cancelAnimationFrame(animFrameId);
+  }
+
+  let previous = performance.now();
+  function frame(now) {
+    if (!isInMuseum) return;
+    const delta = Math.min((now - previous) / 1000, 0.05);
+    previous = now;
+    resizeRenderer();
+    moveCamera(delta);
+    renderer.render(scene, camera);
+    animFrameId = requestAnimationFrame(frame);
+  }
+  animFrameId = requestAnimationFrame(frame);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  GLOBAL INPUT HANDLERS
+// ═══════════════════════════════════════════════════════════════════════════════
+function bindGlobalControls() {
   window.addEventListener("keydown", (event) => {
     keys.add(event.code);
     if (clickModeKeys.has(event.code)) {
@@ -260,60 +499,33 @@ function bindControls() {
   });
   window.addEventListener("keyup", (event) => keys.delete(event.code));
 
-  canvas.addEventListener("pointerdown", (event) => {
-    if (isClickModeActive()) {
-      releasePointerLockForClickMode();
-      return;
+  window.addEventListener("resize", () => {
+    if (isInMuseum && renderer) {
+      resizeRenderer();
     }
-    isDragging = true;
-    lastPointer = { x: event.clientX, y: event.clientY };
-  });
-  window.addEventListener("pointerup", () => {
-    isDragging = false;
-  });
-  window.addEventListener("pointermove", (event) => {
-    const locked = document.pointerLockElement === canvas;
-    if (!isDragging && !locked) return;
-    const movementX = locked ? event.movementX : event.clientX - lastPointer.x;
-    const movementY = locked ? event.movementY : event.clientY - lastPointer.y;
-    yaw -= movementX * 0.0026;
-    pitch -= movementY * 0.0026;
-    lastPointer = { x: event.clientX, y: event.clientY };
-    updateCameraRotation();
   });
 
-  canvas.addEventListener("click", onCanvasClick);
   closePanel.addEventListener("click", () => {
     panel.hidden = true;
   });
-  window.addEventListener("resize", resizeRenderer);
 }
 
-function animate() {
-  let previous = performance.now();
-  function frame(now) {
-    const delta = Math.min((now - previous) / 1000, 0.05);
-    previous = now;
-    resizeRenderer();
-    moveCamera(delta);
-    renderer.render(scene, camera);
-    requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-}
-
+// ═══════════════════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════════════════
 async function init() {
-  createRoom();
-  addLighting();
-  updateCameraRotation();
-  bindControls();
-  const artists = await loadArtists();
-  placePaintings(artists.slice(0, 5));
-  animate();
+  try {
+    allArtists = await loadArtists();
+    initTimeline();
+    bindGlobalControls();
+
+    museumView.hidden = true;
+    timelineOverlay.hidden = false;
+  } catch (error) {
+    console.error(error);
+    document.querySelector(".timeline-header p").textContent =
+      "The museum could not start. Run it from a local HTTP server so the JSON data can load.";
+  }
 }
 
-init().catch((error) => {
-  console.error(error);
-  document.querySelector("#hud span").textContent =
-    "The museum could not start. Run it from a local HTTP server so the JSON data can load.";
-});
+init();

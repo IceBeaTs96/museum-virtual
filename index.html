@@ -3,15 +3,87 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Virtual Renaissance Museum</title>
+    <title>Virtual Museum — Timeline</title>
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <main id="app">
+    <!-- Timeline Overlay (Start Screen) -->
+    <div id="timeline-overlay" class="timeline-overlay">
+      <header class="timeline-header">
+        <h1>🎨 Virtual Museum</h1>
+        <p>Choose an epoch on the timeline to enter a 3D museum hall</p>
+      </header>
+
+      <div class="timeline-wrapper">
+        <div class="timeline-track" id="timeline-track">
+          <div class="timeline-line"></div>
+          
+          <!-- Epoch markers -->
+          <div class="epoch-marker" data-epoch="Renaissance" data-range="1400–1600" data-color="#c9a96e" style="left: 12%">
+            <div class="epoch-dot"></div>
+            <div class="epoch-label">
+              <span class="epoch-name">Renaissance</span>
+              <span class="epoch-years">1400–1600</span>
+              <span class="epoch-count">5 artists</span>
+            </div>
+          </div>
+          
+          <div class="epoch-marker" data-epoch="Barock" data-range="1600–1750" data-color="#8b4513" style="left: 32%">
+            <div class="epoch-dot"></div>
+            <div class="epoch-label">
+              <span class="epoch-name">Baroque</span>
+              <span class="epoch-years">1600–1750</span>
+              <span class="epoch-count">5 artists</span>
+            </div>
+          </div>
+          
+          <div class="epoch-marker" data-epoch="Romantik" data-range="1780–1850" data-color="#4a7c59" style="left: 52%">
+            <div class="epoch-dot"></div>
+            <div class="epoch-label">
+              <span class="epoch-name">Romanticism</span>
+              <span class="epoch-years">1780–1850</span>
+              <span class="epoch-count">3 artists</span>
+            </div>
+          </div>
+          
+          <div class="epoch-marker" data-epoch="Impressionismus" data-range="1860–1886" data-color="#6b5b95" style="left: 72%">
+            <div class="epoch-dot"></div>
+            <div class="epoch-label">
+              <span class="epoch-name">Impressionism</span>
+              <span class="epoch-years">1860–1886</span>
+              <span class="epoch-count">4 artists</span>
+            </div>
+          </div>
+          
+          <div class="epoch-marker" data-epoch="Moderne" data-range="1900–1945" data-color="#d4574a" style="left: 92%">
+            <div class="epoch-dot"></div>
+            <div class="epoch-label">
+              <span class="epoch-name">Modern</span>
+              <span class="epoch-years">1900–1945</span>
+              <span class="epoch-count">4 artists</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Epoch detail panel (appears on click) -->
+      <div id="epoch-detail" class="epoch-detail" hidden>
+        <button id="close-epoch-detail" class="icon-button" type="button" aria-label="Close epoch detail">×</button>
+        <div class="epoch-detail-header">
+          <h2 id="epoch-detail-name"></h2>
+          <p id="epoch-detail-range" class="years"></p>
+        </div>
+        <div class="epoch-artists-grid" id="epoch-artists-grid"></div>
+        <button id="enter-museum-btn" class="cta-button">Enter 3D Museum Hall →</button>
+      </div>
+    </div>
+
+    <!-- 3D Museum View -->
+    <main id="museum-view" class="museum-view" hidden>
       <canvas id="museum-canvas" aria-label="3D virtual museum room"></canvas>
 
       <section id="info-panel" class="panel" aria-live="polite" hidden>
-        <button id="close-panel" class="icon-button" type="button" aria-label="Close artist panel">x</button>
+        <button id="close-panel" class="icon-button" type="button" aria-label="Close artist panel">×</button>
         <img id="artist-image" alt="" />
         <div class="panel-content">
           <p id="artist-years" class="years"></p>
@@ -22,8 +94,9 @@
       </section>
 
       <div id="hud">
-        <strong>Virtual Renaissance Museum</strong>
-        <span>Click the room to look around. WASD moves, mouse drags/locks view, hold Shift or Space to click paintings.</span>
+        <strong id="hud-title">Virtual Museum</strong>
+        <span id="hud-hint">Click the room to look around. WASD moves, mouse drags/locks view, hold Shift or Space to click paintings.</span>
+        <button id="back-to-timeline" class="hud-button">← Back to Timeline</button>
       </div>
     </main>
 
