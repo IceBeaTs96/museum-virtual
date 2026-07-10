@@ -21,7 +21,7 @@ http://localhost:8000/
 - Click inside the 3D view to enable pointer-lock style looking.
 - Drag the mouse or move it while locked to look around.
 - Use `W`, `A`, `S`, and `D` to walk through the room.
-- Click a framed painting to open the artist information panel.
+- Hold `Shift` or `Space` to release pointer lock while clicking a framed painting.
 
 ## Project Structure
 

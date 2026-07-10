@@ -22,6 +22,7 @@ camera.position.set(0, 1.65, 4.5);
 
 const paintings = [];
 const keys = new Set();
+const clickModeKeys = new Set(["ShiftLeft", "ShiftRight", "Space"]);
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 
@@ -29,6 +30,16 @@ let yaw = Math.PI;
 let pitch = 0;
 let isDragging = false;
 let lastPointer = { x: 0, y: 0 };
+
+function isClickModeActive() {
+  return [...clickModeKeys].some((code) => keys.has(code));
+}
+
+function releasePointerLockForClickMode() {
+  if (document.pointerLockElement === canvas) {
+    document.exitPointerLock?.();
+  }
+}
 
 function createRoom() {
   const wallMaterial = new THREE.MeshStandardMaterial({ color: 0xf5f0e7, roughness: 0.82 });
@@ -196,8 +207,11 @@ function updateCameraRotation() {
 
 function moveCamera(delta) {
   const speed = 3.2 * delta;
-  const forward = new THREE.Vector3(Math.sin(yaw), 0, Math.cos(yaw));
-  const right = new THREE.Vector3(Math.cos(yaw), 0, -Math.sin(yaw));
+  const forward = new THREE.Vector3();
+  camera.getWorldDirection(forward);
+  forward.y = 0;
+  forward.normalize();
+  const right = new THREE.Vector3().crossVectors(forward, camera.up).normalize();
   const movement = new THREE.Vector3();
 
   if (keys.has("KeyW")) movement.add(forward);
@@ -231,16 +245,26 @@ function onCanvasClick(event) {
   const hit = raycaster.intersectObjects(paintings, false)[0];
   if (hit?.object.userData.artist) {
     showArtist(hit.object.userData.artist);
-  } else if (!document.pointerLockElement) {
+  } else if (!document.pointerLockElement && !isClickModeActive()) {
     canvas.requestPointerLock?.();
   }
 }
 
 function bindControls() {
-  window.addEventListener("keydown", (event) => keys.add(event.code));
+  window.addEventListener("keydown", (event) => {
+    keys.add(event.code);
+    if (clickModeKeys.has(event.code)) {
+      event.preventDefault();
+      releasePointerLockForClickMode();
+    }
+  });
   window.addEventListener("keyup", (event) => keys.delete(event.code));
 
   canvas.addEventListener("pointerdown", (event) => {
+    if (isClickModeActive()) {
+      releasePointerLockForClickMode();
+      return;
+    }
     isDragging = true;
     lastPointer = { x: event.clientX, y: event.clientY };
   });
