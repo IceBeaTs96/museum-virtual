@@ -1,18 +1,43 @@
-# Virtuelles Museum
+# Virtual Renaissance Museum
 
-3D Kunst-Museum mit Timeline-Navigation.
+Minimal browser-based 3D museum MVP built with plain HTML, CSS, JavaScript, and Three.js from a CDN.
 
-## Konzept
+## Run Locally
 
-Detailliertes Konzept liegt in [KONZEPT.md](./KONZEPT.md).
+Use a small local HTTP server so `data/artists.json` can be loaded by the browser:
 
-## Status
+```bash
+python3 -m http.server 8000
+```
 
-Konzeptphase — Entwicklung startet nach ERES Wien (ab 06.07.2026)
+Then open:
 
-## Vision
+```text
+http://localhost:8000/
+```
 
-- Interaktives 3D-Museum fuer digitale Kunst
-- Timeline-Navigation durch Kunstgeschichte
-- Monetarisierung via Buy Me a Coffee / Spenden
-- Open-Source, mehrsprachig (DE + EN)
+## Controls
+
+- Click inside the 3D view to enable pointer-lock style looking.
+- Drag the mouse or move it while locked to look around.
+- Use `W`, `A`, `S`, and `D` to walk through the room.
+- Click a framed painting to open the artist information panel.
+
+## Project Structure
+
+```text
+.
+├── index.html
+├── css/
+│   └── styles.css
+├── data/
+│   └── artists.json
+├── js/
+│   └── app.js
+├── KONZEPT.md
+└── README.md
+```
+
+## Scope
+
+This MVP intentionally keeps to one room, five Renaissance artists, static JSON data, and no build step or backend. The broader product concept remains in [KONZEPT.md](./KONZEPT.md).

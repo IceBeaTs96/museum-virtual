@@ -1,0 +1,37 @@
+[
+  {
+    "id": "leonardo-da-vinci",
+    "name": "Leonardo da Vinci",
+    "years": "1452-1519",
+    "bio": "Italian polymath and painter whose studies of anatomy, light, engineering, and nature shaped the ideal of the Renaissance artist. His paintings are known for subtle modeling, psychological presence, and experimental composition.",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg"
+  },
+  {
+    "id": "michelangelo",
+    "name": "Michelangelo Buonarroti",
+    "years": "1475-1564",
+    "bio": "Florentine sculptor, painter, architect, and poet. Michelangelo brought monumental anatomy and dramatic spiritual force to Renaissance art, from the Sistine Chapel ceiling to marble figures such as David.",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg"
+  },
+  {
+    "id": "raphael",
+    "name": "Raphael",
+    "years": "1483-1520",
+    "bio": "Italian painter and architect celebrated for clarity, balanced composition, and graceful figures. Raphael's Vatican frescoes became defining examples of High Renaissance harmony.",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/La_scuola_di_Atene.jpg"
+  },
+  {
+    "id": "sandro-botticelli",
+    "name": "Sandro Botticelli",
+    "years": "c. 1445-1510",
+    "bio": "Florentine painter associated with lyrical line, mythological scenes, and refined devotional works. His Birth of Venus and Primavera helped define the poetic visual language of early Renaissance Florence.",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg"
+  },
+  {
+    "id": "titian",
+    "name": "Titian",
+    "years": "c. 1488-1576",
+    "bio": "Venetian master whose rich color, loose handling, and confident portraiture influenced European painting for centuries. Titian's work bridged Renaissance ideals with a more sensual painterly approach.",
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Tizian_102.jpg"
+  }
+]
