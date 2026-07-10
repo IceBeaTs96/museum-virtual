@@ -28,6 +28,9 @@ const clearSearchBtn = document.querySelector("#clear-search");
 const filterChips = document.querySelector("#filter-chips");
 const surpriseBtn = document.querySelector("#surprise-btn");
 const timelineHint = document.querySelector(".timeline-hint");
+const timelineWorld = document.querySelector("#timeline-world");
+const timelineViewport = document.querySelector("#timeline-viewport");
+const starfieldCanvas = document.querySelector("#starfield-canvas");
 
 const canvas = document.querySelector("#museum-canvas");
 const panel = document.querySelector("#info-panel");
@@ -45,40 +48,25 @@ const keys = new Set();
 const clickModeKeys = new Set(["ShiftLeft", "ShiftRight", "Space"]);
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
-
 let yaw = Math.PI;
 let pitch = 0;
 let isDragging = false;
 let lastPointer = { x: 0, y: 0 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  GALAXY TIMELINE STATE
+//  TIMELINE STATE (HTML-based, CSS transform)
 // ═══════════════════════════════════════════════════════════════════════════════
-const timelineCanvas = document.querySelector("#timeline-canvas");
-const timelineWrapper = document.querySelector("#timeline-canvas-wrapper");
-let tctx;
-let timelineStars = [];
-let timelineNebulae = [];
-let timelineParticles = [];
-
-// Timeline view state
-let viewOffsetX = 0;
-let viewZoom = 1;
-const MIN_ZOOM = 0.5;
-const MAX_ZOOM = 12;
 const TIMELINE_START = 1200;
 const TIMELINE_END = 2025;
 const TIMELINE_SPAN = TIMELINE_END - TIMELINE_START;
+const WORLD_WIDTH = 8000; // virtual width in px at zoom=1
 
-// Interaction state
-let isPanning = false;
-let panStart = { x: 0, y: 0 };
-let panStartOffset = 0;
-let hoveredEpoch = null;
+let viewZoom = 1;
+let viewPanX = 0;
 let targetZoom = 1;
-let targetOffsetX = 0;
-let mouseCanvasX = 0;
-let mouseCanvasY = 0;
+let targetPanX = 0;
+const MIN_ZOOM = 0.4;
+const MAX_ZOOM = 10;
 
 // Epoch definitions
 const epochDefs = [
@@ -96,515 +84,274 @@ const epochDefs = [
 //  DATA LOADING
 // ═══════════════════════════════════════════════════════════════════════════════
 async function loadArtists() {
-  const response = await fetch("data/artists.json");
-  if (!response.ok) throw new Error(`Unable to load artist data: ${response.status}`);
-  return response.json();
+  const r = await fetch("data/artists.json");
+  if (!r.ok) throw new Error(`Unable to load artist data: ${r.status}`);
+  return r.json();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  EPOCH DISPLAY NAMES
 // ═══════════════════════════════════════════════════════════════════════════════
 const epochDisplayNames = {
-  "Vorreformatorisch": "Proto-Renaissance",
-  "Renaissance": "Renaissance",
-  "Barock": "Baroque",
-  "Romantik": "Romanticism",
-  "Impressionismus": "Impressionism",
-  "Moderne": "Modern",
-  "Zeitgenössisch": "Contemporary",
-  "Asiatische Kunst": "Asian Art",
+  Vorreformatorisch: "Proto-Renaissance", Renaissance: "Renaissance", Barock: "Baroque",
+  Romantik: "Romanticism", Impressionismus: "Impressionism", Moderne: "Modern",
+  Zeitgenössisch: "Contemporary", "Asiatische Kunst": "Asian Art",
 };
-
-function getDisplayName(epoch) {
-  return epochDisplayNames[epoch] || epoch;
-}
+function getDisplayName(e) { return epochDisplayNames[e] || e; }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  GALAXY TIMELINE — STARFIELD & NEBULAE
+//  STARFIELD CANVAS (background only)
 // ═══════════════════════════════════════════════════════════════════════════════
-function initTimelineCanvas() {
-  tctx = timelineCanvas.getContext("2d");
-  resizeTimelineCanvas();
-  generateStars();
-  generateNebulae();
-  generateParticles();
-  drawTimeline();
-}
+let sctx, stars = [], nebulae = [], particles = [];
 
-function resizeTimelineCanvas() {
-  const rect = timelineWrapper.getBoundingClientRect();
-  const dpr = window.devicePixelRatio || 1;
-  timelineCanvas.width = rect.width * dpr;
-  timelineCanvas.height = rect.height * dpr;
-  tctx.setTransform(1, 0, 0, 1, 0, 0);
-  tctx.scale(dpr, dpr);
-  timelineCanvas.style.width = rect.width + "px";
-  timelineCanvas.style.height = rect.height + "px";
-}
-
-function generateStars() {
-  timelineStars = [];
-  for (let i = 0; i < 500; i++) {
-    timelineStars.push({
-      x: Math.random(),
-      y: Math.random(),
-      r: Math.random() * 2.0 + 0.2,
-      brightness: Math.random(),
-      twinkleSpeed: Math.random() * 0.015 + 0.003,
-      twinkleOffset: Math.random() * Math.PI * 2,
-    });
-  }
-}
-
-function generateNebulae() {
-  timelineNebulae = [];
-  const nebulaColors = [
-    { r: 80, g: 40, b: 120 },
-    { r: 30, g: 60, b: 140 },
-    { r: 120, g: 40, b: 80 },
-    { r: 20, g: 80, b: 100 },
-    { r: 100, g: 60, b: 30 },
+function initStarfield() {
+  sctx = starfieldCanvas.getContext("2d");
+  resizeStarfield();
+  stars = Array.from({ length: 500 }, () => ({
+    x: Math.random(), y: Math.random(), r: Math.random() * 2 + 0.2,
+    brightness: Math.random(), speed: Math.random() * 0.015 + 0.003,
+    offset: Math.random() * Math.PI * 2,
+  }));
+  nebulae = [
+    { x: 0.3, y: 0.35, rx: 0.3, ry: 0.15, c: { r: 80, g: 40, b: 120 }, o: 0.08, a: 0.3 },
+    { x: 0.6, y: 0.45, rx: 0.35, ry: 0.18, c: { r: 30, g: 60, b: 140 }, o: 0.07, a: 0.5 },
+    { x: 0.45, y: 0.55, rx: 0.28, ry: 0.14, c: { r: 120, g: 40, b: 80 }, o: 0.06, a: 1.2 },
+    { x: 0.7, y: 0.3, rx: 0.32, ry: 0.16, c: { r: 20, g: 80, b: 100 }, o: 0.07, a: 0.8 },
+    { x: 0.25, y: 0.5, rx: 0.25, ry: 0.12, c: { r: 100, g: 60, b: 30 }, o: 0.05, a: 0.6 },
   ];
-  for (let i = 0; i < 5; i++) {
-    const c = nebulaColors[i];
-    timelineNebulae.push({
-      x: Math.random() * 0.6 + 0.2,
-      y: Math.random() * 0.5 + 0.25,
-      rx: Math.random() * 0.35 + 0.15,
-      ry: Math.random() * 0.22 + 0.08,
-      color: c,
-      opacity: Math.random() * 0.12 + 0.04,
-      angle: Math.random() * Math.PI * 2,
+  particles = Array.from({ length: 200 }, () => ({
+    x: Math.random(), y: Math.random(), r: Math.random() * 1.2 + 0.3,
+    vx: (Math.random() - 0.5) * 0.0002, vy: (Math.random() - 0.5) * 0.0002,
+    opacity: Math.random() * 0.5 + 0.15,
+  }));
+  drawStarfield();
+}
+
+function resizeStarfield() {
+  const dpr = window.devicePixelRatio || 1;
+  const w = starfieldCanvas.clientWidth;
+  const h = starfieldCanvas.clientHeight;
+  starfieldCanvas.width = w * dpr;
+  starfieldCanvas.height = h * dpr;
+  sctx.setTransform(1, 0, 0, 1, 0, 0);
+  sctx.scale(dpr, dpr);
+}
+
+function drawStarfield(ts = 0) {
+  if (!sctx || isInMuseum) { requestAnimationFrame(drawStarfield); return; }
+  const w = starfieldCanvas.width / (window.devicePixelRatio || 1);
+  const h = starfieldCanvas.height / (window.devicePixelRatio || 1);
+  sctx.clearRect(0, 0, w, h);
+
+  const bg = sctx.createRadialGradient(w * 0.5, h * 0.4, 0, w * 0.5, h * 0.5, Math.max(w, h) * 0.8);
+  bg.addColorStop(0, "#0d0b1a"); bg.addColorStop(0.5, "#080614"); bg.addColorStop(1, "#020108");
+  sctx.fillStyle = bg; sctx.fillRect(0, 0, w, h);
+
+  nebulae.forEach(n => {
+    const nx = n.x * w, ny = n.y * h, nrx = n.rx * w, nry = n.ry * h;
+    const g = sctx.createRadialGradient(nx, ny, 0, nx, ny, Math.max(nrx, nry));
+    const { r, g: gn, b } = n.c;
+    g.addColorStop(0, `rgba(${r},${gn},${b},${n.o * 1.5})`);
+    g.addColorStop(0.5, `rgba(${r},${gn},${b},${n.o * 0.5})`);
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    sctx.save(); sctx.translate(nx, ny); sctx.rotate(n.a); sctx.scale(1, nry / nrx);
+    sctx.fillStyle = g; sctx.beginPath(); sctx.arc(0, 0, nrx, 0, Math.PI * 2); sctx.fill();
+    sctx.restore();
+  });
+
+  const t = ts * 0.001;
+  stars.forEach(s => {
+    const tw = 0.5 + 0.5 * Math.sin(t * s.speed * 60 + s.offset);
+    sctx.fillStyle = `rgba(220,210,255,${s.brightness * 0.6 + tw * 0.4})`;
+    sctx.beginPath(); sctx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2); sctx.fill();
+  });
+
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
+    if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
+    sctx.fillStyle = `rgba(180,160,220,${p.opacity})`;
+    sctx.beginPath(); sctx.arc(p.x * w, p.y * h, p.r, 0, Math.PI * 2); sctx.fill();
+  });
+
+  requestAnimationFrame(drawStarfield);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  HTML TIMELINE — BUILD EPOCH MARKERS
+// ═══════════════════════════════════════════════════════════════════════════════
+function yearToWorldX(year) {
+  return ((year - TIMELINE_START) / TIMELINE_SPAN) * WORLD_WIDTH;
+}
+
+function buildTimeline() {
+  timelineWorld.innerHTML = "";
+
+  // Axis line
+  const axis = document.createElement("div");
+  axis.className = "timeline-axis";
+  axis.style.top = "55%";
+  axis.style.width = WORLD_WIDTH + "px";
+  timelineWorld.appendChild(axis);
+
+  // Epoch markers
+  epochDefs.forEach(epoch => {
+    const centerX = yearToWorldX((epoch.start + epoch.end) / 2);
+    const count = allArtists.filter(a => a.epoch === epoch.id).length;
+
+    const marker = document.createElement("div");
+    marker.className = "epoch-marker";
+    marker.dataset.epoch = epoch.id;
+    marker.style.left = centerX + "px";
+    marker.style.top = "55%";
+
+    const dot = document.createElement("div");
+    dot.className = "epoch-dot";
+    dot.style.background = `radial-gradient(circle at 35% 30%, #fff, ${epoch.glow} 40%, ${epoch.color})`;
+    dot.style.boxShadow = `0 0 20px ${epoch.glow}44, 0 0 40px ${epoch.glow}22`;
+    marker.appendChild(dot);
+
+    const label = document.createElement("div");
+    label.className = "epoch-label";
+    label.textContent = epoch.name;
+    marker.appendChild(label);
+
+    const years = document.createElement("div");
+    years.className = "epoch-years";
+    years.textContent = `${epoch.start}–${epoch.end}`;
+    marker.appendChild(years);
+
+    const cnt = document.createElement("div");
+    cnt.className = "epoch-count";
+    cnt.textContent = `${count} artist${count !== 1 ? "s" : ""}`;
+    marker.appendChild(cnt);
+
+    marker.addEventListener("click", () => {
+      selectEpoch(epoch.id, `${epoch.start}–${epoch.end}`);
     });
-  }
+
+    timelineWorld.appendChild(marker);
+  });
+
+  applyTimelineTransform();
 }
 
-function generateParticles() {
-  timelineParticles = [];
-  for (let i = 0; i < 250; i++) {
-    timelineParticles.push({
-      x: Math.random(),
-      y: Math.random(),
-      r: Math.random() * 1.4 + 0.3,
-      vx: (Math.random() - 0.5) * 0.00025,
-      vy: (Math.random() - 0.5) * 0.00025,
-      opacity: Math.random() * 0.5 + 0.15,
-    });
-  }
+function applyTimelineTransform() {
+  const vpW = timelineViewport.clientWidth;
+  const vpH = timelineViewport.clientHeight;
+  const scale = viewZoom;
+  // Center the viewport on panX
+  const tx = -viewPanX * scale + vpW / 2;
+  const ty = vpH * 0.05; // small top margin
+  timelineWorld.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+  timelineWorld.style.transformOrigin = "0 0";
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  GALAXY TIMELINE — DRAWING
+//  TIMELINE INTERACTION (zoom + pan on viewport)
 // ═══════════════════════════════════════════════════════════════════════════════
-function drawTimeline(timestamp = 0) {
-  if (!tctx || isInMuseum) return;
-
-  const w = timelineCanvas.width / (window.devicePixelRatio || 1);
-  const h = timelineCanvas.height / (window.devicePixelRatio || 1);
-
-  // Smooth zoom animation
-  viewZoom += (targetZoom - viewZoom) * 0.12;
-  viewOffsetX += (targetOffsetX - viewOffsetX) * 0.12;
-
-  const visibleSpan = TIMELINE_SPAN / viewZoom;
-  viewOffsetX = Math.max(TIMELINE_START - visibleSpan * 0.1, Math.min(TIMELINE_END - visibleSpan * 0.9, viewOffsetX));
-
-  tctx.clearRect(0, 0, w, h);
-
-  // Deep space background
-  const bgGrad = tctx.createRadialGradient(w * 0.5, h * 0.4, 0, w * 0.5, h * 0.5, Math.max(w, h) * 0.8);
-  bgGrad.addColorStop(0, "#0d0b1a");
-  bgGrad.addColorStop(0.5, "#080614");
-  bgGrad.addColorStop(1, "#020108");
-  tctx.fillStyle = bgGrad;
-  tctx.fillRect(0, 0, w, h);
-
-  // Nebulae
-  timelineNebulae.forEach((neb) => {
-    const nx = neb.x * w;
-    const ny = neb.y * h;
-    const nrx = neb.rx * w;
-    const nry = neb.ry * h;
-    const grad = tctx.createRadialGradient(nx, ny, 0, nx, ny, Math.max(nrx, nry));
-    const { r, g, b } = neb.color;
-    grad.addColorStop(0, `rgba(${r},${g},${b},${neb.opacity * 1.5})`);
-    grad.addColorStop(0.5, `rgba(${r},${g},${b},${neb.opacity * 0.5})`);
-    grad.addColorStop(1, "rgba(0,0,0,0)");
-    tctx.save();
-    tctx.translate(nx, ny);
-    tctx.rotate(neb.angle);
-    tctx.scale(1, nry / nrx);
-    tctx.fillStyle = grad;
-    tctx.beginPath();
-    tctx.arc(0, 0, nrx, 0, Math.PI * 2);
-    tctx.fill();
-    tctx.restore();
-  });
-
-  // Stars
-  const time = timestamp * 0.001;
-  timelineStars.forEach((star) => {
-    const sx = star.x * w;
-    const sy = star.y * h;
-    const twinkle = 0.5 + 0.5 * Math.sin(time * star.twinkleSpeed * 60 + star.twinkleOffset);
-    const alpha = star.brightness * 0.6 + twinkle * 0.4;
-    tctx.fillStyle = `rgba(220,210,255,${alpha})`;
-    tctx.beginPath();
-    tctx.arc(sx, sy, star.r, 0, Math.PI * 2);
-    tctx.fill();
-  });
-
-  // Floating particles
-  timelineParticles.forEach((p) => {
-    p.x += p.vx;
-    p.y += p.vy;
-    if (p.x < 0) p.x = 1;
-    if (p.x > 1) p.x = 0;
-    if (p.y < 0) p.y = 1;
-    if (p.y > 1) p.y = 0;
-    tctx.fillStyle = `rgba(180,160,220,${p.opacity})`;
-    tctx.beginPath();
-    tctx.arc(p.x * w, p.y * h, p.r, 0, Math.PI * 2);
-    tctx.fill();
-  });
-
-  // ── TIMELINE AXIS ──────────────────────────────────
-  const axisY = h * 0.55;
-  const paddingX = w * 0.08;
-  const usableWidth = w - paddingX * 2;
-
-  const worldToScreen = (year) => paddingX + ((year - viewOffsetX) / visibleSpan + 0.5) * usableWidth;
-
-  // Glowing cosmic thread
-  const axisGrad = tctx.createLinearGradient(paddingX, axisY, w - paddingX, axisY);
-  axisGrad.addColorStop(0, "rgba(100,80,180,0.05)");
-  axisGrad.addColorStop(0.2, "rgba(140,120,220,0.35)");
-  axisGrad.addColorStop(0.5, "rgba(180,160,240,0.55)");
-  axisGrad.addColorStop(0.8, "rgba(140,120,220,0.35)");
-  axisGrad.addColorStop(1, "rgba(100,80,180,0.05)");
-  tctx.strokeStyle = axisGrad;
-  tctx.lineWidth = 2;
-  tctx.beginPath();
-  tctx.moveTo(paddingX, axisY);
-  tctx.lineTo(w - paddingX, axisY);
-  tctx.stroke();
-
-  // Outer glow
-  tctx.strokeStyle = "rgba(160,140,220,0.12)";
-  tctx.lineWidth = 10;
-  tctx.beginPath();
-  tctx.moveTo(paddingX, axisY);
-  tctx.lineTo(w - paddingX, axisY);
-  tctx.stroke();
-
-  // ── YEAR TICK MARKS ────────────────────────────────
-  const tickInterval = getTickInterval(visibleSpan);
-  const firstTick = Math.ceil((viewOffsetX - visibleSpan * 0.5) / tickInterval) * tickInterval;
-  const lastTick = Math.floor((viewOffsetX + visibleSpan * 0.5) / tickInterval) * tickInterval;
-
-  for (let year = firstTick; year <= lastTick; year += tickInterval) {
-    const sx = worldToScreen(year);
-    if (sx < paddingX - 20 || sx > w - paddingX + 20) continue;
-
-    const isMajor = year % (tickInterval * 5) === 0 || tickInterval >= 50;
-    const tickHeight = isMajor ? 12 : 6;
-    const tickAlpha = isMajor ? 0.45 : 0.2;
-
-    tctx.strokeStyle = `rgba(180,160,220,${tickAlpha})`;
-    tctx.lineWidth = isMajor ? 1.5 : 0.7;
-    tctx.beginPath();
-    tctx.moveTo(sx, axisY - tickHeight);
-    tctx.lineTo(sx, axisY + tickHeight);
-    tctx.stroke();
-
-    if (isMajor) {
-      tctx.fillStyle = `rgba(200,180,230,0.55)`;
-      tctx.font = `${Math.max(10, 12 / Math.sqrt(viewZoom))}px Inter, sans-serif`;
-      tctx.textAlign = "center";
-      tctx.fillText(year.toString(), sx, axisY + tickHeight + 16);
-    }
-  }
-
-  // ── EPOCH MARKERS (no bars, just celestial dots) ───
-  hoveredEpoch = null;
-
-  epochDefs.forEach((epoch) => {
-    if (activeFilter !== "all" && epoch.id !== activeFilter) return;
-
-    const startX = worldToScreen(epoch.start);
-    const endX = worldToScreen(epoch.end);
-    const centerX = (startX + endX) / 2;
-
-    if (endX < paddingX - 50 || startX > w - paddingX + 50) return;
-
-    const artistCount = allArtists.filter((a) => a.epoch === epoch.id).length;
-
-    // Hit test using canvas-relative mouse coords
-    const hitRadius = 40;
-    const isHovered =
-      mouseCanvasX >= centerX - hitRadius &&
-      mouseCanvasX <= centerX + hitRadius &&
-      Math.abs(mouseCanvasY - axisY) < hitRadius;
-
-    if (isHovered) hoveredEpoch = epoch;
-
-    const dotR = isHovered ? 16 : 9 + artistCount * 0.6;
-    const dotY = axisY;
-
-    // Outer glow ring
-    const glowGrad = tctx.createRadialGradient(centerX, dotY, dotR * 0.3, centerX, dotY, dotR * 3);
-    glowGrad.addColorStop(0, epoch.glow);
-    glowGrad.addColorStop(0.4, epoch.glow.replace(")", ",0.25)").replace("rgb", "rgba"));
-    glowGrad.addColorStop(1, "rgba(0,0,0,0)");
-    tctx.fillStyle = glowGrad;
-    tctx.beginPath();
-    tctx.arc(centerX, dotY, dotR * 3, 0, Math.PI * 2);
-    tctx.fill();
-
-    // Inner celestial body
-    const dotGrad = tctx.createRadialGradient(centerX - dotR * 0.3, dotY - dotR * 0.3, 0, centerX, dotY, dotR);
-    dotGrad.addColorStop(0, "#ffffff");
-    dotGrad.addColorStop(0.35, epoch.glow);
-    dotGrad.addColorStop(1, epoch.color);
-    tctx.fillStyle = dotGrad;
-    tctx.beginPath();
-    tctx.arc(centerX, dotY, dotR, 0, Math.PI * 2);
-    tctx.fill();
-
-    // Subtle orbit ring
-    if (isHovered) {
-      tctx.strokeStyle = epoch.glow.replace(")", ",0.4)").replace("rgb", "rgba");
-      tctx.lineWidth = 1.5;
-      tctx.beginPath();
-      tctx.arc(centerX, dotY, dotR * 1.8, 0, Math.PI * 2);
-      tctx.stroke();
-    }
-
-    // Label above
-    const labelY = axisY - 32 - dotR;
-    const labelAlpha = isHovered ? 1 : 0.75;
-    tctx.fillStyle = `rgba(220,210,240,${labelAlpha})`;
-    tctx.font = `700 ${Math.max(11, 13 / Math.sqrt(viewZoom))}px Inter, sans-serif`;
-    tctx.textAlign = "center";
-    tctx.fillText(epoch.name, centerX, labelY);
-
-    // Year range
-    tctx.fillStyle = `rgba(180,160,210,${labelAlpha * 0.65})`;
-    tctx.font = `${Math.max(9, 10 / Math.sqrt(viewZoom))}px Inter, sans-serif`;
-    tctx.fillText(`${epoch.start}–${epoch.end}`, centerX, labelY + 16);
-
-    // Artist count when zoomed
-    if (viewZoom > 2) {
-      tctx.fillStyle = `rgba(160,140,200,${labelAlpha * 0.45})`;
-      tctx.font = `${Math.max(8, 9 / Math.sqrt(viewZoom))}px Inter, sans-serif`;
-      tctx.fillText(`${artistCount} artist${artistCount !== 1 ? "s" : ""}`, centerX, labelY + 28);
-    }
-  });
-
-  // ── ARTIST DOTS (visible when zoomed in) ────────────
-  if (viewZoom > 3) {
-    allArtists.forEach((artist) => {
-      if (activeFilter !== "all" && artist.epoch !== activeFilter) return;
-      const birthYear = artist.birthYear || (artist.deathYear ? artist.deathYear - 60 : 1500);
-      const deathYear = artist.deathYear || birthYear + 60;
-      const midYear = (birthYear + deathYear) / 2;
-      const sx = worldToScreen(midYear);
-      if (sx < paddingX || sx > w - paddingX) return;
-
-      const epochDef = epochDefs.find((e) => e.id === artist.epoch);
-      const color = epochDef ? epochDef.glow : "#a78bfa";
-
-      tctx.fillStyle = color;
-      tctx.beginPath();
-      tctx.arc(sx, axisY + 30, 1.5, 0, Math.PI * 2);
-      tctx.fill();
-
-      if (viewZoom > 8) {
-        tctx.fillStyle = `rgba(200,180,230,0.45)`;
-        tctx.font = "8px Inter, sans-serif";
-        tctx.textAlign = "center";
-        const name = artist.name.length > 18 ? artist.name.slice(0, 16) + "…" : artist.name;
-        tctx.fillText(name, sx, axisY + 38);
-      }
-    });
-  }
-
-  // ── CURSOR ─────────────────────────────────────────
-  if (hoveredEpoch) {
-    timelineWrapper.style.cursor = "pointer";
-  } else if (isPanning) {
-    timelineWrapper.style.cursor = "grabbing";
-  } else {
-    timelineWrapper.style.cursor = "grab";
-  }
-
-  // Fade hint
-  timelineHint.style.opacity = (viewZoom !== 1 || viewOffsetX !== 0) ? "0.3" : "1";
-
-  requestAnimationFrame(drawTimeline);
-}
-
-function getTickInterval(visibleSpan) {
-  if (visibleSpan < 30) return 1;
-  if (visibleSpan < 80) return 5;
-  if (visibleSpan < 200) return 10;
-  if (visibleSpan < 500) return 25;
-  if (visibleSpan < 1000) return 50;
-  return 100;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-//  GALAXY TIMELINE — INTERACTION
-// ═══════════════════════════════════════════════════════════════════════════════
-function updateMouseCanvasCoords(clientX, clientY) {
-  const rect = timelineCanvas.getBoundingClientRect();
-  mouseCanvasX = clientX - rect.left;
-  mouseCanvasY = clientY - rect.top;
-}
+let isPanningTL = false;
+let panStartTL = { x: 0, panX: 0 };
 
 function bindTimelineControls() {
-  timelineWrapper.addEventListener("wheel", (e) => {
+  timelineViewport.addEventListener("wheel", e => {
     e.preventDefault();
-    const rect = timelineWrapper.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const w = rect.width;
-    const paddingX = w * 0.08;
-    const usableWidth = w - paddingX * 2;
-    const visibleSpan = TIMELINE_SPAN / viewZoom;
+    const rect = timelineViewport.getBoundingClientRect();
+    const mouseVPX = e.clientX - rect.left;
+    const vpW = rect.width;
 
-    const worldX = viewOffsetX + ((mouseX - paddingX) / usableWidth - 0.5) * visibleSpan;
-    const zoomFactor = e.deltaY < 0 ? 1.15 : 1 / 1.15;
-    const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, targetZoom * zoomFactor));
-    const newVisibleSpan = TIMELINE_SPAN / newZoom;
+    // World position under mouse
+    const worldX = (mouseVPX - vpW / 2) / viewZoom + viewPanX;
 
-    targetZoom = newZoom;
-    targetOffsetX = worldX - ((mouseX - paddingX) / usableWidth - 0.5) * newVisibleSpan;
-    targetOffsetX = Math.max(TIMELINE_START - newVisibleSpan * 0.1, Math.min(TIMELINE_END - newVisibleSpan * 0.9, targetOffsetX));
+    const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+    targetZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, targetZoom * factor));
+    targetPanX = worldX - (mouseVPX - vpW / 2) / targetZoom;
   }, { passive: false });
 
-  timelineWrapper.addEventListener("pointerdown", (e) => {
-    isPanning = true;
-    panStart = { x: e.clientX, y: e.clientY };
-    panStartOffset = viewOffsetX;
-    updateMouseCanvasCoords(e.clientX, e.clientY);
-    timelineWrapper.setPointerCapture(e.pointerId);
+  timelineViewport.addEventListener("pointerdown", e => {
+    isPanningTL = true;
+    panStartTL = { x: e.clientX, panX: viewPanX };
+    timelineViewport.setPointerCapture(e.pointerId);
   });
 
-  timelineWrapper.addEventListener("pointermove", (e) => {
-    updateMouseCanvasCoords(e.clientX, e.clientY);
-
-    if (isPanning) {
-      const dx = e.clientX - panStart.x;
-      const w = timelineWrapper.getBoundingClientRect().width;
-      const paddingX = w * 0.08;
-      const usableWidth = w - paddingX * 2;
-      const visibleSpan = TIMELINE_SPAN / viewZoom;
-      const worldDx = -(dx / usableWidth) * visibleSpan;
-      targetOffsetX = panStartOffset + worldDx;
-    }
+  timelineViewport.addEventListener("pointermove", e => {
+    if (!isPanningTL) return;
+    const dx = e.clientX - panStartTL.x;
+    targetPanX = panStartTL.panX - dx / viewZoom;
   });
 
-  window.addEventListener("pointerup", (e) => {
-    if (isPanning) {
-      const dx = Math.abs(e.clientX - panStart.x);
-      const dy = Math.abs(e.clientY - panStart.y);
-      // If barely moved, treat as click
-      if (dx < 5 && dy < 5 && hoveredEpoch) {
-        selectEpoch(hoveredEpoch.id, `${hoveredEpoch.start}–${hoveredEpoch.end}`);
-      }
-    }
-    isPanning = false;
-  });
+  window.addEventListener("pointerup", () => { isPanningTL = false; });
 
-  // Touch pinch zoom
-  let pinchStartDist = 0;
-  let pinchStartZoom = 1;
-
-  timelineWrapper.addEventListener("touchstart", (e) => {
+  // Touch pinch
+  let pinchStart = 0, pinchStartZoom = 1;
+  timelineViewport.addEventListener("touchstart", e => {
     if (e.touches.length === 2) {
-      pinchStartDist = Math.hypot(
-        e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
-      );
+      pinchStart = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
       pinchStartZoom = targetZoom;
     }
   }, { passive: true });
-
-  timelineWrapper.addEventListener("touchmove", (e) => {
+  timelineViewport.addEventListener("touchmove", e => {
     if (e.touches.length === 2) {
-      const dist = Math.hypot(
-        e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
-      );
-      const scale = dist / pinchStartDist;
-      targetZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, pinchStartZoom * scale));
+      const d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      targetZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, pinchStartZoom * (d / pinchStart)));
     }
   }, { passive: true });
-
-  window.addEventListener("resize", () => {
-    resizeTimelineCanvas();
-  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  SEARCH & FILTER LOGIC
+//  TIMELINE ANIMATION LOOP (smooth zoom/pan)
+// ═══════════════════════════════════════════════════════════════════════════════
+function animateTimeline() {
+  if (isInMuseum) { requestAnimationFrame(animateTimeline); return; }
+  const lerp = 0.1;
+  viewZoom += (targetZoom - viewZoom) * lerp;
+  viewPanX += (targetPanX - viewPanX) * lerp;
+  applyTimelineTransform();
+
+  // Update hint visibility
+  const moved = Math.abs(viewZoom - 1) > 0.01 || Math.abs(viewPanX) > 1;
+  timelineHint.style.opacity = moved ? "0.25" : "1";
+
+  // Update filter visibility
+  document.querySelectorAll(".epoch-marker").forEach(m => {
+    if (activeFilter === "all" || m.dataset.epoch === activeFilter) {
+      m.style.display = "";
+    } else {
+      m.style.display = "none";
+    }
+  });
+
+  requestAnimationFrame(animateTimeline);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  SEARCH
 // ═══════════════════════════════════════════════════════════════════════════════
 function initSearch() {
   searchInput.addEventListener("input", () => {
-    const query = searchInput.value.trim().toLowerCase();
-    if (query.length < 2) {
-      searchResults.hidden = true;
-      return;
+    const q = searchInput.value.trim().toLowerCase();
+    if (q.length < 2) { searchResults.hidden = true; return; }
+    const results = allArtists.filter(a =>
+      `${a.name} ${a.movement} ${a.nationality} ${a.epoch} ${a.bio}`.toLowerCase().includes(q)
+    );
+    if (results.length === 0) {
+      searchResultsCount.textContent = "No artists found";
+      searchResultsGrid.innerHTML = '<p style="color:var(--muted);text-align:center;grid-column:1/-1">Try a different search term</p>';
+    } else {
+      searchResultsCount.textContent = `${results.length} artist${results.length > 1 ? "s" : ""} found`;
+      searchResultsGrid.innerHTML = "";
+      results.forEach(a => {
+        const c = document.createElement("div");
+        c.className = "search-result-card";
+        c.innerHTML = `<img class="artist-thumb" src="${a.imageUrl}" alt="${a.name}" loading="lazy" onerror="this.style.display='none'" /><span class="artist-name">${a.name}</span><span class="artist-meta">${a.years} · ${getDisplayName(a.epoch)}</span>`;
+        c.addEventListener("click", () => { searchResults.hidden = true; searchInput.value = ""; showArtistInPanel(a); });
+        searchResultsGrid.appendChild(c);
+      });
     }
-    performSearch(query);
-  });
-
-  clearSearchBtn.addEventListener("click", () => {
-    searchInput.value = "";
-    searchResults.hidden = true;
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !searchResults.hidden) {
-      searchInput.value = "";
-      searchResults.hidden = true;
-    }
-  });
-}
-
-function performSearch(query) {
-  const results = allArtists.filter((a) => {
-    const searchable = `${a.name} ${a.movement} ${a.nationality} ${a.epoch} ${a.bio}`.toLowerCase();
-    return searchable.includes(query);
-  });
-
-  if (results.length === 0) {
-    searchResultsCount.textContent = "No artists found";
-    searchResultsGrid.innerHTML = '<p style="color:var(--muted);text-align:center;grid-column:1/-1">Try a different search term</p>';
     searchResults.hidden = false;
-    return;
-  }
-
-  searchResultsCount.textContent = `${results.length} artist${results.length > 1 ? "s" : ""} found`;
-  searchResultsGrid.innerHTML = "";
-
-  results.forEach((artist) => {
-    const card = document.createElement("div");
-    card.className = "search-result-card";
-    card.innerHTML = `
-      <img class="artist-thumb" src="${artist.imageUrl}" alt="${artist.name}" loading="lazy" onerror="this.style.display='none'" />
-      <span class="artist-name">${artist.name}</span>
-      <span class="artist-meta">${artist.years} · ${getDisplayName(artist.epoch)}</span>
-    `;
-    card.addEventListener("click", () => {
-      searchResults.hidden = true;
-      searchInput.value = "";
-      showArtistInPanel(artist);
-    });
-    searchResultsGrid.appendChild(card);
   });
-
-  searchResults.hidden = false;
+  clearSearchBtn.addEventListener("click", () => { searchInput.value = ""; searchResults.hidden = true; });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !searchResults.hidden) { searchInput.value = ""; searchResults.hidden = true; } });
 }
 
 function showArtistInPanel(artist) {
@@ -618,19 +365,16 @@ function showArtistInPanel(artist) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  FILTER CHIPS
+//  FILTERS
 // ═══════════════════════════════════════════════════════════════════════════════
 function initFilters() {
-  filterChips.addEventListener("click", (e) => {
+  filterChips.addEventListener("click", e => {
     const chip = e.target.closest(".filter-chip");
     if (!chip) return;
-
     activeFilter = chip.dataset.filter;
-    filterChips.querySelectorAll(".filter-chip").forEach((c) => c.classList.remove("active"));
+    filterChips.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
     chip.classList.add("active");
-
-    searchInput.value = "";
-    searchResults.hidden = true;
+    searchInput.value = ""; searchResults.hidden = true;
   });
 }
 
@@ -639,10 +383,10 @@ function initFilters() {
 // ═══════════════════════════════════════════════════════════════════════════════
 function initSurprise() {
   surpriseBtn.addEventListener("click", () => {
-    const randomArtist = allArtists[Math.floor(Math.random() * allArtists.length)];
-    currentEpoch = randomArtist.epoch;
-    currentEpochArtists = allArtists.filter((a) => a.epoch === randomArtist.epoch);
-    selectEpoch(randomArtist.epoch, `${randomArtist.epochRange || ""}`);
+    const ra = allArtists[Math.floor(Math.random() * allArtists.length)];
+    currentEpoch = ra.epoch;
+    currentEpochArtists = allArtists.filter(a => a.epoch === ra.epoch);
+    selectEpoch(ra.epoch, ra.epochRange || "");
     setTimeout(() => enterMuseum(), 800);
   });
 }
@@ -652,24 +396,17 @@ function initSurprise() {
 // ═══════════════════════════════════════════════════════════════════════════════
 function selectEpoch(epochName, epochRange) {
   currentEpoch = epochName;
-  currentEpochArtists = allArtists.filter((a) => a.epoch === epochName);
-
+  currentEpochArtists = allArtists.filter(a => a.epoch === epochName);
   epochDetailName.textContent = getDisplayName(epochName);
   epochDetailRange.textContent = epochRange;
-
   epochArtistsGrid.innerHTML = "";
-  currentEpochArtists.forEach((artist) => {
-    const card = document.createElement("div");
-    card.className = "epoch-artist-card";
-    card.innerHTML = `
-      <img class="artist-thumb" src="${artist.imageUrl}" alt="${artist.name}" loading="lazy" onerror="this.style.display='none'" />
-      <span class="artist-name">${artist.name}</span>
-      <span class="artist-years">${artist.years}</span>
-    `;
-    card.addEventListener("click", () => showArtistInPanel(artist));
-    epochArtistsGrid.appendChild(card);
+  currentEpochArtists.forEach(a => {
+    const c = document.createElement("div");
+    c.className = "epoch-artist-card";
+    c.innerHTML = `<img class="artist-thumb" src="${a.imageUrl}" alt="${a.name}" loading="lazy" onerror="this.style.display='none'" /><span class="artist-name">${a.name}</span><span class="artist-years">${a.years}</span>`;
+    c.addEventListener("click", () => showArtistInPanel(a));
+    epochArtistsGrid.appendChild(c);
   });
-
   epochDetail.hidden = false;
 }
 
@@ -678,13 +415,8 @@ function selectEpoch(epochName, epochRange) {
 // ═══════════════════════════════════════════════════════════════════════════════
 function enterMuseum() {
   isInMuseum = true;
-  timelineOverlay.style.opacity = "1";
-
-  const fadeOut = timelineOverlay.animate(
-    [{ opacity: 1 }, { opacity: 0 }],
-    { duration: 400, easing: "ease-out" }
-  );
-  fadeOut.onfinish = () => {
+  const anim = timelineOverlay.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, easing: "ease-out" });
+  anim.onfinish = () => {
     timelineOverlay.hidden = true;
     timelineOverlay.style.opacity = "";
     museumView.hidden = false;
@@ -696,24 +428,14 @@ function enterMuseum() {
 function exitMuseum() {
   isInMuseum = false;
   epochDetail.hidden = true;
-
-  if (renderer) {
-    renderer.dispose();
-    renderer = null;
-  }
+  if (renderer) { renderer.dispose(); renderer = null; }
   paintings = [];
-
   museumView.hidden = true;
   panel.hidden = true;
   timelineOverlay.hidden = false;
-
-  timelineOverlay.animate([{ opacity: 0 }, { opacity: 1 }], {
-    duration: 300,
-    easing: "ease-out",
-  });
-
-  resizeTimelineCanvas();
-  requestAnimationFrame(drawTimeline);
+  timelineOverlay.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out" });
+  resizeStarfield();
+  requestAnimationFrame(drawStarfield);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -722,14 +444,12 @@ function exitMuseum() {
 function initMuseumScene() {
   if (renderer) renderer.dispose();
   paintings = [];
-
   renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
-
   scene = new THREE.Scene();
 
-  const epochColors = {
+  const colors = {
     Vorreformatorisch: { bg: 0x1a1510, fog: 0x1a1510, wall: 0xf0e8d8, floor: 0x6b5540 },
     Renaissance: { bg: 0x15110d, fog: 0x15110d, wall: 0xf5f0e7, floor: 0x8a6b4b },
     Barock: { bg: 0x1a1210, fog: 0x1a1210, wall: 0xe8ddd0, floor: 0x5c3a20 },
@@ -739,274 +459,154 @@ function initMuseumScene() {
     Zeitgenössisch: { bg: 0x0f1117, fog: 0x0f1117, wall: 0xfafafa, floor: 0x1e1e2e },
     "Asiatische Kunst": { bg: 0x1a1410, fog: 0x1a1410, wall: 0xf5ede0, floor: 0x5c4030 },
   };
-
-  const theme = epochColors[currentEpoch] || epochColors.Renaissance;
-  scene.background = new THREE.Color(theme.bg);
-  scene.fog = new THREE.Fog(theme.fog, 12, 32);
+  const t = colors[currentEpoch] || colors.Renaissance;
+  scene.background = new THREE.Color(t.bg);
+  scene.fog = new THREE.Fog(t.fog, 12, 32);
 
   camera = new THREE.PerspectiveCamera(70, 1, 0.1, 100);
   camera.position.set(0, 1.65, 4.5);
-  yaw = Math.PI;
-  pitch = 0;
+  yaw = Math.PI; pitch = 0;
   updateCameraRotation();
 
-  createRoom(theme.wall, theme.floor);
-  addLighting();
+  const wm = new THREE.MeshStandardMaterial({ color: t.wall, roughness: 0.82 });
+  const fm = new THREE.MeshStandardMaterial({ color: t.floor, roughness: 0.72 });
+  const cm = new THREE.MeshStandardMaterial({ color: 0xe6dfd2, roughness: 0.88 });
+
+  const fl = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), fm);
+  fl.rotation.x = -Math.PI / 2; fl.receiveShadow = true; scene.add(fl);
+  const cl = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), cm);
+  cl.position.y = 3.4; cl.rotation.x = Math.PI / 2; scene.add(cl);
+  [[0, 1.7, -6, 0], [0, 1.7, 6, Math.PI], [-6, 1.7, 0, Math.PI / 2], [6, 1.7, 0, -Math.PI / 2]].forEach(([x, y, z, ry]) => {
+    const w = new THREE.Mesh(new THREE.PlaneGeometry(12, 3.4), wm);
+    w.position.set(x, y, z); w.rotation.y = ry; w.receiveShadow = true; scene.add(w);
+  });
+
+  scene.add(new THREE.HemisphereLight(0xfff3dc, 0x5c4837, 1.5));
+  const ml = new THREE.DirectionalLight(0xfff2d8, 1.4);
+  ml.position.set(2.5, 5, 3); ml.castShadow = true; scene.add(ml);
+  [[-3, 3.15, -2], [3, 3.15, -2], [0, 3.15, 2.5]].forEach(([x, y, z]) => {
+    const l = new THREE.PointLight(0xffe6bd, 2.4, 8); l.position.set(x, y, z); scene.add(l);
+  });
+
   placePaintings(currentEpochArtists);
   resizeRenderer();
   bindMuseumControls();
   animateMuseum();
 }
 
-function createRoom(wallColor, floorColor) {
-  const wallMat = new THREE.MeshStandardMaterial({ color: wallColor, roughness: 0.82 });
-  const floorMat = new THREE.MeshStandardMaterial({ color: floorColor, roughness: 0.72 });
-  const ceilMat = new THREE.MeshStandardMaterial({ color: 0xe6dfd2, roughness: 0.88 });
-
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), floorMat);
-  floor.rotation.x = -Math.PI / 2;
-  floor.receiveShadow = true;
-  scene.add(floor);
-
-  const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), ceilMat);
-  ceiling.position.y = 3.4;
-  ceiling.rotation.x = Math.PI / 2;
-  scene.add(ceiling);
-
-  const addWall = (x, y, z, ry) => {
-    const w = new THREE.Mesh(new THREE.PlaneGeometry(12, 3.4), wallMat);
-    w.position.set(x, y, z);
-    w.rotation.y = ry;
-    w.receiveShadow = true;
-    scene.add(w);
-  };
-  addWall(0, 1.7, -6, 0);
-  addWall(0, 1.7, 6, Math.PI);
-  addWall(-6, 1.7, 0, Math.PI / 2);
-  addWall(6, 1.7, 0, -Math.PI / 2);
-}
-
-function addLighting() {
-  scene.add(new THREE.HemisphereLight(0xfff3dc, 0x5c4837, 1.5));
-  const main = new THREE.DirectionalLight(0xfff2d8, 1.4);
-  main.position.set(2.5, 5, 3);
-  main.castShadow = true;
-  scene.add(main);
-  [[-3, 3.15, -2], [3, 3.15, -2], [0, 3.15, 2.5]].forEach(([x, y, z]) => {
-    const l = new THREE.PointLight(0xffe6bd, 2.4, 8);
-    l.position.set(x, y, z);
-    scene.add(l);
-  });
-}
-
 function createFallbackTexture(artist, color) {
-  const c = document.createElement("canvas");
-  c.width = 768;
-  c.height = 512;
+  const c = document.createElement("canvas"); c.width = 768; c.height = 512;
   const ctx = c.getContext("2d");
-  ctx.fillStyle = color;
-  ctx.fillRect(0, 0, c.width, c.height);
-  ctx.fillStyle = "rgba(255,255,255,0.18)";
-  ctx.fillRect(34, 34, c.width - 68, c.height - 68);
-  ctx.fillStyle = "#1f1711";
-  ctx.font = "700 48px Georgia, serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  const words = artist.name.split(" ");
-  let line = "";
-  const lines = [];
-  for (const w of words) {
-    const test = line ? `${line} ${w}` : w;
-    if (ctx.measureText(test).width > 620 && line) { lines.push(line); line = w; }
-    else line = test;
-  }
+  ctx.fillStyle = color; ctx.fillRect(0, 0, c.width, c.height);
+  ctx.fillStyle = "rgba(255,255,255,0.18)"; ctx.fillRect(34, 34, c.width - 68, c.height - 68);
+  ctx.fillStyle = "#1f1711"; ctx.font = "700 48px Georgia, serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  const words = artist.name.split(" "); let line = ""; const lines = [];
+  for (const w of words) { const t = line ? `${line} ${w}` : w; if (ctx.measureText(t).width > 620 && line) { lines.push(line); line = w; } else line = t; }
   lines.push(line);
-  const startY = c.height / 2 - 18 - ((lines.length - 1) * 56) / 2;
-  lines.forEach((l, i) => ctx.fillText(l, c.width / 2, startY + i * 56));
-  ctx.font = "28px Georgia, serif";
-  ctx.fillText(artist.years, c.width / 2, c.height / 2 + 82);
-  const texture = new THREE.CanvasTexture(c);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  return texture;
+  const sy = c.height / 2 - 18 - ((lines.length - 1) * 56) / 2;
+  lines.forEach((l, i) => ctx.fillText(l, c.width / 2, sy + i * 56));
+  ctx.font = "28px Georgia, serif"; ctx.fillText(artist.years, c.width / 2, c.height / 2 + 82);
+  const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
 }
 
 function addPainting(artist, transform, color) {
-  const group = new THREE.Group();
-  group.position.set(...transform.position);
-  group.rotation.y = transform.rotationY;
-
-  const frame = new THREE.Mesh(
-    new THREE.BoxGeometry(2.08, 1.48, 0.12),
-    new THREE.MeshStandardMaterial({ color: 0x3a2517, roughness: 0.55 })
-  );
-  frame.castShadow = true;
-  group.add(frame);
-
-  const artMat = new THREE.MeshStandardMaterial({
-    map: createFallbackTexture(artist, color),
-    roughness: 0.62,
-  });
-  const art = new THREE.Mesh(new THREE.PlaneGeometry(1.78, 1.18), artMat);
-  art.position.z = 0.071;
-  art.userData.artist = artist;
-  paintings.push(art);
-  group.add(art);
-
-  const loader = new THREE.TextureLoader();
-  loader.setCrossOrigin("anonymous");
-  loader.load(artist.imageUrl, (tex) => {
-    tex.colorSpace = THREE.SRGBColorSpace;
-    artMat.map = tex;
-    artMat.needsUpdate = true;
-  }, undefined, () => { artMat.needsUpdate = true; });
-
-  scene.add(group);
+  const g = new THREE.Group();
+  g.position.set(...transform.position); g.rotation.y = transform.rotationY;
+  const f = new THREE.Mesh(new THREE.BoxGeometry(2.08, 1.48, 0.12), new THREE.MeshStandardMaterial({ color: 0x3a2517, roughness: 0.55 }));
+  f.castShadow = true; g.add(f);
+  const am = new THREE.MeshStandardMaterial({ map: createFallbackTexture(artist, color), roughness: 0.62 });
+  const a = new THREE.Mesh(new THREE.PlaneGeometry(1.78, 1.18), am);
+  a.position.z = 0.071; a.userData.artist = artist; paintings.push(a); g.add(a);
+  const ld = new THREE.TextureLoader(); ld.setCrossOrigin("anonymous");
+  ld.load(artist.imageUrl, tex => { tex.colorSpace = THREE.SRGBColorSpace; am.map = tex; am.needsUpdate = true; }, undefined, () => { am.needsUpdate = true; });
+  scene.add(g);
 }
 
 function placePaintings(artists) {
-  const display = artists.slice(0, 8);
-  const placements = [
-    { position: [-3.6, 1.75, -5.92], rotationY: 0 },
-    { position: [0, 1.75, -5.92], rotationY: 0 },
-    { position: [3.6, 1.75, -5.92], rotationY: 0 },
-    { position: [-5.92, 1.75, -2.5], rotationY: Math.PI / 2 },
-    { position: [-5.92, 1.75, 1.5], rotationY: Math.PI / 2 },
-    { position: [5.92, 1.75, -2.5], rotationY: -Math.PI / 2 },
-    { position: [5.92, 1.75, 1.5], rotationY: -Math.PI / 2 },
-    { position: [0, 1.75, 5.92], rotationY: Math.PI },
+  const d = artists.slice(0, 8);
+  const p = [
+    { position: [-3.6, 1.75, -5.92], rotationY: 0 }, { position: [0, 1.75, -5.92], rotationY: 0 },
+    { position: [3.6, 1.75, -5.92], rotationY: 0 }, { position: [-5.92, 1.75, -2.5], rotationY: Math.PI / 2 },
+    { position: [-5.92, 1.75, 1.5], rotationY: Math.PI / 2 }, { position: [5.92, 1.75, -2.5], rotationY: -Math.PI / 2 },
+    { position: [5.92, 1.75, 1.5], rotationY: -Math.PI / 2 }, { position: [0, 1.75, 5.92], rotationY: Math.PI },
   ];
-  const colors = ["#b98b5d", "#9f6f60", "#c2a15b", "#9aa56b", "#7d8b9b", "#b57a6a", "#8b9a6b", "#a08b7b"];
-  display.forEach((artist, i) => {
-    if (placements[i]) addPainting(artist, placements[i], colors[i % colors.length]);
-  });
+  const clrs = ["#b98b5d", "#9f6f60", "#c2a15b", "#9aa56b", "#7d8b9b", "#b57a6a", "#8b9a6b", "#a08b7b"];
+  d.forEach((a, i) => { if (p[i]) addPainting(a, p[i], clrs[i % clrs.length]); });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  MUSEUM CONTROLS
 // ═══════════════════════════════════════════════════════════════════════════════
-function isClickModeActive() {
-  return [...clickModeKeys].some((code) => keys.has(code));
-}
-
-function releasePointerLockForClickMode() {
-  if (document.pointerLockElement === canvas) document.exitPointerLock?.();
-}
-
+function isClickModeActive() { return [...clickModeKeys].some(c => keys.has(c)); }
+function releasePointerLock() { if (document.pointerLockElement === canvas) document.exitPointerLock?.(); }
 function updateCameraRotation() {
   pitch = Math.max(-1.25, Math.min(1.25, pitch));
-  camera.rotation.order = "YXZ";
-  camera.rotation.y = yaw;
-  camera.rotation.x = pitch;
+  camera.rotation.order = "YXZ"; camera.rotation.y = yaw; camera.rotation.x = pitch;
 }
-
 function moveCamera(delta) {
-  const speed = 3.2 * delta;
-  const forward = new THREE.Vector3();
-  camera.getWorldDirection(forward);
-  forward.y = 0;
-  forward.normalize();
-  const right = new THREE.Vector3().crossVectors(forward, camera.up).normalize();
-  const movement = new THREE.Vector3();
-  if (keys.has("KeyW")) movement.add(forward);
-  if (keys.has("KeyS")) movement.sub(forward);
-  if (keys.has("KeyD")) movement.add(right);
-  if (keys.has("KeyA")) movement.sub(right);
-  if (movement.lengthSq() > 0) {
-    movement.normalize().multiplyScalar(speed);
-    camera.position.add(movement);
-    camera.position.x = THREE.MathUtils.clamp(camera.position.x, -5.25, 5.25);
-    camera.position.z = THREE.MathUtils.clamp(camera.position.z, -5.25, 5.25);
-  }
+  const s = 3.2 * delta;
+  const fwd = new THREE.Vector3(); camera.getWorldDirection(fwd); fwd.y = 0; fwd.normalize();
+  const rgt = new THREE.Vector3().crossVectors(fwd, camera.up).normalize();
+  const mv = new THREE.Vector3();
+  if (keys.has("KeyW")) mv.add(fwd); if (keys.has("KeyS")) mv.sub(fwd);
+  if (keys.has("KeyD")) mv.add(rgt); if (keys.has("KeyA")) mv.sub(rgt);
+  if (mv.lengthSq() > 0) { mv.normalize().multiplyScalar(s); camera.position.add(mv); camera.position.x = THREE.MathUtils.clamp(camera.position.x, -5.25, 5.25); camera.position.z = THREE.MathUtils.clamp(camera.position.z, -5.25, 5.25); }
 }
-
 function resizeRenderer() {
-  const w = canvas.clientWidth;
-  const h = canvas.clientHeight;
-  if (canvas.width !== w || canvas.height !== h) {
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.width !== w || canvas.height !== h) { renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
 }
-
-function onCanvasClick(event) {
-  const rect = canvas.getBoundingClientRect();
-  pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-  pointer.y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
+function onCanvasClick(e) {
+  const r = canvas.getBoundingClientRect();
+  pointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+  pointer.y = -(((e.clientY - r.top) / r.height) * 2 - 1);
   raycaster.setFromCamera(pointer, camera);
   const hit = raycaster.intersectObjects(paintings, false)[0];
-  if (hit?.object.userData.artist) {
-    showArtistInPanel(hit.object.userData.artist);
-  } else if (!document.pointerLockElement && !isClickModeActive()) {
-    canvas.requestPointerLock?.();
-  }
+  if (hit?.object.userData.artist) showArtistInPanel(hit.object.userData.artist);
+  else if (!document.pointerLockElement && !isClickModeActive()) canvas.requestPointerLock?.();
 }
-
 function bindMuseumControls() {
-  const newCanvas = canvas.cloneNode(true);
-  canvas.parentNode.replaceChild(newCanvas, canvas);
+  const nc = canvas.cloneNode(true); canvas.parentNode.replaceChild(nc, canvas);
   const mc = document.querySelector("#museum-canvas");
-
   mc.addEventListener("click", onCanvasClick);
-
-  mc.addEventListener("pointerdown", (e) => {
-    if (isClickModeActive()) { releasePointerLockForClickMode(); return; }
-    isDragging = true;
-    lastPointer = { x: e.clientX, y: e.clientY };
-  });
-
+  mc.addEventListener("pointerdown", e => { if (isClickModeActive()) { releasePointerLock(); return; } isDragging = true; lastPointer = { x: e.clientX, y: e.clientY }; });
   window.addEventListener("pointerup", () => { isDragging = false; });
-
-  window.addEventListener("pointermove", (e) => {
+  window.addEventListener("pointermove", e => {
     const locked = document.pointerLockElement === mc;
     if (!isDragging && !locked) return;
     const mx = locked ? e.movementX : e.clientX - lastPointer.x;
     const my = locked ? e.movementY : e.clientY - lastPointer.y;
-    yaw -= mx * 0.0026;
-    pitch -= my * 0.0026;
-    lastPointer = { x: e.clientX, y: e.clientY };
-    updateCameraRotation();
+    yaw -= mx * 0.0026; pitch -= my * 0.0026;
+    lastPointer = { x: e.clientX, y: e.clientY }; updateCameraRotation();
   });
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-//  ANIMATION LOOP
-// ═══════════════════════════════════════════════════════════════════════════════
 let animFrameId = null;
-
 function animateMuseum() {
   if (animFrameId) cancelAnimationFrame(animFrameId);
   let prev = performance.now();
   function frame(now) {
     if (!isInMuseum) return;
-    const delta = Math.min((now - prev) / 1000, 0.05);
-    prev = now;
-    resizeRenderer();
-    moveCamera(delta);
-    renderer.render(scene, camera);
+    const d = Math.min((now - prev) / 1000, 0.05); prev = now;
+    resizeRenderer(); moveCamera(d); renderer.render(scene, camera);
     animFrameId = requestAnimationFrame(frame);
   }
   animFrameId = requestAnimationFrame(frame);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  GLOBAL INPUT HANDLERS
+//  GLOBAL CONTROLS
 // ═══════════════════════════════════════════════════════════════════════════════
 function bindGlobalControls() {
-  window.addEventListener("keydown", (e) => {
+  window.addEventListener("keydown", e => {
     keys.add(e.code);
-    if (clickModeKeys.has(e.code)) {
-      e.preventDefault();
-      releasePointerLockForClickMode();
-    }
+    if (clickModeKeys.has(e.code)) { e.preventDefault(); releasePointerLock(); }
   });
-  window.addEventListener("keyup", (e) => keys.delete(e.code));
-
+  window.addEventListener("keyup", e => keys.delete(e.code));
   window.addEventListener("resize", () => {
     if (isInMuseum && renderer) resizeRenderer();
-    else resizeTimelineCanvas();
+    else resizeStarfield();
   });
-
   closePanel.addEventListener("click", () => { panel.hidden = true; });
   closeEpochDetailBtn.addEventListener("click", () => { epochDetail.hidden = true; });
   enterMuseumBtn.addEventListener("click", () => enterMuseum());
@@ -1019,20 +619,19 @@ function bindGlobalControls() {
 async function init() {
   try {
     allArtists = await loadArtists();
-    initTimelineCanvas();
+    initStarfield();
+    buildTimeline();
     bindTimelineControls();
+    animateTimeline();
     initSearch();
     initFilters();
     initSurprise();
     bindGlobalControls();
-
     museumView.hidden = true;
     timelineOverlay.hidden = false;
-  } catch (error) {
-    console.error(error);
-    document.querySelector(".timeline-header p").textContent =
-      "The museum could not start. Run it from a local HTTP server so the JSON data can load.";
+  } catch (err) {
+    console.error(err);
+    document.querySelector(".timeline-header p").textContent = "The museum could not start. Run it from a local HTTP server so the JSON data can load.";
   }
 }
-
 init();

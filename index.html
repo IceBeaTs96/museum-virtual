@@ -39,13 +39,22 @@
         <div class="search-results-grid" id="search-results-grid"></div>
       </div>
 
-      <!-- Galaxy Timeline Canvas -->
-      <div class="timeline-canvas-wrapper" id="timeline-canvas-wrapper">
-        <canvas id="timeline-canvas" aria-label="Interactive galaxy timeline of art history"></canvas>
+      <!-- Galaxy Timeline -->
+      <div class="timeline-stage" id="timeline-stage">
+        <!-- Starfield canvas (background only) -->
+        <canvas id="starfield-canvas" aria-hidden="true"></canvas>
+
+        <!-- Interactive timeline layer (HTML elements) -->
+        <div class="timeline-viewport" id="timeline-viewport">
+          <div class="timeline-world" id="timeline-world">
+            <!-- Epoch markers injected by JS -->
+          </div>
+        </div>
+
         <div class="timeline-hint">🖱️ Scroll to zoom · Drag to pan · Click an epoch to explore</div>
       </div>
 
-      <!-- Epoch detail panel (appears on click) -->
+      <!-- Epoch detail panel -->
       <div id="epoch-detail" class="epoch-detail" hidden>
         <button id="close-epoch-detail" class="icon-button" type="button" aria-label="Close epoch detail">×</button>
         <div class="epoch-detail-header">

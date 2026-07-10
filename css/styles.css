@@ -7,14 +7,6 @@
   --panel: rgba(250, 247, 240, 0.96);
   --shadow: rgba(18, 13, 9, 0.28);
   --timeline-bg: #0a0a14;
-  --timeline-line: #4a3f35;
-  --epoch-gold: #c9a96e;
-  --epoch-brown: #8b4513;
-  --epoch-green: #4a7c59;
-  --epoch-purple: #6b5b95;
-  --epoch-red: #d4574a;
-  --cosmic-blue: #3b82f6;
-  --cosmic-teal: #14b8a6;
 }
 
 * {
@@ -151,7 +143,7 @@ body {
   border-radius: 8px;
   background: rgba(201, 169, 110, 0.08);
   backdrop-filter: blur(4px);
-  color: var(--epoch-gold);
+  color: #c9a96e;
   font-size: 0.85rem;
   font-weight: 600;
   font-family: inherit;
@@ -162,33 +154,155 @@ body {
 
 .surprise-button:hover {
   background: rgba(201, 169, 110, 0.18);
-  border-color: var(--epoch-gold);
+  border-color: #c9a96e;
   transform: translateY(-1px);
   box-shadow: 0 0 16px rgba(201, 169, 110, 0.2);
 }
 
-/* ── Galaxy Timeline Canvas ────────────────────────── */
+/* ── Galaxy Timeline Stage ────────────────────────── */
 
-.timeline-canvas-wrapper {
+.timeline-stage {
   flex: 1;
   width: 100%;
   position: relative;
-  cursor: grab;
+  overflow: hidden;
   z-index: 1;
 }
 
-.timeline-canvas-wrapper:active {
-  cursor: grabbing;
-}
-
-.timeline-canvas-wrapper.grabbing {
-  cursor: grabbing;
-}
-
-#timeline-canvas {
-  display: block;
+#starfield-canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  pointer-events: none;
+}
+
+.timeline-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.timeline-viewport:active {
+  cursor: grabbing;
+}
+
+.timeline-viewport.grabbing {
+  cursor: grabbing;
+}
+
+.timeline-world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+/* ── Epoch Marker (HTML element) ──────────────────── */
+
+.epoch-marker {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease;
+}
+
+.epoch-marker:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.epoch-marker .epoch-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: relative;
+  transition: width 0.2s ease, height 0.2s ease;
+}
+
+.epoch-marker:hover .epoch-dot {
+  width: 28px;
+  height: 28px;
+}
+
+.epoch-marker .epoch-dot::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.3;
+  filter: blur(6px);
+  transition: inset 0.2s ease, opacity 0.2s ease;
+}
+
+.epoch-marker:hover .epoch-dot::before {
+  inset: -14px;
+  opacity: 0.5;
+}
+
+.epoch-marker .epoch-dot::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 25%;
+  width: 50%;
+  height: 40%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.epoch-marker .epoch-label {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(220, 210, 240, 0.85);
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+  transition: color 0.2s ease;
+}
+
+.epoch-marker:hover .epoch-label {
+  color: #fff;
+}
+
+.epoch-marker .epoch-years {
+  font-size: 0.65rem;
+  color: rgba(180, 160, 210, 0.6);
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.epoch-marker .epoch-count {
+  font-size: 0.6rem;
+  color: rgba(160, 140, 200, 0.4);
+  white-space: nowrap;
+  margin-top: 1px;
+}
+
+/* ── Timeline Axis ────────────────────────────────── */
+
+.timeline-axis {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(100, 80, 180, 0.05) 0%,
+    rgba(140, 120, 220, 0.35) 20%,
+    rgba(180, 160, 240, 0.55) 50%,
+    rgba(140, 120, 220, 0.35) 80%,
+    rgba(100, 80, 180, 0.05) 100%
+  );
+  box-shadow: 0 0 12px rgba(160, 140, 220, 0.15);
 }
 
 .timeline-hint {
