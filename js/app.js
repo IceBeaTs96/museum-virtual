@@ -30,7 +30,7 @@ const timelineWorld = document.querySelector("#timeline-world");
 const timelineViewport = document.querySelector("#timeline-viewport");
 const starfieldCanvas = document.querySelector("#starfield-canvas");
 
-const canvas = document.querySelector("#museum-canvas");
+let canvas = document.querySelector("#museum-canvas");
 const panel = document.querySelector("#info-panel");
 const closePanel = document.querySelector("#close-panel");
 const artistName = document.querySelector("#artist-name");
@@ -409,17 +409,27 @@ function exitMuseum() {
 //  3D MUSEUM SCENE
 // ═══════════════════════════════════════════════════════════════════════════════
 function initMuseumScene() {
-  console.log("initMuseumScene: starting, canvas size:", canvas.clientWidth, "x", canvas.clientHeight);
+  console.log("initMuseumScene: starting");
   if (renderer) renderer.dispose();
   paintings = [];
 
-  // Force canvas to have dimensions
-  canvas.style.width = "100vw";
-  canvas.style.height = "100vh";
+  // Remove old canvas, create fresh one with proper dimensions
+  const oldCanvas = museumView.querySelector("canvas");
+  if (oldCanvas) oldCanvas.remove();
 
-  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  const newCanvas = document.createElement("canvas");
+  newCanvas.id = "museum-canvas";
+  newCanvas.style.cssText = "display:block;width:100vw;height:100vh;cursor:crosshair";
+  museumView.appendChild(newCanvas);
+
+  // Update the global canvas ref for all other functions
+  canvas = newCanvas;
+
+  console.log("initMuseumScene: canvas size:", newCanvas.clientWidth, "x", newCanvas.clientHeight);
+
+  renderer = new THREE.WebGLRenderer({ canvas: newCanvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+  renderer.setSize(newCanvas.clientWidth, newCanvas.clientHeight, false);
   renderer.shadowMap.enabled = true;
   console.log("initMuseumScene: renderer created, size:", renderer.domElement.width, "x", renderer.domElement.height);
   scene = new THREE.Scene();

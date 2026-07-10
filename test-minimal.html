@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Three.js Minimal Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+    #status { position: fixed; top: 10px; left: 10px; color: #0f0; font: 14px monospace; z-index: 10; background: rgba(0,0,0,0.7); padding: 8px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div id="status">Loading Three.js...</div>
+  <canvas id="c"></canvas>
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js" } }
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+
+    const status = document.getElementById("status");
+    const canvas = document.getElementById("c");
+
+    function log(msg) {
+      status.textContent = msg;
+      console.log(msg);
+    }
+
+    try {
+      log("Creating renderer...");
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+      log(`Renderer: ${renderer.domElement.width}x${renderer.domElement.height}`);
+
+      log("Creating scene...");
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x1a1510);
+
+      log("Creating camera...");
+      const camera = new THREE.PerspectiveCamera(70, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+      camera.position.set(0, 1.6, 5);
+
+      log("Adding lights...");
+      scene.add(new THREE.AmbientLight(0x404040, 2));
+      const light = new THREE.DirectionalLight(0xffffff, 2);
+      light.position.set(2, 5, 3);
+      scene.add(light);
+
+      log("Adding cube...");
+      const geo = new THREE.BoxGeometry(1, 1, 1);
+      const mat = new THREE.MeshStandardMaterial({ color: 0xc9a96e });
+      const cube = new THREE.Mesh(geo, mat);
+      scene.add(cube);
+
+      log("Starting render loop...");
+      let frames = 0;
+      function animate() {
+        frames++;
+        cube.rotation.y += 0.01;
+        renderer.render(scene, camera);
+        if (frames === 1) log(`Frame 1 rendered OK (${renderer.domElement.width}x${renderer.domElement.height})`);
+        if (frames === 60) log(`Frame 60 — still running. Canvas visible: ${canvas.clientWidth}x${canvas.clientHeight}`);
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+
+      window.addEventListener("resize", () => {
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+        log(`Resized: ${canvas.clientWidth}x${canvas.clientHeight}`);
+      });
+
+    } catch (err) {
+      log("ERROR: " + err.message);
+      console.error(err);
+    }
+  </script>
+</body>
+</html>
