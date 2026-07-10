@@ -52,12 +52,12 @@ let isDragging = false;
 let lastPointer = { x: 0, y: 0 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  TIMELINE STATE (HTML-based, CSS transform)
+//  TIMELINE STATE
 // ═══════════════════════════════════════════════════════════════════════════════
 const TIMELINE_START = 1200;
 const TIMELINE_END = 2025;
 const TIMELINE_SPAN = TIMELINE_END - TIMELINE_START;
-const WORLD_WIDTH = 8000; // virtual width in px at zoom=1
+const WORLD_WIDTH = 8000;
 
 let viewZoom = 1;
 let viewPanX = 0;
@@ -66,7 +66,6 @@ let targetPanX = 0;
 const MIN_ZOOM = 0.4;
 const MAX_ZOOM = 10;
 
-// Epoch definitions
 const epochDefs = [
   { id: "Vorreformatorisch", name: "Proto-Renaissance", start: 1200, end: 1400, color: "#8b7355", glow: "#c4a87c" },
   { id: "Renaissance", name: "Renaissance", start: 1400, end: 1600, color: "#c9a96e", glow: "#f0d68a" },
@@ -79,7 +78,7 @@ const epochDefs = [
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  DATA LOADING
+//  DATA
 // ═══════════════════════════════════════════════════════════════════════════════
 async function loadArtists() {
   const r = await fetch("data/artists.json");
@@ -87,9 +86,6 @@ async function loadArtists() {
   return r.json();
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-//  EPOCH DISPLAY NAMES
-// ═══════════════════════════════════════════════════════════════════════════════
 const epochDisplayNames = {
   Vorreformatorisch: "Proto-Renaissance", Renaissance: "Renaissance", Barock: "Baroque",
   Romantik: "Romanticism", Impressionismus: "Impressionism", Moderne: "Modern",
@@ -98,7 +94,7 @@ const epochDisplayNames = {
 function getDisplayName(e) { return epochDisplayNames[e] || e; }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  STARFIELD CANVAS (background only)
+//  STARFIELD CANVAS
 // ═══════════════════════════════════════════════════════════════════════════════
 let sctx, stars = [], nebulae = [], particles = [];
 
@@ -140,11 +136,9 @@ function drawStarfield(ts = 0) {
   const w = starfieldCanvas.width / (window.devicePixelRatio || 1);
   const h = starfieldCanvas.height / (window.devicePixelRatio || 1);
   sctx.clearRect(0, 0, w, h);
-
   const bg = sctx.createRadialGradient(w * 0.5, h * 0.4, 0, w * 0.5, h * 0.5, Math.max(w, h) * 0.8);
   bg.addColorStop(0, "#0d0b1a"); bg.addColorStop(0.5, "#080614"); bg.addColorStop(1, "#020108");
   sctx.fillStyle = bg; sctx.fillRect(0, 0, w, h);
-
   nebulae.forEach(n => {
     const nx = n.x * w, ny = n.y * h, nrx = n.rx * w, nry = n.ry * h;
     const g = sctx.createRadialGradient(nx, ny, 0, nx, ny, Math.max(nrx, nry));
@@ -156,14 +150,12 @@ function drawStarfield(ts = 0) {
     sctx.fillStyle = g; sctx.beginPath(); sctx.arc(0, 0, nrx, 0, Math.PI * 2); sctx.fill();
     sctx.restore();
   });
-
   const t = ts * 0.001;
   stars.forEach(s => {
     const tw = 0.5 + 0.5 * Math.sin(t * s.speed * 60 + s.offset);
     sctx.fillStyle = `rgba(220,210,255,${s.brightness * 0.6 + tw * 0.4})`;
     sctx.beginPath(); sctx.arc(s.x * w, s.y * h, s.r, 0, Math.PI * 2); sctx.fill();
   });
-
   particles.forEach(p => {
     p.x += p.vx; p.y += p.vy;
     if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
@@ -171,12 +163,11 @@ function drawStarfield(ts = 0) {
     sctx.fillStyle = `rgba(180,160,220,${p.opacity})`;
     sctx.beginPath(); sctx.arc(p.x * w, p.y * h, p.r, 0, Math.PI * 2); sctx.fill();
   });
-
   requestAnimationFrame(drawStarfield);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  HTML TIMELINE — BUILD EPOCH MARKERS
+//  HTML TIMELINE
 // ═══════════════════════════════════════════════════════════════════════════════
 function yearToWorldX(year) {
   return ((year - TIMELINE_START) / TIMELINE_SPAN) * WORLD_WIDTH;
@@ -184,15 +175,12 @@ function yearToWorldX(year) {
 
 function buildTimeline() {
   timelineWorld.innerHTML = "";
-
-  // Axis line
   const axis = document.createElement("div");
   axis.className = "timeline-axis";
   axis.style.top = "55%";
   axis.style.width = WORLD_WIDTH + "px";
   timelineWorld.appendChild(axis);
 
-  // Epoch markers
   epochDefs.forEach(epoch => {
     const centerX = yearToWorldX((epoch.start + epoch.end) / 2);
     const count = allArtists.filter(a => a.epoch === epoch.id).length;
@@ -241,15 +229,14 @@ function applyTimelineTransform() {
   const vpW = timelineViewport.clientWidth;
   const vpH = timelineViewport.clientHeight;
   const scale = viewZoom;
-  // Center the viewport on panX
   const tx = -viewPanX * scale + vpW / 2;
-  const ty = vpH * 0.05; // small top margin
+  const ty = vpH * 0.05;
   timelineWorld.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
   timelineWorld.style.transformOrigin = "0 0";
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-//  TIMELINE INTERACTION (zoom + pan on viewport)
+//  TIMELINE INTERACTION
 // ═══════════════════════════════════════════════════════════════════════════════
 let isPanningTL = false;
 let panStartTL = { x: 0, panX: 0 };
@@ -260,17 +247,13 @@ function bindTimelineControls() {
     const rect = timelineViewport.getBoundingClientRect();
     const mouseVPX = e.clientX - rect.left;
     const vpW = rect.width;
-
-    // World position under mouse
     const worldX = (mouseVPX - vpW / 2) / viewZoom + viewPanX;
-
     const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
     targetZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, targetZoom * factor));
     targetPanX = worldX - (mouseVPX - vpW / 2) / targetZoom;
   }, { passive: false });
 
   timelineViewport.addEventListener("pointerdown", e => {
-    // Only start panning if clicking on the viewport background, not a child marker
     if (e.target.closest(".epoch-marker")) return;
     isPanningTL = true;
     panStartTL = { x: e.clientX, panX: viewPanX };
@@ -285,7 +268,6 @@ function bindTimelineControls() {
 
   window.addEventListener("pointerup", () => { isPanningTL = false; });
 
-  // Touch pinch
   let pinchStart = 0, pinchStartZoom = 1;
   timelineViewport.addEventListener("touchstart", e => {
     if (e.touches.length === 2) {
@@ -301,29 +283,17 @@ function bindTimelineControls() {
   }, { passive: true });
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-//  TIMELINE ANIMATION LOOP (smooth zoom/pan)
-// ═══════════════════════════════════════════════════════════════════════════════
 function animateTimeline() {
   if (isInMuseum) { requestAnimationFrame(animateTimeline); return; }
   const lerp = 0.1;
   viewZoom += (targetZoom - viewZoom) * lerp;
   viewPanX += (targetPanX - viewPanX) * lerp;
   applyTimelineTransform();
-
-  // Update hint visibility
   const moved = Math.abs(viewZoom - 1) > 0.01 || Math.abs(viewPanX) > 1;
   timelineHint.style.opacity = moved ? "0.25" : "1";
-
-  // Update filter visibility
   document.querySelectorAll(".epoch-marker").forEach(m => {
-    if (activeFilter === "all" || m.dataset.epoch === activeFilter) {
-      m.style.display = "";
-    } else {
-      m.style.display = "none";
-    }
+    m.style.display = (activeFilter === "all" || m.dataset.epoch === activeFilter) ? "" : "none";
   });
-
   requestAnimationFrame(animateTimeline);
 }
 
@@ -381,7 +351,7 @@ function initFilters() {
   });
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════════════════
 //  SURPRISE ME
 // ═══════════════════════════════════════════════════════════════════════════════
 function initSurprise() {
@@ -397,19 +367,36 @@ function initSurprise() {
 //  SCENE TRANSITIONS
 // ═══════════════════════════════════════════════════════════════════════════════
 function enterMuseum() {
+  if (isInMuseum) return;
   if (!currentEpoch) {
-    // Fallback: pick first epoch
     currentEpoch = epochDefs[0].id;
     currentEpochArtists = allArtists.filter(a => a.epoch === currentEpoch);
   }
   isInMuseum = true;
+
+  // Loading overlay
+  const loading = document.createElement("div");
+  loading.id = "museum-loading";
+  loading.innerHTML = `<div class="loading-spinner"></div><p>Entering ${getDisplayName(currentEpoch)} Hall…</p>`;
+  loading.style.cssText = "position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(5,3,10,0.95);color:#c4b5fd;font-family:Inter,sans-serif;font-size:1.1rem;gap:16px";
+  document.body.appendChild(loading);
+
   const anim = timelineOverlay.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 400, easing: "ease-out" });
   anim.onfinish = () => {
     timelineOverlay.hidden = true;
     timelineOverlay.style.opacity = "";
     museumView.hidden = false;
     hudTitle.textContent = `${getDisplayName(currentEpoch)} Hall`;
-    initMuseumScene();
+
+    requestAnimationFrame(() => {
+      try {
+        initMuseumScene();
+      } catch (err) {
+        console.error("Museum init failed:", err);
+        exitMuseum();
+      }
+      loading.remove();
+    });
   };
 }
 
@@ -422,7 +409,7 @@ function exitMuseum() {
   panel.hidden = true;
   timelineOverlay.hidden = false;
   timelineOverlay.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing: "ease-out" });
-  // Reset starfield canvas size and restart
+  unbindMuseumControls();
   if (sctx) { resizeStarfield(); requestAnimationFrame(drawStarfield); }
 }
 
@@ -553,15 +540,13 @@ function onCanvasClick(e) {
   if (hit?.object.userData.artist) showArtistInPanel(hit.object.userData.artist);
   else if (!document.pointerLockElement && !isClickModeActive()) canvas.requestPointerLock?.();
 }
-let museumListenersBound = false;
-function bindMuseumControls() {
-  if (museumListenersBound) return; // Don't double-bind or clone
-  museumListenersBound = true;
 
-  canvas.addEventListener("click", onCanvasClick);
-  canvas.addEventListener("pointerdown", e => { if (isClickModeActive()) { releasePointerLock(); return; } isDragging = true; lastPointer = { x: e.clientX, y: e.clientY }; });
-  window.addEventListener("pointerup", onPointerUp);
-  window.addEventListener("pointermove", onPointerMove);
+let museumListenersBound = false;
+
+function onMuseumPointerDown(e) {
+  if (isClickModeActive()) { releasePointerLock(); return; }
+  isDragging = true;
+  lastPointer = { x: e.clientX, y: e.clientY };
 }
 
 function onPointerUp() { isDragging = false; }
@@ -573,6 +558,23 @@ function onPointerMove(e) {
   const my = locked ? e.movementY : e.clientY - lastPointer.y;
   yaw -= mx * 0.0026; pitch -= my * 0.0026;
   lastPointer = { x: e.clientX, y: e.clientY }; updateCameraRotation();
+}
+
+function bindMuseumControls() {
+  if (museumListenersBound) return;
+  museumListenersBound = true;
+  canvas.addEventListener("click", onCanvasClick);
+  canvas.addEventListener("pointerdown", onMuseumPointerDown);
+  window.addEventListener("pointerup", onPointerUp);
+  window.addEventListener("pointermove", onPointerMove);
+}
+
+function unbindMuseumControls() {
+  museumListenersBound = false;
+  canvas.removeEventListener("click", onCanvasClick);
+  canvas.removeEventListener("pointerdown", onMuseumPointerDown);
+  window.removeEventListener("pointerup", onPointerUp);
+  window.removeEventListener("pointermove", onPointerMove);
 }
 
 let animFrameId = null;
