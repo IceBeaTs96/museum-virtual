@@ -16,6 +16,8 @@ const epochDetail = document.querySelector("#epoch-detail");
 const epochDetailName = document.querySelector("#epoch-detail-name");
 const epochDetailRange = document.querySelector("#epoch-detail-range");
 const epochArtistsGrid = document.querySelector("#epoch-artists-grid");
+const closeEpochDetailBtn = document.querySelector("#close-epoch-detail");
+const enterMuseumBtn = document.querySelector("#enter-museum-btn");
 const backToTimelineBtn = document.querySelector("#back-to-timeline");
 const hudTitle = document.querySelector("#hud-title");
 const searchInput = document.querySelector("#artist-search");
@@ -214,9 +216,7 @@ function buildTimeline() {
 
     marker.addEventListener("click", (e) => {
       e.stopPropagation();
-      currentEpoch = epoch.id;
-      currentEpochArtists = allArtists.filter(a => a.epoch === epoch.id);
-      enterMuseum();
+      showEpochDetail(epoch.id);
     });
 
     timelineWorld.appendChild(marker);
@@ -357,10 +357,43 @@ function initFilters() {
 function initSurprise() {
   surpriseBtn.addEventListener("click", () => {
     const ra = allArtists[Math.floor(Math.random() * allArtists.length)];
-    currentEpoch = ra.epoch;
-    currentEpochArtists = allArtists.filter(a => a.epoch === ra.epoch);
-    enterMuseum();
+    showEpochDetail(ra.epoch);
   });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  EPOCH DETAIL PANEL
+// ═══════════════════════════════════════════════════════════════════════════════
+function showEpochDetail(epochId) {
+  const epoch = epochDefs.find(e => e.id === epochId);
+  if (!epoch) return;
+  currentEpoch = epoch.id;
+  currentEpochArtists = allArtists.filter(a => a.epoch === epoch.id);
+
+  epochDetailName.textContent = epoch.name;
+  const n = currentEpochArtists.length;
+  epochDetailRange.textContent = `${epoch.start}–${epoch.end} · ${n} artist${n !== 1 ? "s" : ""}`;
+
+  epochArtistsGrid.innerHTML = "";
+  currentEpochArtists.forEach(a => {
+    const card = document.createElement("div");
+    card.className = "epoch-artist-card";
+    card.innerHTML = `<img class="artist-thumb" src="${a.imageUrl}" alt="${a.name}" loading="lazy" onerror="this.style.display='none'" /><span class="artist-name">${a.name}</span><span class="artist-years">${a.years}</span>`;
+    epochArtistsGrid.appendChild(card);
+  });
+
+  searchResults.hidden = true;
+  epochDetail.hidden = false;
+}
+
+function hideEpochDetail() {
+  epochDetail.hidden = true;
+}
+
+function initEpochDetail() {
+  enterMuseumBtn.addEventListener("click", () => { hideEpochDetail(); enterMuseum(); });
+  closeEpochDetailBtn.addEventListener("click", () => hideEpochDetail());
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !epochDetail.hidden) hideEpochDetail(); });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -577,6 +610,7 @@ async function init() {
     initSearch();
     initFilters();
     initSurprise();
+    initEpochDetail();
     bindGlobalControls();
     museumView.hidden = true;
     timelineOverlay.hidden = false;
