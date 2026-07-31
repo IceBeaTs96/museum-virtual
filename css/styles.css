@@ -571,6 +571,7 @@ body {
   color: #fff9ef;
   box-shadow: 0 18px 40px var(--shadow);
   backdrop-filter: blur(10px);
+  z-index: 2;
 }
 
 #hud strong,

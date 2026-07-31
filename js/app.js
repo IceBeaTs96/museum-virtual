@@ -516,16 +516,20 @@ function onPointerMove(e) {
 function bindMuseumControls() {
   if (museumListenersBound) return;
   museumListenersBound = true;
-  canvas.addEventListener("click", onCanvasClick);
-  canvas.addEventListener("pointerdown", onMuseumPointerDown);
+  if (canvas) {
+    canvas.addEventListener("click", onCanvasClick);
+    canvas.addEventListener("pointerdown", onMuseumPointerDown);
+  }
   window.addEventListener("pointerup", onPointerUp);
   window.addEventListener("pointermove", onPointerMove);
 }
 
 function unbindMuseumControls() {
   museumListenersBound = false;
-  canvas.removeEventListener("click", onCanvasClick);
-  canvas.removeEventListener("pointerdown", onMuseumPointerDown);
+  if (canvas) {
+    canvas.removeEventListener("click", onCanvasClick);
+    canvas.removeEventListener("pointerdown", onMuseumPointerDown);
+  }
   window.removeEventListener("pointerup", onPointerUp);
   window.removeEventListener("pointermove", onPointerMove);
 }
