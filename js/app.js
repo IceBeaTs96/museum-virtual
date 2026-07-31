@@ -317,7 +317,7 @@ function initSearch() {
         const c = document.createElement("div");
         c.className = "search-result-card";
         c.innerHTML = `<img class="artist-thumb" src="${a.imageUrl}" alt="${a.name}" loading="lazy" onerror="this.style.display='none'" /><span class="artist-name">${a.name}</span><span class="artist-meta">${a.years} · ${getDisplayName(a.epoch)}</span>`;
-        c.addEventListener("click", () => { searchResults.hidden = true; searchInput.value = ""; showArtistInPanel(a); });
+        c.addEventListener("click", () => { searchResults.hidden = true; searchInput.value = ""; showEpochDetail(a.epoch, a.id); });
         searchResultsGrid.appendChild(c);
       });
     }
@@ -364,7 +364,7 @@ function initSurprise() {
 // ═══════════════════════════════════════════════════════════════════════════════
 //  EPOCH DETAIL PANEL
 // ═══════════════════════════════════════════════════════════════════════════════
-function showEpochDetail(epochId) {
+function showEpochDetail(epochId, highlightArtistId = null) {
   const epoch = epochDefs.find(e => e.id === epochId);
   if (!epoch) return;
   currentEpoch = epoch.id;
@@ -375,15 +375,22 @@ function showEpochDetail(epochId) {
   epochDetailRange.textContent = `${epoch.start}–${epoch.end} · ${n} artist${n !== 1 ? "s" : ""}`;
 
   epochArtistsGrid.innerHTML = "";
+  let highlightCard = null;
   currentEpochArtists.forEach(a => {
     const card = document.createElement("div");
     card.className = "epoch-artist-card";
+    if (a.id) card.dataset.artistId = a.id;
     card.innerHTML = `<img class="artist-thumb" src="${a.imageUrl}" alt="${a.name}" loading="lazy" onerror="this.style.display='none'" /><span class="artist-name">${a.name}</span><span class="artist-years">${a.years}</span>`;
+    if (highlightArtistId && a.id === highlightArtistId) {
+      card.classList.add("is-highlighted");
+      highlightCard = card;
+    }
     epochArtistsGrid.appendChild(card);
   });
 
   searchResults.hidden = true;
   epochDetail.hidden = false;
+  if (highlightCard) highlightCard.scrollIntoView({ block: "nearest" });
 }
 
 function hideEpochDetail() {

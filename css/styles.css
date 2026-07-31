@@ -480,6 +480,12 @@ body {
   transform: translateY(-2px);
 }
 
+.epoch-artist-card.is-highlighted {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
 .epoch-artist-card .artist-thumb {
   width: 64px;
   height: 64px;
