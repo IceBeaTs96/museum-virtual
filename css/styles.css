@@ -618,6 +618,7 @@ body {
   background: var(--panel);
   color: var(--ink);
   box-shadow: 0 24px 80px var(--shadow);
+  z-index: 3;
 }
 
 .panel[hidden] {
