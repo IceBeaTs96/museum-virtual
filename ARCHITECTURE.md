@@ -4,19 +4,23 @@ Dieses Dokument beschreibt eine mögliche zukünftige Backend-Architektur für d
 
 ---
 
-## 1. Status heute: statisches MVP
+## 1. Status heute: statisches Frontend mit erweiterten Features
 
-Aktuell besteht das Museum aus reinem HTML, CSS und JavaScript:
+Aktuell besteht das Museum aus reinem HTML, CSS und JavaScript (kein Backend):
 
 | Komponente | Wo liegt sie |
 |------------|--------------|
 | 3D-Rendering und Interaktion | `js/app.js` |
 | Layout und Styling | `css/styles.css` |
-| Künstler- und Bilddaten | `data/artists.json` (statische JSON-Datei) |
-| Bildquellen | Externe Wikimedia-URLs |
+| Künstler-, Werk- und Relationsdaten | `data/artists.json` (statische JSON-Datei, 47 Künstler, 141+ Werke, 275 Relationen) |
+| Bildquellen | Externe Wikimedia-URLs (CORS-fähig) |
+| Audio-Guide | Web Speech API (TTS, clientseitig) |
+| Favoriten | `localStorage` (clientseitig) |
 | Hosting | GitHub Pages |
 
-Für einen Prototypen und einen ersten öffentlichen Eindruck reicht das. Sobald das Museum wachsen soll — mehr Räume, wechselnde Ausstellungen, eigene Inhalte, Nutzerfunktionen — wird ein Backend sinnvoll.
+**Umgesetzte Features (Stand 2026-08-16):** Timeline mit 8 Epochen, 3D-Räume mit Portalen, Werk-Karussell, Audio-Guide (TTS), Künstler-Relationen, Favoriten, Teilen/Deep-Link, Mehrsprachigkeit (EN/DE), Mobile-Touch-Steuerung, Suche (inkl. Werktitel).
+
+Für einen Prototypen und einen ersten öffentlichen Eindruck reicht das. Sobald das Museum wachsen soll — mehr Räume, wechselnde Ausstellungen, eigene Inhalte, serverseitige Nutzerfunktionen (Accounts, geteilte Favoriten) — wird ein Backend sinnvoll.
 
 ---
 
