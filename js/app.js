@@ -1198,6 +1198,18 @@ function onPointerMove(e) {
   lastPointer = { x: e.clientX, y: e.clientY }; updateCameraRotation();
 }
 
+// Visual feedback for pointer-lock state (helps users understand the controls)
+function updatePointerLockHint() {
+  const hint = document.querySelector("#hud-hint");
+  if (!hint) return;
+  const locked = document.pointerLockElement === canvas;
+  hint.textContent = locked
+    ? "🖱️ Mouse look active — move mouse to look around. Press Esc to release."
+    : "Click the room to look around. WASD moves, mouse drags/locks view, hold Shift or Space to click paintings.";
+}
+
+document.addEventListener("pointerlockchange", updatePointerLockHint);
+
 function bindMuseumControls() {
   if (museumListenersBound) return;
   museumListenersBound = true;
