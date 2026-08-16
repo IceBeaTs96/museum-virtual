@@ -43,7 +43,9 @@ const artistUrl = document.querySelector("#artist-url");
 
 // Three.js refs
 let renderer, scene, camera;
+let roomGroup, textureLoader;
 let paintings = [];
+let portals = [];
 const keys = new Set();
 const clickModeKeys = new Set(["ShiftLeft", "ShiftRight", "Space"]);
 const raycaster = new THREE.Raycaster();
@@ -52,6 +54,19 @@ let yaw = Math.PI;
 let pitch = 0;
 let isDragging = false;
 let lastPointer = { x: 0, y: 0 };
+let currentRoomIndex = 0;
+const roomBounds = { x: 5.25, z: 5.25 };
+
+const roomPalette = {
+  Vorreformatorisch: { bg: 0x1a1510, fog: 0x1a1510, wall: 0xf0e8d8, floor: 0x6b5540, accent: 0x8b7355 },
+  Renaissance: { bg: 0x15110d, fog: 0x15110d, wall: 0xf5f0e7, floor: 0x8a6b4b, accent: 0xc9a96e },
+  Barock: { bg: 0x1a1210, fog: 0x1a1210, wall: 0xe8ddd0, floor: 0x5c3a20, accent: 0x8b4513 },
+  Romantik: { bg: 0x0f1815, fog: 0x0f1815, wall: 0xe0e8e3, floor: 0x3d5a45, accent: 0x4a7c59 },
+  Impressionismus: { bg: 0x121318, fog: 0x121318, wall: 0xf0f0f8, floor: 0x6b6b8a, accent: 0x6b5b95 },
+  Moderne: { bg: 0x141414, fog: 0x141414, wall: 0xf5f5f5, floor: 0x2a2a2a, accent: 0xd4574a },
+  Zeitgenössisch: { bg: 0x0f1117, fog: 0x0f1117, wall: 0xfafafa, floor: 0x1e1e2e, accent: 0x3b82f6 },
+  "Asiatische Kunst": { bg: 0x1a1410, fog: 0x1a1410, wall: 0xf5ede0, floor: 0x5c4030, accent: 0xd4a574 },
+};
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  TIMELINE STATE
@@ -421,8 +436,22 @@ function enterMuseum() {
 
 function exitMuseum() {
   isInMuseum = false;
-  if (renderer) { renderer.dispose(); renderer = null; }
+  releasePointerLock();
+  if (animFrameId) {
+    cancelAnimationFrame(animFrameId);
+    animFrameId = null;
+  }
+  unbindMuseumControls();
+  disposeRoom();
+  if (renderer) {
+    renderer.dispose();
+    renderer.forceContextLoss?.();
+    renderer = null;
+  }
+  scene = null;
+  camera = null;
   paintings = [];
+  portals = [];
   // Remove any dynamically created elements
   const dynCanvas = museumView.querySelector("canvas");
   if (dynCanvas) dynCanvas.remove();
@@ -431,7 +460,6 @@ function exitMuseum() {
   museumView.hidden = true;
   panel.hidden = true;
   timelineOverlay.hidden = false;
-  unbindMuseumControls();
   if (sctx) { resizeStarfield(); requestAnimationFrame(drawStarfield); }
 }
 
@@ -439,20 +467,204 @@ function exitMuseum() {
 //  3D MUSEUM SCENE
 // ═══════════════════════════════════════════════════════════════════════════════
 function initMuseumScene() {
-  // Step 1: Simple placeholder to verify flow works
+  if (renderer) renderer.dispose();
+  disposeRoom();
+  paintings = [];
+  portals = [];
+
   const oldCanvas = museumView.querySelector("canvas");
   if (oldCanvas) oldCanvas.remove();
 
-  const div = document.createElement("div");
-  div.id = "museum-placeholder";
-  div.style.cssText = "position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;z-index:1";
-  div.innerHTML = `
-    <div style="width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 35% 30%, #fff, #c9a96e 40%, #8b6914);box-shadow:0 0 40px rgba(201,169,110,0.4)"></div>
-    <h2 style="color:#f5f0e7;font-family:Inter,sans-serif;margin:0">${getDisplayName(currentEpoch)} Hall</h2>
-    <p style="color:rgba(200,190,240,0.6);font-family:Inter,sans-serif;margin:0">${currentEpochArtists.length} artists · ${currentEpochArtists.map(a => a.name).join(", ")}</p>
-    <p style="color:rgba(200,190,240,0.3);font-family:Inter,sans-serif;margin:0;font-size:0.8rem">3D scene loading...</p>
-  `;
-  museumView.appendChild(div);
+  const newCanvas = document.createElement("canvas");
+  newCanvas.id = "museum-canvas";
+  newCanvas.style.cssText = "position:fixed;inset:0;display:block;cursor:crosshair;z-index:1";
+  newCanvas.width = window.innerWidth;
+  newCanvas.height = window.innerHeight;
+  museumView.appendChild(newCanvas);
+  canvas = newCanvas;
+
+  renderer = new THREE.WebGLRenderer({ canvas: newCanvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(newCanvas.clientWidth || window.innerWidth, newCanvas.clientHeight || window.innerHeight, false);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  scene = new THREE.Scene();
+  textureLoader = new THREE.TextureLoader();
+  textureLoader.setCrossOrigin("anonymous");
+
+  camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100);
+  camera.position.set(0, 1.65, 4.5);
+  yaw = 0;
+  pitch = 0;
+  updateCameraRotation();
+
+  currentRoomIndex = Math.max(0, epochDefs.findIndex(e => e.id === currentEpoch));
+  loadRoom(currentRoomIndex);
+  resizeRenderer();
+  bindMuseumControls();
+  animateMuseum();
+}
+
+function disposeMaterial(material) {
+  const materials = Array.isArray(material) ? material : [material];
+  materials.filter(Boolean).forEach(m => {
+    Object.values(m).forEach(v => {
+      if (v?.isTexture) v.dispose();
+    });
+    m.dispose?.();
+  });
+}
+
+function disposeRoom() {
+  if (!roomGroup) return;
+  roomGroup.traverse(obj => {
+    obj.geometry?.dispose?.();
+    if (obj.material) disposeMaterial(obj.material);
+  });
+  scene?.remove(roomGroup);
+  roomGroup = null;
+}
+
+function loadRoom(index, fromPortal = null) {
+  const boundedIndex = (index + epochDefs.length) % epochDefs.length;
+  currentRoomIndex = boundedIndex;
+  currentEpoch = epochDefs[boundedIndex].id;
+  currentEpochArtists = allArtists.filter(a => a.epoch === currentEpoch);
+  paintings = [];
+  portals = [];
+  panel.hidden = true;
+
+  disposeRoom();
+  roomGroup = new THREE.Group();
+  scene.add(roomGroup);
+
+  const palette = roomPalette[currentEpoch] || roomPalette.Renaissance;
+  scene.background = new THREE.Color(palette.bg);
+  scene.fog = new THREE.Fog(palette.fog, 13, 34);
+  buildRoomShell(palette);
+  addRoomLighting();
+  addRoomLabel(getDisplayName(currentEpoch), palette);
+  addNavigationPortals(palette);
+  placePaintings(currentEpochArtists);
+
+  hudTitle.textContent = `${getDisplayName(currentEpoch)} Hall`;
+  if (fromPortal === "next") {
+    camera.position.set(0, 1.65, 4.15);
+    yaw = 0;
+  } else if (fromPortal === "prev") {
+    camera.position.set(0, 1.65, -4.15);
+    yaw = Math.PI;
+  } else {
+    camera.position.set(0, 1.65, 4.5);
+    yaw = 0;
+  }
+  pitch = 0;
+  updateCameraRotation();
+}
+
+function buildRoomShell(palette) {
+  const wallMaterial = new THREE.MeshStandardMaterial({ color: palette.wall, roughness: 0.82 });
+  const floorMaterial = new THREE.MeshStandardMaterial({ color: palette.floor, roughness: 0.68 });
+  const ceilingMaterial = new THREE.MeshStandardMaterial({ color: 0xe8e1d5, roughness: 0.88 });
+
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), floorMaterial);
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  roomGroup.add(floor);
+
+  const plankMaterial = new THREE.LineBasicMaterial({ color: 0x2d2118, transparent: true, opacity: 0.22 });
+  for (let x = -5.5; x <= 5.5; x += 0.5) {
+    const points = [new THREE.Vector3(x, 0.012, -6), new THREE.Vector3(x, 0.012, 6)];
+    roomGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), plankMaterial));
+  }
+
+  const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), ceilingMaterial);
+  ceiling.position.y = 3.4;
+  ceiling.rotation.x = Math.PI / 2;
+  roomGroup.add(ceiling);
+
+  [[0, 1.7, -6, 0], [0, 1.7, 6, Math.PI], [-6, 1.7, 0, Math.PI / 2], [6, 1.7, 0, -Math.PI / 2]].forEach(([x, y, z, ry]) => {
+    const wall = new THREE.Mesh(new THREE.PlaneGeometry(12, 3.4), wallMaterial);
+    wall.position.set(x, y, z);
+    wall.rotation.y = ry;
+    wall.receiveShadow = true;
+    roomGroup.add(wall);
+  });
+}
+
+function addRoomLighting() {
+  roomGroup.add(new THREE.HemisphereLight(0xfff3dc, 0x5c4837, 1.25));
+  const ambient = new THREE.AmbientLight(0xffffff, 0.35);
+  roomGroup.add(ambient);
+  [[-3.6, 3.1, -3.8], [0, 3.1, -3.8], [3.6, 3.1, -3.8], [-4.4, 3.05, 1.2], [4.4, 3.05, 1.2]].forEach(([x, y, z]) => {
+    const light = new THREE.SpotLight(0xffeed0, 5.2, 9, Math.PI / 6, 0.45, 1.2);
+    light.position.set(x, y, z);
+    light.target.position.set(x * 0.92, 1.65, z > 0 ? 5.5 : -5.5);
+    light.castShadow = true;
+    roomGroup.add(light);
+    roomGroup.add(light.target);
+  });
+}
+
+function addRoomLabel(label, palette) {
+  const c = document.createElement("canvas");
+  c.width = 1024;
+  c.height = 256;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#f8f4ec";
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.strokeStyle = "#2a2118";
+  ctx.lineWidth = 10;
+  ctx.strokeRect(18, 18, c.width - 36, c.height - 36);
+  ctx.fillStyle = "#2a2118";
+  ctx.font = "700 82px Georgia, serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(label, c.width / 2, 112);
+  ctx.fillStyle = `#${palette.accent.toString(16).padStart(6, "0")}`;
+  ctx.font = "600 34px Inter, sans-serif";
+  ctx.fillText(`${currentEpochArtists.length} artists`, c.width / 2, 178);
+  const texture = new THREE.CanvasTexture(c);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const sign = new THREE.Mesh(new THREE.PlaneGeometry(3.8, 0.95), new THREE.MeshStandardMaterial({ map: texture, roughness: 0.62 }));
+  sign.position.set(0, 2.65, 5.91);
+  sign.rotation.y = Math.PI;
+  roomGroup.add(sign);
+}
+
+function addNavigationPortals(palette) {
+  const prev = epochDefs[(currentRoomIndex - 1 + epochDefs.length) % epochDefs.length];
+  const next = epochDefs[(currentRoomIndex + 1) % epochDefs.length];
+  addPortal(`← ${getDisplayName(prev.id)}`, -3.6, 2.75, -5.88, 0, () => loadRoom(currentRoomIndex - 1, "prev"), palette);
+  addPortal(`${getDisplayName(next.id)} →`, 3.6, 2.75, -5.88, 0, () => loadRoom(currentRoomIndex + 1, "next"), palette);
+}
+
+function addPortal(label, x, y, z, rotationY, action, palette) {
+  const c = document.createElement("canvas");
+  c.width = 768;
+  c.height = 256;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#221b15";
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.fillStyle = `#${palette.accent.toString(16).padStart(6, "0")}`;
+  ctx.fillRect(0, 0, c.width, 18);
+  ctx.fillRect(0, c.height - 18, c.width, 18);
+  ctx.fillStyle = "#fff7e9";
+  ctx.font = "700 42px Inter, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(label, c.width / 2, c.height / 2);
+  const texture = new THREE.CanvasTexture(c);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, emissive: palette.accent, emissiveIntensity: 0.08 });
+  const portal = new THREE.Mesh(new THREE.PlaneGeometry(2.9, 0.72), material);
+  portal.position.set(x, y, z);
+  portal.rotation.y = rotationY;
+  portal.userData.portalAction = action;
+  portals.push(portal);
+  roomGroup.add(portal);
 }
 
 function createFallbackTexture(artist, color) {
@@ -478,9 +690,58 @@ function addPainting(artist, transform, color) {
   const am = new THREE.MeshStandardMaterial({ map: createFallbackTexture(artist, color), roughness: 0.62 });
   const a = new THREE.Mesh(new THREE.PlaneGeometry(1.78, 1.18), am);
   a.position.z = 0.071; a.userData.artist = artist; paintings.push(a); g.add(a);
-  const ld = new THREE.TextureLoader(); ld.setCrossOrigin("anonymous");
-  ld.load(artist.imageUrl, tex => { tex.colorSpace = THREE.SRGBColorSpace; am.map = tex; am.needsUpdate = true; }, undefined, () => { am.needsUpdate = true; });
-  scene.add(g);
+  const plaque = createPlaque(artist);
+  plaque.position.set(0, -0.92, 0.08);
+  g.add(plaque);
+  const textureUrl = getLoadableTextureUrl(artist.imageUrl);
+  if (textureUrl) {
+    textureLoader.load(textureUrl, tex => {
+      if (!isInMuseum || !a.parent) {
+        tex.dispose();
+        return;
+      }
+      tex.colorSpace = THREE.SRGBColorSpace;
+      am.map?.dispose?.();
+      am.map = tex;
+      am.needsUpdate = true;
+    }, undefined, () => { am.needsUpdate = true; });
+  }
+  roomGroup.add(g);
+}
+
+function getLoadableTextureUrl(url) {
+  try {
+    const parsed = new URL(url, window.location.href);
+    const sameOrigin = parsed.origin === window.location.origin;
+    const safeProtocol = parsed.protocol === "data:" || parsed.protocol === "blob:";
+    const likelyCorsReady = parsed.hostname === "upload.wikimedia.org";
+    return sameOrigin || safeProtocol || likelyCorsReady ? parsed.href : null;
+  } catch {
+    return null;
+  }
+}
+
+function createPlaque(artist) {
+  const c = document.createElement("canvas");
+  c.width = 512;
+  c.height = 160;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#f4eddf";
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.strokeStyle = "#3a2d20";
+  ctx.lineWidth = 6;
+  ctx.strokeRect(8, 8, c.width - 16, c.height - 16);
+  ctx.fillStyle = "#211c18";
+  ctx.font = "700 34px Georgia, serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(artist.name, c.width / 2, 60);
+  ctx.fillStyle = "#766b5f";
+  ctx.font = "600 22px Inter, sans-serif";
+  ctx.fillText(artist.years, c.width / 2, 104);
+  const texture = new THREE.CanvasTexture(c);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return new THREE.Mesh(new THREE.PlaneGeometry(1.65, 0.52), new THREE.MeshStandardMaterial({ map: texture, roughness: 0.7 }));
 }
 
 function placePaintings(artists) {
@@ -522,8 +783,9 @@ function onCanvasClick(e) {
   pointer.x = ((e.clientX - r.left) / r.width) * 2 - 1;
   pointer.y = -(((e.clientY - r.top) / r.height) * 2 - 1);
   raycaster.setFromCamera(pointer, camera);
-  const hit = raycaster.intersectObjects(paintings, false)[0];
+  const hit = raycaster.intersectObjects([...paintings, ...portals], false)[0];
   if (hit?.object.userData.artist) showArtistInPanel(hit.object.userData.artist);
+  else if (hit?.object.userData.portalAction) hit.object.userData.portalAction();
   else if (!document.pointerLockElement && !isClickModeActive()) canvas.requestPointerLock?.();
 }
 
@@ -559,10 +821,9 @@ function bindMuseumControls() {
 
 function unbindMuseumControls() {
   museumListenersBound = false;
-  if (canvas) {
-    canvas.removeEventListener("click", onCanvasClick);
-    canvas.removeEventListener("pointerdown", onMuseumPointerDown);
-  }
+  if (!canvas) return;
+  canvas.removeEventListener("click", onCanvasClick);
+  canvas.removeEventListener("pointerdown", onMuseumPointerDown);
   window.removeEventListener("pointerup", onPointerUp);
   window.removeEventListener("pointermove", onPointerMove);
 }
