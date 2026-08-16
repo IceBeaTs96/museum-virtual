@@ -116,7 +116,6 @@ const epochDisplayNames = {
   Romantik: "Romanticism", Impressionismus: "Impressionism", Moderne: "Modern",
   Zeitgenössisch: "Contemporary", "Asiatische Kunst": "Asian Art",
 };
-function getDisplayName(e) { return epochDisplayNames[e] || e; }
 
 // ═══════════════════════════════════════════════════════════════════════════════
 //  I18N (EN / DE)
