@@ -445,9 +445,13 @@ function initSearch() {
   searchInput.addEventListener("input", () => {
     const q = searchInput.value.trim().toLowerCase();
     if (q.length < 2) { searchResults.hidden = true; return; }
-    const results = allArtists.filter(a =>
-      `${a.name} ${a.movement} ${a.nationality} ${a.epoch} ${a.bio}`.toLowerCase().includes(q)
-    );
+    const results = allArtists.filter(a => {
+      const base = `${a.name} ${a.movement} ${a.nationality} ${a.epoch} ${a.bio}`.toLowerCase();
+      if (base.includes(q)) return true;
+      // Also match artwork titles (from the enriched artworks array).
+      const titles = (a.artworks || []).map(w => w.title).join(" ").toLowerCase();
+      return titles.includes(q);
+    });
     if (results.length === 0) {
       searchResultsCount.textContent = "No artists found";
       searchResultsGrid.innerHTML = '<p style="color:var(--muted);text-align:center;grid-column:1/-1">Try a different search term</p>';
