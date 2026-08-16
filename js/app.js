@@ -714,8 +714,12 @@ function getLoadableTextureUrl(url) {
     const parsed = new URL(url, window.location.href);
     const sameOrigin = parsed.origin === window.location.origin;
     const safeProtocol = parsed.protocol === "data:" || parsed.protocol === "blob:";
-    const likelyCorsReady = parsed.hostname === "upload.wikimedia.org";
-    return sameOrigin || safeProtocol || likelyCorsReady ? parsed.href : null;
+    // Wikimedia serves CORS-enabled images from both upload.wikimedia.org and
+    // commons.wikimedia.org (Special:FilePath redirects to upload.wikimedia.org).
+    const wikimediaCorsReady =
+      parsed.hostname === "upload.wikimedia.org" ||
+      parsed.hostname === "commons.wikimedia.org";
+    return sameOrigin || safeProtocol || wikimediaCorsReady ? parsed.href : null;
   } catch {
     return null;
   }
