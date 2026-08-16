@@ -44,6 +44,8 @@ const carouselPrev = document.querySelector("#carousel-prev");
 const carouselNext = document.querySelector("#carousel-next");
 const carouselCounter = document.querySelector("#carousel-counter");
 const ttsBtn = document.querySelector("#tts-btn");
+const artistRelations = document.querySelector("#artist-relations");
+const relationsList = document.querySelector("#relations-list");
 
 // Three.js refs
 let renderer, scene, camera;
@@ -478,7 +480,29 @@ function showArtistInPanel(artist) {
   currentWorks = works;
   currentWorkIndex = 0;
   renderWork();
+  renderRelations(artist);
   panel.hidden = false;
+}
+
+function renderRelations(artist) {
+  const rels = artist.relations || [];
+  if (!rels.length) {
+    artistRelations.hidden = true;
+    return;
+  }
+  artistRelations.hidden = false;
+  relationsList.innerHTML = "";
+  rels.forEach(r => {
+    const chip = document.createElement("button");
+    chip.className = "relation-chip";
+    chip.type = "button";
+    chip.innerHTML = `${r.name}<span class="rel-type">· ${r.type}</span>`;
+    chip.addEventListener("click", () => {
+      const target = allArtists.find(a => a.id === r.id);
+      if (target) showArtistInPanel(target);
+    });
+    relationsList.appendChild(chip);
+  });
 }
 
 let currentWorks = [];

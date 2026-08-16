@@ -24,7 +24,8 @@
         "title": "Giotto di Bondone (Ambrogio Bondone Giotto) - Virgin and Child Enthroned with Four Saints - 03.566 - Museum of Fine Arts",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Giotto_di_Bondone_%28Ambrogio_Bondone_Giotto%29_-_Virgin_and_Child_Enthroned_with_Four_Saints_-_03.566_-_Museum_of_Fine_Arts.jpg/960px-Giotto_di_Bondone_%28Ambrogio_Bondone_Giotto%29_-_Virgin_and_Child_Enthroned_with_Four_Saints_-_03.566_-_Museum_of_Fine_Arts.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
-    ]
+    ],
+    "relations": []
   },
   {
     "id": "jan-van-eyck",
@@ -50,6 +51,38 @@
       {
         "title": "Jan van Eyck - Man in a Blue Cap (c.1430)",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Jan_van_Eyck_-_Man_in_a_Blue_Cap_%28c.1430%29.jpg/960px-Jan_van_Eyck_-_Man_in_a_Blue_Cap_%28c.1430%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "albrecht-durer",
+        "name": "Albrecht Dürer",
+        "type": "movement"
+      },
+      {
+        "id": "hieronymus-bosch",
+        "name": "Hieronymus Bosch",
+        "type": "movement"
+      },
+      {
+        "id": "leonardo-da-vinci",
+        "name": "Leonardo da Vinci",
+        "type": "epoch"
+      },
+      {
+        "id": "michelangelo",
+        "name": "Michelangelo Buonarroti",
+        "type": "epoch"
+      },
+      {
+        "id": "raphael",
+        "name": "Raphael",
+        "type": "epoch"
+      },
+      {
+        "id": "sandro-botticelli",
+        "name": "Sandro Botticelli",
+        "type": "epoch"
       }
     ]
   },
@@ -78,6 +111,38 @@
         "title": "Lady with an Ermine - Leonardo da Vinci - Google Art Project",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Lady_with_an_Ermine_-_Leonardo_da_Vinci_-_Google_Art_Project.jpg/960px-Lady_with_an_Ermine_-_Leonardo_da_Vinci_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "michelangelo",
+        "name": "Michelangelo Buonarroti",
+        "type": "movement"
+      },
+      {
+        "id": "raphael",
+        "name": "Raphael",
+        "type": "movement"
+      },
+      {
+        "id": "sandro-botticelli",
+        "name": "Sandro Botticelli",
+        "type": "contemporary"
+      },
+      {
+        "id": "titian",
+        "name": "Titian",
+        "type": "contemporary"
+      },
+      {
+        "id": "albrecht-durer",
+        "name": "Albrecht Dürer",
+        "type": "contemporary"
+      },
+      {
+        "id": "hieronymus-bosch",
+        "name": "Hieronymus Bosch",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -104,6 +169,38 @@
       {
         "title": "Michelangelo Buonarroti (1475–1564) MET Ingresletter",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Michelangelo_Buonarroti_%281475%E2%80%931564%29_MET_Ingresletter.jpg/960px-Michelangelo_Buonarroti_%281475%E2%80%931564%29_MET_Ingresletter.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "leonardo-da-vinci",
+        "name": "Leonardo da Vinci",
+        "type": "movement"
+      },
+      {
+        "id": "raphael",
+        "name": "Raphael",
+        "type": "movement"
+      },
+      {
+        "id": "sandro-botticelli",
+        "name": "Sandro Botticelli",
+        "type": "contemporary"
+      },
+      {
+        "id": "titian",
+        "name": "Titian",
+        "type": "contemporary"
+      },
+      {
+        "id": "albrecht-durer",
+        "name": "Albrecht Dürer",
+        "type": "contemporary"
+      },
+      {
+        "id": "hieronymus-bosch",
+        "name": "Hieronymus Bosch",
+        "type": "contemporary"
       }
     ]
   },
@@ -132,6 +229,38 @@
         "title": "Portrait of a Cardinal, by Raffael, from Prado in Google Earth",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Portrait_of_a_Cardinal%2C_by_Raffael%2C_from_Prado_in_Google_Earth.jpg/960px-Portrait_of_a_Cardinal%2C_by_Raffael%2C_from_Prado_in_Google_Earth.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "leonardo-da-vinci",
+        "name": "Leonardo da Vinci",
+        "type": "movement"
+      },
+      {
+        "id": "michelangelo",
+        "name": "Michelangelo Buonarroti",
+        "type": "movement"
+      },
+      {
+        "id": "sandro-botticelli",
+        "name": "Sandro Botticelli",
+        "type": "contemporary"
+      },
+      {
+        "id": "titian",
+        "name": "Titian",
+        "type": "contemporary"
+      },
+      {
+        "id": "albrecht-durer",
+        "name": "Albrecht Dürer",
+        "type": "contemporary"
+      },
+      {
+        "id": "hieronymus-bosch",
+        "name": "Hieronymus Bosch",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -158,6 +287,38 @@
       {
         "title": "Madonna of the Magnificat",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Madonna_of_the_Magnificat.png/960px-Madonna_of_the_Magnificat.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "leonardo-da-vinci",
+        "name": "Leonardo da Vinci",
+        "type": "contemporary"
+      },
+      {
+        "id": "michelangelo",
+        "name": "Michelangelo Buonarroti",
+        "type": "contemporary"
+      },
+      {
+        "id": "raphael",
+        "name": "Raphael",
+        "type": "contemporary"
+      },
+      {
+        "id": "titian",
+        "name": "Titian",
+        "type": "contemporary"
+      },
+      {
+        "id": "albrecht-durer",
+        "name": "Albrecht Dürer",
+        "type": "contemporary"
+      },
+      {
+        "id": "hieronymus-bosch",
+        "name": "Hieronymus Bosch",
+        "type": "contemporary"
       }
     ]
   },
@@ -186,6 +347,38 @@
         "title": "Titian - Portrait of a Venetian Gentleman painted over a copy of Giacomo Dolfin",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Titian_-_Portrait_of_a_Venetian_Gentleman_painted_over_a_copy_of_Giacomo_Dolfin.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
       }
+    ],
+    "relations": [
+      {
+        "id": "leonardo-da-vinci",
+        "name": "Leonardo da Vinci",
+        "type": "contemporary"
+      },
+      {
+        "id": "michelangelo",
+        "name": "Michelangelo Buonarroti",
+        "type": "contemporary"
+      },
+      {
+        "id": "raphael",
+        "name": "Raphael",
+        "type": "contemporary"
+      },
+      {
+        "id": "sandro-botticelli",
+        "name": "Sandro Botticelli",
+        "type": "contemporary"
+      },
+      {
+        "id": "albrecht-durer",
+        "name": "Albrecht Dürer",
+        "type": "contemporary"
+      },
+      {
+        "id": "hieronymus-bosch",
+        "name": "Hieronymus Bosch",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -212,6 +405,38 @@
       {
         "title": "Albrecht Dürer - Lot's Flight - National Gallery of Art",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Albrecht_D%C3%BCrer_-_Lot%27s_Flight_-_National_Gallery_of_Art.jpg/960px-Albrecht_D%C3%BCrer_-_Lot%27s_Flight_-_National_Gallery_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "jan-van-eyck",
+        "name": "Jan van Eyck",
+        "type": "movement"
+      },
+      {
+        "id": "hieronymus-bosch",
+        "name": "Hieronymus Bosch",
+        "type": "movement"
+      },
+      {
+        "id": "leonardo-da-vinci",
+        "name": "Leonardo da Vinci",
+        "type": "contemporary"
+      },
+      {
+        "id": "michelangelo",
+        "name": "Michelangelo Buonarroti",
+        "type": "contemporary"
+      },
+      {
+        "id": "raphael",
+        "name": "Raphael",
+        "type": "contemporary"
+      },
+      {
+        "id": "sandro-botticelli",
+        "name": "Sandro Botticelli",
+        "type": "contemporary"
       }
     ]
   },
@@ -240,6 +465,38 @@
         "title": "Hieronymus Bosch - Christ Mocked (The Crowning with Thorns) - Google Art Project",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Hieronymus_Bosch_-_Christ_Mocked_%28The_Crowning_with_Thorns%29_-_Google_Art_Project.jpg/960px-Hieronymus_Bosch_-_Christ_Mocked_%28The_Crowning_with_Thorns%29_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "jan-van-eyck",
+        "name": "Jan van Eyck",
+        "type": "movement"
+      },
+      {
+        "id": "albrecht-durer",
+        "name": "Albrecht Dürer",
+        "type": "movement"
+      },
+      {
+        "id": "leonardo-da-vinci",
+        "name": "Leonardo da Vinci",
+        "type": "contemporary"
+      },
+      {
+        "id": "michelangelo",
+        "name": "Michelangelo Buonarroti",
+        "type": "contemporary"
+      },
+      {
+        "id": "raphael",
+        "name": "Raphael",
+        "type": "contemporary"
+      },
+      {
+        "id": "sandro-botticelli",
+        "name": "Sandro Botticelli",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -266,6 +523,38 @@
       {
         "title": "Isenmann, Colmar Altarpiece (Flagellation, Crowning with Thorns)",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Isenmann%2C_Colmar_Altarpiece_%28Flagellation%2C_Crowning_with_Thorns%29.jpg/960px-Isenmann%2C_Colmar_Altarpiece_%28Flagellation%2C_Crowning_with_Thorns%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "artemisia-gentileschi",
+        "name": "Artemisia Gentileschi",
+        "type": "movement"
+      },
+      {
+        "id": "titian",
+        "name": "Titian",
+        "type": "contemporary"
+      },
+      {
+        "id": "rembrandt",
+        "name": "Rembrandt van Rijn",
+        "type": "contemporary"
+      },
+      {
+        "id": "rubens",
+        "name": "Peter Paul Rubens",
+        "type": "contemporary"
+      },
+      {
+        "id": "bernini",
+        "name": "Gian Lorenzo Bernini",
+        "type": "contemporary"
+      },
+      {
+        "id": "velazquez",
+        "name": "Diego Velázquez",
+        "type": "contemporary"
       }
     ]
   },
@@ -294,6 +583,38 @@
         "title": "Rembrandt Harmensz van Rijn - Return of the Prodigal Son - Google Art Project",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Rembrandt_Harmensz_van_Rijn_-_Return_of_the_Prodigal_Son_-_Google_Art_Project.jpg/960px-Rembrandt_Harmensz_van_Rijn_-_Return_of_the_Prodigal_Son_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "vermeer",
+        "name": "Johannes Vermeer",
+        "type": "movement"
+      },
+      {
+        "id": "caravaggio",
+        "name": "Caravaggio",
+        "type": "contemporary"
+      },
+      {
+        "id": "rubens",
+        "name": "Peter Paul Rubens",
+        "type": "contemporary"
+      },
+      {
+        "id": "bernini",
+        "name": "Gian Lorenzo Bernini",
+        "type": "contemporary"
+      },
+      {
+        "id": "velazquez",
+        "name": "Diego Velázquez",
+        "type": "contemporary"
+      },
+      {
+        "id": "artemisia-gentileschi",
+        "name": "Artemisia Gentileschi",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -320,6 +641,38 @@
       {
         "title": "Johannes Vermeer - Woman Holding a Balance - Google Art Project",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Johannes_Vermeer_-_Woman_Holding_a_Balance_-_Google_Art_Project.jpg/960px-Johannes_Vermeer_-_Woman_Holding_a_Balance_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "rembrandt",
+        "name": "Rembrandt van Rijn",
+        "type": "movement"
+      },
+      {
+        "id": "rubens",
+        "name": "Peter Paul Rubens",
+        "type": "contemporary"
+      },
+      {
+        "id": "bernini",
+        "name": "Gian Lorenzo Bernini",
+        "type": "contemporary"
+      },
+      {
+        "id": "velazquez",
+        "name": "Diego Velázquez",
+        "type": "contemporary"
+      },
+      {
+        "id": "artemisia-gentileschi",
+        "name": "Artemisia Gentileschi",
+        "type": "contemporary"
+      },
+      {
+        "id": "caravaggio",
+        "name": "Caravaggio",
+        "type": "epoch"
       }
     ]
   },
@@ -348,6 +701,38 @@
         "title": "Peter Paul Rubens - Diana and Callisto - WGA20326",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Peter_Paul_Rubens_-_Diana_and_Callisto_-_WGA20326.jpg/960px-Peter_Paul_Rubens_-_Diana_and_Callisto_-_WGA20326.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "caravaggio",
+        "name": "Caravaggio",
+        "type": "contemporary"
+      },
+      {
+        "id": "rembrandt",
+        "name": "Rembrandt van Rijn",
+        "type": "contemporary"
+      },
+      {
+        "id": "vermeer",
+        "name": "Johannes Vermeer",
+        "type": "contemporary"
+      },
+      {
+        "id": "bernini",
+        "name": "Gian Lorenzo Bernini",
+        "type": "contemporary"
+      },
+      {
+        "id": "velazquez",
+        "name": "Diego Velázquez",
+        "type": "contemporary"
+      },
+      {
+        "id": "artemisia-gentileschi",
+        "name": "Artemisia Gentileschi",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -374,6 +759,38 @@
       {
         "title": "Gian Lorenzo Bernini - Totenkopf",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Gian_Lorenzo_Bernini_-_Totenkopf.jpg/960px-Gian_Lorenzo_Bernini_-_Totenkopf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "caravaggio",
+        "name": "Caravaggio",
+        "type": "contemporary"
+      },
+      {
+        "id": "rembrandt",
+        "name": "Rembrandt van Rijn",
+        "type": "contemporary"
+      },
+      {
+        "id": "vermeer",
+        "name": "Johannes Vermeer",
+        "type": "contemporary"
+      },
+      {
+        "id": "rubens",
+        "name": "Peter Paul Rubens",
+        "type": "contemporary"
+      },
+      {
+        "id": "velazquez",
+        "name": "Diego Velázquez",
+        "type": "contemporary"
+      },
+      {
+        "id": "artemisia-gentileschi",
+        "name": "Artemisia Gentileschi",
+        "type": "contemporary"
       }
     ]
   },
@@ -402,6 +819,38 @@
         "title": "Diego Velázquez - The Three Musicians - Google Art Project",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Diego_Vel%C3%A1zquez_-_The_Three_Musicians_-_Google_Art_Project.jpg/960px-Diego_Vel%C3%A1zquez_-_The_Three_Musicians_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "caravaggio",
+        "name": "Caravaggio",
+        "type": "contemporary"
+      },
+      {
+        "id": "rembrandt",
+        "name": "Rembrandt van Rijn",
+        "type": "contemporary"
+      },
+      {
+        "id": "vermeer",
+        "name": "Johannes Vermeer",
+        "type": "contemporary"
+      },
+      {
+        "id": "rubens",
+        "name": "Peter Paul Rubens",
+        "type": "contemporary"
+      },
+      {
+        "id": "bernini",
+        "name": "Gian Lorenzo Bernini",
+        "type": "contemporary"
+      },
+      {
+        "id": "artemisia-gentileschi",
+        "name": "Artemisia Gentileschi",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -428,6 +877,38 @@
       {
         "title": "Artemisia Gentileschi Selfportrait Martyr",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/Artemisia_Gentileschi_Selfportrait_Martyr.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      }
+    ],
+    "relations": [
+      {
+        "id": "caravaggio",
+        "name": "Caravaggio",
+        "type": "movement"
+      },
+      {
+        "id": "rembrandt",
+        "name": "Rembrandt van Rijn",
+        "type": "contemporary"
+      },
+      {
+        "id": "vermeer",
+        "name": "Johannes Vermeer",
+        "type": "contemporary"
+      },
+      {
+        "id": "rubens",
+        "name": "Peter Paul Rubens",
+        "type": "contemporary"
+      },
+      {
+        "id": "bernini",
+        "name": "Gian Lorenzo Bernini",
+        "type": "contemporary"
+      },
+      {
+        "id": "velazquez",
+        "name": "Diego Velázquez",
+        "type": "contemporary"
       }
     ]
   },
@@ -456,6 +937,38 @@
         "title": "Caspar David Friedrich - Wanderer above the Sea of Fog",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg/960px-Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "jmw-turner",
+        "name": "J. M. W. Turner",
+        "type": "movement"
+      },
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "movement"
+      },
+      {
+        "id": "francisco-goya",
+        "name": "Francisco Goya",
+        "type": "movement"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -482,6 +995,38 @@
       {
         "title": "J. M. W. Turner - Nantes from the Ile Feydeau (1830) (Edited)",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/J._M._W._Turner_-_Nantes_from_the_Ile_Feydeau_%281830%29_%28Edited%29.jpg/960px-J._M._W._Turner_-_Nantes_from_the_Ile_Feydeau_%281830%29_%28Edited%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "caspar-david-friedrich",
+        "name": "Caspar David Friedrich",
+        "type": "movement"
+      },
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "movement"
+      },
+      {
+        "id": "francisco-goya",
+        "name": "Francisco Goya",
+        "type": "movement"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
       }
     ]
   },
@@ -510,6 +1055,38 @@
         "title": "Don Juan by Eugène Delacroix",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Don_Juan_by_Eug%C3%A8ne_Delacroix.jpg/960px-Don_Juan_by_Eug%C3%A8ne_Delacroix.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "caspar-david-friedrich",
+        "name": "Caspar David Friedrich",
+        "type": "movement"
+      },
+      {
+        "id": "jmw-turner",
+        "name": "J. M. W. Turner",
+        "type": "movement"
+      },
+      {
+        "id": "francisco-goya",
+        "name": "Francisco Goya",
+        "type": "movement"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -536,6 +1113,33 @@
       {
         "title": "El Tres de Mayo, by Francisco de Goya, from Prado thin black margin",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg/960px-El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "caspar-david-friedrich",
+        "name": "Caspar David Friedrich",
+        "type": "movement"
+      },
+      {
+        "id": "jmw-turner",
+        "name": "J. M. W. Turner",
+        "type": "movement"
+      },
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "movement"
+      },
+      {
+        "id": "hokusai",
+        "name": "Katsushika Hokusai",
+        "type": "contemporary"
+      },
+      {
+        "id": "hiroshige",
+        "name": "Utagawa Hiroshige",
+        "type": "contemporary"
       }
     ]
   },
@@ -564,6 +1168,38 @@
         "title": "Claude Monet 023",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Claude_Monet_023.jpg/960px-Claude_Monet_023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "movement"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "movement"
+      },
+      {
+        "id": "caspar-david-friedrich",
+        "name": "Caspar David Friedrich",
+        "type": "contemporary"
+      },
+      {
+        "id": "jmw-turner",
+        "name": "J. M. W. Turner",
+        "type": "contemporary"
+      },
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -590,6 +1226,38 @@
       {
         "title": "Vincent Willem van Gogh 128",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Vincent_Willem_van_Gogh_128.jpg/960px-Vincent_Willem_van_Gogh_128.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "movement"
+      },
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "contemporary"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "seurat",
+        "name": "Georges Seurat",
+        "type": "contemporary"
       }
     ]
   },
@@ -618,6 +1286,38 @@
         "title": "Edgar Degas - In a Café - Google Art Project 2",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Edgar_Degas_-_In_a_Caf%C3%A9_-_Google_Art_Project_2.jpg/960px-Edgar_Degas_-_In_a_Caf%C3%A9_-_Google_Art_Project_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "movement"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "movement"
+      },
+      {
+        "id": "caspar-david-friedrich",
+        "name": "Caspar David Friedrich",
+        "type": "contemporary"
+      },
+      {
+        "id": "jmw-turner",
+        "name": "J. M. W. Turner",
+        "type": "contemporary"
+      },
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -644,6 +1344,38 @@
       {
         "title": "Pierre-Auguste Renoir, The Umbrellas, ca. 1881-86",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Pierre-Auguste_Renoir%2C_The_Umbrellas%2C_ca._1881-86.jpg/960px-Pierre-Auguste_Renoir%2C_The_Umbrellas%2C_ca._1881-86.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "movement"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "movement"
+      },
+      {
+        "id": "jmw-turner",
+        "name": "J. M. W. Turner",
+        "type": "contemporary"
+      },
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
       }
     ]
   },
@@ -672,6 +1404,38 @@
         "title": "Le Garçon au gilet rouge, par Paul Cézanne, National Gallery of Art",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Le_Gar%C3%A7on_au_gilet_rouge%2C_par_Paul_C%C3%A9zanne%2C_National_Gallery_of_Art.jpg/960px-Le_Gar%C3%A7on_au_gilet_rouge%2C_par_Paul_C%C3%A9zanne%2C_National_Gallery_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "movement"
+      },
+      {
+        "id": "caspar-david-friedrich",
+        "name": "Caspar David Friedrich",
+        "type": "contemporary"
+      },
+      {
+        "id": "jmw-turner",
+        "name": "J. M. W. Turner",
+        "type": "contemporary"
+      },
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "contemporary"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -698,6 +1462,38 @@
       {
         "title": "Georges Seurat - A Fisherman - 1966.79.14 - Yale University Art Gallery",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Georges_Seurat_-_A_Fisherman_-_1966.79.14_-_Yale_University_Art_Gallery.jpg/960px-Georges_Seurat_-_A_Fisherman_-_1966.79.14_-_Yale_University_Art_Gallery.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "contemporary"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
       }
     ]
   },
@@ -726,6 +1522,38 @@
         "title": "Gustav Klimt - Death and Life - Google Art Project",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Gustav_Klimt_-_Death_and_Life_-_Google_Art_Project.jpg/960px-Gustav_Klimt_-_Death_and_Life_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "contemporary"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -752,6 +1580,38 @@
       {
         "title": "Pablo Picasso dando instrucciones a una modelo en su taller de pintura",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Pablo_Picasso_dando_instrucciones_a_una_modelo_en_su_taller_de_pintura.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      },
+      {
+        "id": "seurat",
+        "name": "Georges Seurat",
+        "type": "contemporary"
       }
     ]
   },
@@ -780,6 +1640,38 @@
         "title": "Kandinsky - Jaune Rouge Bleu",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Kandinsky_-_Jaune_Rouge_Bleu.jpg/960px-Kandinsky_-_Jaune_Rouge_Bleu.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      },
+      {
+        "id": "seurat",
+        "name": "Georges Seurat",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -806,6 +1698,38 @@
       {
         "title": "Salvador Dali A (Dali Atomicus) 09633u",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Salvador_Dali_A_%28Dali_Atomicus%29_09633u.jpg/960px-Salvador_Dali_A_%28Dali_Atomicus%29_09633u.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "magritte",
+        "name": "René Magritte",
+        "type": "movement"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      },
+      {
+        "id": "gustav-klimt",
+        "name": "Gustav Klimt",
+        "type": "contemporary"
       }
     ]
   },
@@ -834,6 +1758,38 @@
         "title": "Deya and Frida Kahlo",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Deya_and_Frida_Kahlo.jpg/960px-Deya_and_Frida_Kahlo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "gustav-klimt",
+        "name": "Gustav Klimt",
+        "type": "contemporary"
+      },
+      {
+        "id": "picasso",
+        "name": "Pablo Picasso",
+        "type": "contemporary"
+      },
+      {
+        "id": "kandinsky",
+        "name": "Wassily Kandinsky",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -860,6 +1816,38 @@
       {
         "title": "Henri matisse, odalisca, 1923",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Henri_matisse%2C_odalisca%2C_1923.jpg/960px-Henri_matisse%2C_odalisca%2C_1923.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      },
+      {
+        "id": "seurat",
+        "name": "Georges Seurat",
+        "type": "contemporary"
       }
     ]
   },
@@ -888,6 +1876,38 @@
         "title": "Piet Mondriaan - Boslandschap met beek - A21 - Piet Mondrian, catalogue raisonné",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Piet_Mondriaan_-_Boslandschap_met_beek_-_A21_-_Piet_Mondrian%2C_catalogue_raisonn%C3%A9.jpg/960px-Piet_Mondriaan_-_Boslandschap_met_beek_-_A21_-_Piet_Mondrian%2C_catalogue_raisonn%C3%A9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      },
+      {
+        "id": "seurat",
+        "name": "Georges Seurat",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -914,6 +1934,38 @@
       {
         "title": "Flower Abstraction, by Georgia O'Keeffe",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Flower_Abstraction%2C_by_Georgia_O%27Keeffe.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      },
+      {
+        "id": "seurat",
+        "name": "Georges Seurat",
+        "type": "contemporary"
       }
     ]
   },
@@ -942,6 +1994,38 @@
         "title": "Katsushika Hokusai - Album of Sketches by Katsushika Hokusai and His Disciples - 14.76.60.1–.109 - Metropolitan Museum of Art",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Katsushika_Hokusai_-_Album_of_Sketches_by_Katsushika_Hokusai_and_His_Disciples_-_14.76.60.1%E2%80%93.109_-_Metropolitan_Museum_of_Art.jpg/960px-Katsushika_Hokusai_-_Album_of_Sketches_by_Katsushika_Hokusai_and_His_Disciples_-_14.76.60.1%E2%80%93.109_-_Metropolitan_Museum_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "hiroshige",
+        "name": "Utagawa Hiroshige",
+        "type": "movement"
+      },
+      {
+        "id": "caspar-david-friedrich",
+        "name": "Caspar David Friedrich",
+        "type": "contemporary"
+      },
+      {
+        "id": "jmw-turner",
+        "name": "J. M. W. Turner",
+        "type": "contemporary"
+      },
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "contemporary"
+      },
+      {
+        "id": "francisco-goya",
+        "name": "Francisco Goya",
+        "type": "contemporary"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -968,6 +2052,38 @@
       {
         "title": "Utagawa Hiroshige - Kannon Slope of the Kiso Highway - 08.148.6 - Metropolitan Museum of Art",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Utagawa_Hiroshige_-_Kannon_Slope_of_the_Kiso_Highway_-_08.148.6_-_Metropolitan_Museum_of_Art.jpg/960px-Utagawa_Hiroshige_-_Kannon_Slope_of_the_Kiso_Highway_-_08.148.6_-_Metropolitan_Museum_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "hokusai",
+        "name": "Katsushika Hokusai",
+        "type": "movement"
+      },
+      {
+        "id": "caspar-david-friedrich",
+        "name": "Caspar David Friedrich",
+        "type": "contemporary"
+      },
+      {
+        "id": "jmw-turner",
+        "name": "J. M. W. Turner",
+        "type": "contemporary"
+      },
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "contemporary"
+      },
+      {
+        "id": "francisco-goya",
+        "name": "Francisco Goya",
+        "type": "contemporary"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
       }
     ]
   },
@@ -996,6 +2112,38 @@
         "title": "Andy Warhol Foundation v. Goldsmith, opinion of Justice Kagan, page 33 image 1",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/81/Andy_Warhol_Foundation_v._Goldsmith%2C_opinion_of_Justice_Kagan%2C_page_33_image_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
       }
+    ],
+    "relations": [
+      {
+        "id": "picasso",
+        "name": "Pablo Picasso",
+        "type": "contemporary"
+      },
+      {
+        "id": "kandinsky",
+        "name": "Wassily Kandinsky",
+        "type": "contemporary"
+      },
+      {
+        "id": "salvador-dali",
+        "name": "Salvador Dalí",
+        "type": "contemporary"
+      },
+      {
+        "id": "frida-kahlo",
+        "name": "Frida Kahlo",
+        "type": "contemporary"
+      },
+      {
+        "id": "matisse",
+        "name": "Henri Matisse",
+        "type": "contemporary"
+      },
+      {
+        "id": "mondrian",
+        "name": "Piet Mondrian",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -1022,6 +2170,38 @@
       {
         "title": "De-Jackson-Pollock-Gemälde",
         "imageUrl": "https://commons.wikimedia.org/w/resources/assets/file-type-icons/fileicon-ogg.png"
+      }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "gustav-klimt",
+        "name": "Gustav Klimt",
+        "type": "contemporary"
+      },
+      {
+        "id": "picasso",
+        "name": "Pablo Picasso",
+        "type": "contemporary"
+      },
+      {
+        "id": "kandinsky",
+        "name": "Wassily Kandinsky",
+        "type": "contemporary"
       }
     ]
   },
@@ -1050,6 +2230,38 @@
         "title": "Mark Rothko, Seagram Murals, shown at the Fondation Louis Vuitton, Paris in 2024",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Mark_Rothko%2C_Seagram_Murals%2C_shown_at_the_Fondation_Louis_Vuitton%2C_Paris_in_2024.jpg/960px-Mark_Rothko%2C_Seagram_Murals%2C_shown_at_the_Fondation_Louis_Vuitton%2C_Paris_in_2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      },
+      {
+        "id": "gustav-klimt",
+        "name": "Gustav Klimt",
+        "type": "contemporary"
+      },
+      {
+        "id": "picasso",
+        "name": "Pablo Picasso",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -1076,6 +2288,38 @@
       {
         "title": "Nmacc-2023-0331-kusama",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Nmacc-2023-0331-kusama.jpg/960px-Nmacc-2023-0331-kusama.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "picasso",
+        "name": "Pablo Picasso",
+        "type": "contemporary"
+      },
+      {
+        "id": "kandinsky",
+        "name": "Wassily Kandinsky",
+        "type": "contemporary"
+      },
+      {
+        "id": "salvador-dali",
+        "name": "Salvador Dalí",
+        "type": "contemporary"
+      },
+      {
+        "id": "frida-kahlo",
+        "name": "Frida Kahlo",
+        "type": "contemporary"
+      },
+      {
+        "id": "matisse",
+        "name": "Henri Matisse",
+        "type": "contemporary"
+      },
+      {
+        "id": "mondrian",
+        "name": "Piet Mondrian",
+        "type": "contemporary"
       }
     ]
   },
@@ -1104,6 +2348,38 @@
         "title": "Ben Ksy (Banksy für Arme)",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Ben_Ksy_%28Banksy_f%C3%BCr_Arme%29.jpg/960px-Ben_Ksy_%28Banksy_f%C3%BCr_Arme%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "salvador-dali",
+        "name": "Salvador Dalí",
+        "type": "contemporary"
+      },
+      {
+        "id": "georgia-okeeffe",
+        "name": "Georgia O'Keeffe",
+        "type": "contemporary"
+      },
+      {
+        "id": "andy-warhol",
+        "name": "Andy Warhol",
+        "type": "contemporary"
+      },
+      {
+        "id": "yayoi-kusama",
+        "name": "Yayoi Kusama",
+        "type": "contemporary"
+      },
+      {
+        "id": "gerhard-richter",
+        "name": "Gerhard Richter",
+        "type": "contemporary"
+      },
+      {
+        "id": "david-hockney",
+        "name": "David Hockney",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -1130,6 +2406,38 @@
       {
         "title": "Gerhard Richter, Lesende (Reader), 1994, SFMOMA 09",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Gerhard_Richter%2C_Lesende_%28Reader%29%2C_1994%2C_SFMOMA_09.jpg/960px-Gerhard_Richter%2C_Lesende_%28Reader%29%2C_1994%2C_SFMOMA_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "picasso",
+        "name": "Pablo Picasso",
+        "type": "contemporary"
+      },
+      {
+        "id": "kandinsky",
+        "name": "Wassily Kandinsky",
+        "type": "contemporary"
+      },
+      {
+        "id": "salvador-dali",
+        "name": "Salvador Dalí",
+        "type": "contemporary"
+      },
+      {
+        "id": "frida-kahlo",
+        "name": "Frida Kahlo",
+        "type": "contemporary"
+      },
+      {
+        "id": "matisse",
+        "name": "Henri Matisse",
+        "type": "contemporary"
+      },
+      {
+        "id": "mondrian",
+        "name": "Piet Mondrian",
+        "type": "contemporary"
       }
     ]
   },
@@ -1158,6 +2466,38 @@
         "title": "(Soldier Entering a Parlor), by Edward Hopper",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/%28Soldier_Entering_a_Parlor%29%2C_by_Edward_Hopper.jpg/960px-%28Soldier_Entering_a_Parlor%29%2C_by_Edward_Hopper.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      },
+      {
+        "id": "seurat",
+        "name": "Georges Seurat",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -1184,6 +2524,38 @@
       {
         "title": "Golconda Fort 012 - Ambar Khana",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Golconda_Fort_012_-_Ambar_Khana.jpg/960px-Golconda_Fort_012_-_Ambar_Khana.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "salvador-dali",
+        "name": "Salvador Dalí",
+        "type": "movement"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      },
+      {
+        "id": "gustav-klimt",
+        "name": "Gustav Klimt",
+        "type": "contemporary"
       }
     ]
   },
@@ -1212,6 +2584,38 @@
         "title": "Edvard Munch - The Kiss - Google Art Project",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Edvard_Munch_-_The_Kiss_-_Google_Art_Project.jpg/960px-Edvard_Munch_-_The_Kiss_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
       }
+    ],
+    "relations": [
+      {
+        "id": "eugene-delacroix",
+        "name": "Eugène Delacroix",
+        "type": "contemporary"
+      },
+      {
+        "id": "monet",
+        "name": "Claude Monet",
+        "type": "contemporary"
+      },
+      {
+        "id": "van-gogh",
+        "name": "Vincent van Gogh",
+        "type": "contemporary"
+      },
+      {
+        "id": "degas",
+        "name": "Edgar Degas",
+        "type": "contemporary"
+      },
+      {
+        "id": "renoir",
+        "name": "Pierre-Auguste Renoir",
+        "type": "contemporary"
+      },
+      {
+        "id": "cezanne",
+        "name": "Paul Cézanne",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -1239,6 +2643,38 @@
         "title": "Gay art homosexual painter raphael perez interview resume artist statement articles אמנים ישראלים",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Gay_art_homosexual_painter_raphael_perez_interview_resume_artist_statement_articles_%D7%90%D7%9E%D7%A0%D7%99%D7%9D_%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%9D.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
       }
+    ],
+    "relations": [
+      {
+        "id": "picasso",
+        "name": "Pablo Picasso",
+        "type": "contemporary"
+      },
+      {
+        "id": "kandinsky",
+        "name": "Wassily Kandinsky",
+        "type": "contemporary"
+      },
+      {
+        "id": "salvador-dali",
+        "name": "Salvador Dalí",
+        "type": "contemporary"
+      },
+      {
+        "id": "frida-kahlo",
+        "name": "Frida Kahlo",
+        "type": "contemporary"
+      },
+      {
+        "id": "matisse",
+        "name": "Henri Matisse",
+        "type": "contemporary"
+      },
+      {
+        "id": "mondrian",
+        "name": "Piet Mondrian",
+        "type": "contemporary"
+      }
     ]
   },
   {
@@ -1265,6 +2701,38 @@
       {
         "title": "Notary Publics",
         "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Notary_Publics.jpg/960px-Notary_Publics.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ],
+    "relations": [
+      {
+        "id": "picasso",
+        "name": "Pablo Picasso",
+        "type": "contemporary"
+      },
+      {
+        "id": "salvador-dali",
+        "name": "Salvador Dalí",
+        "type": "contemporary"
+      },
+      {
+        "id": "georgia-okeeffe",
+        "name": "Georgia O'Keeffe",
+        "type": "contemporary"
+      },
+      {
+        "id": "andy-warhol",
+        "name": "Andy Warhol",
+        "type": "contemporary"
+      },
+      {
+        "id": "mark-rothko",
+        "name": "Mark Rothko",
+        "type": "contemporary"
+      },
+      {
+        "id": "yayoi-kusama",
+        "name": "Yayoi Kusama",
+        "type": "contemporary"
       }
     ]
   }
