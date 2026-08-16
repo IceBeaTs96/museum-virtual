@@ -1,6 +1,6 @@
 # 🏛️ Virtuelles Museum — Projekt-Konzept
 
-> **Status:** Konzeptionsphase | **Priorität:** Niedrig (nach ERES/Wien ab 06.07.)
+> **Status:** MVP umgesetzt + V1-Features weitgehend fertig | **Priorität:** Mittel (Spaß-/Bildungsprojekt)
 > **Sprachen:** Deutsch + Englisch (erweiterbar) | **Monetarisierung:** Spenden / Buy Me a Coffee
 
 ---
@@ -231,5 +231,5 @@ Steffens Einschätzung: "Viel mehr Wert als Office Dashboard. Reines Spaßprojek
 ---
 
 *Erstellt: 2026-06-16*
-*Letzte Aktualisierung: 2026-06-16*
+*Letzte Aktualisierung: 2026-08-16*
 *Verantwortlich: Seraphine + Steffen*
