@@ -434,9 +434,15 @@ function animateTimeline() {
   applyTimelineTransform();
   const moved = Math.abs(viewZoom - 1) > 0.01 || Math.abs(viewPanX) > 1;
   timelineHint.style.opacity = moved ? "0.25" : "1";
+  requestAnimationFrame(animateTimeline);
+}
+
+// Apply the active filter to epoch markers. Called on filter change and
+// favorites change (not every frame) to avoid repeated localStorage reads.
+function applyFilterToMarkers() {
+  const favs = activeFilter === "favorites" ? getFavorites() : null;
   document.querySelectorAll(".epoch-marker").forEach(m => {
     if (activeFilter === "favorites") {
-      const favs = getFavorites();
       const epochId = m.dataset.epoch;
       const hasFav = allArtists.some(a => a.epoch === epochId && favs.includes(a.id));
       m.style.display = hasFav ? "" : "none";
@@ -444,7 +450,6 @@ function animateTimeline() {
       m.style.display = (activeFilter === "all" || m.dataset.epoch === activeFilter) ? "" : "none";
     }
   });
-  requestAnimationFrame(animateTimeline);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -549,6 +554,7 @@ function toggleFavorite(id) {
   else favs.push(id);
   setFavorites(favs);
   updateFavButton();
+  if (activeFilter === "favorites") applyFilterToMarkers();
 }
 
 function updateFavButton() {
@@ -712,6 +718,7 @@ function initFilters() {
     filterChips.querySelectorAll(".filter-chip").forEach(c => c.classList.remove("active"));
     chip.classList.add("active");
     searchInput.value = ""; searchResults.hidden = true;
+    applyFilterToMarkers();
   });
 }
 
