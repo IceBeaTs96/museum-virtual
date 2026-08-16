@@ -425,6 +425,7 @@ function enterMuseum() {
   timelineOverlay.hidden = true;
   museumView.hidden = false;
   hudTitle.textContent = `${getDisplayName(currentEpoch)} Hall`;
+  showTouchControls();
 
   try {
     initMuseumScene();
@@ -460,6 +461,7 @@ function exitMuseum() {
   museumView.hidden = true;
   panel.hidden = true;
   timelineOverlay.hidden = false;
+  hideTouchControls();
   if (sctx) { resizeStarfield(); requestAnimationFrame(drawStarfield); }
 }
 
@@ -839,10 +841,118 @@ function animateMuseum() {
   function frame(now) {
     if (!isInMuseum) return;
     const d = Math.min((now - prev) / 1000, 0.05); prev = now;
-    resizeRenderer(); moveCamera(d); renderer.render(scene, camera);
+    resizeRenderer(); moveCamera(d); applyTouchMove(d); renderer.render(scene, camera);
     animFrameId = requestAnimationFrame(frame);
   }
   animFrameId = requestAnimationFrame(frame);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  MOBILE TOUCH CONTROLS
+// ═══════════════════════════════════════════════════════════════════════════════
+const touchControls = document.querySelector("#touch-controls");
+const touchJoystick = document.querySelector("#touch-joystick");
+const touchJoystickKnob = document.querySelector("#touch-joystick-knob");
+const touchLook = document.querySelector("#touch-look");
+
+let touchMove = { x: 0, y: 0 };
+let joystickActive = false;
+let joystickCenter = { x: 0, y: 0 };
+let joystickPointerId = null;
+let lookActive = false;
+let lookLast = { x: 0, y: 0 };
+let lookPointerId = null;
+
+function isTouchDevice() {
+  return window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
+}
+
+function showTouchControls() {
+  if (isTouchDevice()) touchControls.hidden = false;
+}
+
+function hideTouchControls() {
+  touchControls.hidden = true;
+}
+
+function bindTouchControls() {
+  if (!isTouchDevice()) return;
+
+  // Joystick (movement)
+  touchJoystick.addEventListener("pointerdown", e => {
+    joystickActive = true;
+    joystickPointerId = e.pointerId;
+    const r = touchJoystick.getBoundingClientRect();
+    joystickCenter = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    touchJoystick.setPointerCapture(e.pointerId);
+    updateJoystick(e.clientX, e.clientY);
+  });
+  touchJoystick.addEventListener("pointermove", e => {
+    if (!joystickActive || e.pointerId !== joystickPointerId) return;
+    updateJoystick(e.clientX, e.clientY);
+  });
+  const endJoystick = e => {
+    if (e.pointerId !== joystickPointerId) return;
+    joystickActive = false;
+    joystickPointerId = null;
+    touchMove = { x: 0, y: 0 };
+    touchJoystickKnob.style.transform = "translate(-50%, -50%)";
+  };
+  touchJoystick.addEventListener("pointerup", endJoystick);
+  touchJoystick.addEventListener("pointercancel", endJoystick);
+
+  // Look area (right side)
+  touchLook.addEventListener("pointerdown", e => {
+    lookActive = true;
+    lookPointerId = e.pointerId;
+    lookLast = { x: e.clientX, y: e.clientY };
+    touchLook.setPointerCapture(e.pointerId);
+  });
+  touchLook.addEventListener("pointermove", e => {
+    if (!lookActive || e.pointerId !== lookPointerId) return;
+    const dx = e.clientX - lookLast.x;
+    const dy = e.clientY - lookLast.y;
+    lookLast = { x: e.clientX, y: e.clientY };
+    yaw -= dx * 0.004;
+    pitch -= dy * 0.004;
+    updateCameraRotation();
+  });
+  const endLook = e => {
+    if (e.pointerId !== lookPointerId) return;
+    lookActive = false;
+    lookPointerId = null;
+  };
+  touchLook.addEventListener("pointerup", endLook);
+  touchLook.addEventListener("pointercancel", endLook);
+}
+
+function updateJoystick(cx, cy) {
+  const dx = cx - joystickCenter.x;
+  const dy = cy - joystickCenter.y;
+  const maxR = 40;
+  const len = Math.hypot(dx, dy);
+  const clamped = len > maxR ? maxR / len : 1;
+  const nx = dx * clamped;
+  const ny = dy * clamped;
+  touchJoystickKnob.style.transform = `translate(calc(-50% + ${nx}px), calc(-50% + ${ny}px))`;
+  // Normalize to -1..1; forward (up) = negative y
+  touchMove = { x: nx / maxR, y: ny / maxR };
+}
+
+function applyTouchMove(delta) {
+  if (!touchMove.x && !touchMove.y) return;
+  const s = 3.2 * delta;
+  const fwd = new THREE.Vector3(); camera.getWorldDirection(fwd); fwd.y = 0; fwd.normalize();
+  const rgt = new THREE.Vector3().crossVectors(fwd, camera.up).normalize();
+  const mv = new THREE.Vector3();
+  mv.addScaledVector(fwd, -touchMove.y);
+  mv.addScaledVector(rgt, touchMove.x);
+  if (mv.lengthSq() > 0) {
+    mv.normalize().multiplyScalar(s);
+    camera.position.add(mv);
+    camera.position.x = THREE.MathUtils.clamp(camera.position.x, -5.25, 5.25);
+    camera.position.z = THREE.MathUtils.clamp(camera.position.z, -5.25, 5.25);
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -881,6 +991,7 @@ async function init() {
     initSurprise();
     initEpochDetail();
     bindGlobalControls();
+    bindTouchControls();
     museumView.hidden = true;
     timelineOverlay.hidden = false;
   } catch (err) {

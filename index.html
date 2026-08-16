@@ -87,6 +87,14 @@
         <span id="hud-hint">Click the room to look around. WASD moves, mouse drags/locks view, hold Shift or Space to click paintings.</span>
         <button id="back-to-timeline" class="hud-button">← Back to Timeline</button>
       </div>
+
+      <!-- Mobile touch controls (hidden on desktop) -->
+      <div id="touch-controls" class="touch-controls" hidden>
+        <div id="touch-joystick" class="touch-joystick">
+          <div id="touch-joystick-knob" class="touch-joystick-knob"></div>
+        </div>
+        <div id="touch-look" class="touch-look"></div>
+      </div>
     </main>
 
     <script type="module" src="js/app.js"></script>
