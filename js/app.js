@@ -868,6 +868,10 @@ function bindGlobalControls() {
 async function init() {
   try {
     allArtists = await loadArtists();
+    const subtitle = document.querySelector("#timeline-subtitle");
+    if (subtitle) {
+      subtitle.textContent = `Explore ${allArtists.length} masterpieces across ${epochDefs.length} epochs of art history`;
+    }
     initStarfield();
     buildTimeline();
     bindTimelineControls();
