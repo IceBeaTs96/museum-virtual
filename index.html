@@ -73,7 +73,14 @@
 
       <section id="info-panel" class="panel" aria-live="polite" hidden>
         <button id="close-panel" class="icon-button" type="button" aria-label="Close artist panel">×</button>
-        <img id="artist-image" alt="" />
+        <div class="panel-carousel">
+          <img id="artist-image" alt="" />
+          <div class="carousel-nav">
+            <button id="carousel-prev" class="carousel-btn" type="button" aria-label="Previous artwork">‹</button>
+            <span id="carousel-counter" class="carousel-counter"></span>
+            <button id="carousel-next" class="carousel-btn" type="button" aria-label="Next artwork">›</button>
+          </div>
+        </div>
         <div class="panel-content">
           <p id="artist-years" class="years"></p>
           <h1 id="artist-name"></h1>

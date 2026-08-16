@@ -40,6 +40,9 @@ const artistYears = document.querySelector("#artist-years");
 const artistBio = document.querySelector("#artist-bio");
 const artistImage = document.querySelector("#artist-image");
 const artistUrl = document.querySelector("#artist-url");
+const carouselPrev = document.querySelector("#carousel-prev");
+const carouselNext = document.querySelector("#carousel-next");
+const carouselCounter = document.querySelector("#carousel-counter");
 
 // Three.js refs
 let renderer, scene, camera;
@@ -346,10 +349,42 @@ function showArtistInPanel(artist) {
   artistName.textContent = artist.name;
   artistYears.textContent = `${artist.years} · ${artist.movement}`;
   artistBio.textContent = artist.bio;
-  artistImage.src = artist.imageUrl;
-  artistImage.alt = `Artwork associated with ${artist.name}`;
-  artistUrl.href = artist.imageUrl;
+  // Build the carousel list: primary image + any additional artworks.
+  const works = [
+    { title: artist.name, imageUrl: artist.imageUrl },
+    ...(artist.artworks || []),
+  ];
+  currentWorks = works;
+  currentWorkIndex = 0;
+  renderWork();
   panel.hidden = false;
+}
+
+let currentWorks = [];
+let currentWorkIndex = 0;
+
+function renderWork() {
+  const work = currentWorks[currentWorkIndex];
+  if (!work) return;
+  artistImage.src = work.imageUrl;
+  artistImage.alt = work.title || artistName.textContent;
+  artistUrl.href = work.imageUrl;
+  const total = currentWorks.length;
+  carouselCounter.textContent = total > 1 ? `${currentWorkIndex + 1} / ${total}` : "";
+  carouselPrev.disabled = currentWorkIndex === 0;
+  carouselNext.disabled = currentWorkIndex >= total - 1;
+}
+
+function stepWork(dir) {
+  const next = currentWorkIndex + dir;
+  if (next < 0 || next >= currentWorks.length) return;
+  currentWorkIndex = next;
+  renderWork();
+}
+
+function initCarousel() {
+  carouselPrev.addEventListener("click", () => stepWork(-1));
+  carouselNext.addEventListener("click", () => stepWork(1));
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -992,6 +1027,7 @@ async function init() {
     initEpochDetail();
     bindGlobalControls();
     bindTouchControls();
+    initCarousel();
     museumView.hidden = true;
     timelineOverlay.hidden = false;
   } catch (err) {

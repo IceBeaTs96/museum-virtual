@@ -10,7 +10,21 @@
     "epoch": "Vorreformatorisch",
     "epochRange": "1200–1400",
     "bio": "Florentine painter who broke with Byzantine flatness and reintroduced naturalistic figures, spatial depth, and human emotion into Western painting. His Scrovegni Chapel frescoes mark the beginning of the Renaissance.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Giotto_-_Scrovegni_-_-36-_-_Lamentation_%28The_Mourning_of_Christ%29_adj.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Giotto_-_Scrovegni_-_-36-_-_Lamentation_%28The_Mourning_of_Christ%29_adj.jpg",
+    "artworks": [
+      {
+        "title": "Giotto, frammento dalla badia fiorentina",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Giotto%2C_frammento_dalla_badia_fiorentina.jpg/960px-Giotto%2C_frammento_dalla_badia_fiorentina.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Giotto. St. Lawrence.1320-25. 81x55cm.Musee Jackemart Andree, Chaalis",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Giotto._St._Lawrence.1320-25._81x55cm.Musee_Jackemart_Andree%2C_Chaalis.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "Giotto di Bondone (Ambrogio Bondone Giotto) - Virgin and Child Enthroned with Four Saints - 03.566 - Museum of Fine Arts",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Giotto_di_Bondone_%28Ambrogio_Bondone_Giotto%29_-_Virgin_and_Child_Enthroned_with_Four_Saints_-_03.566_-_Museum_of_Fine_Arts.jpg/960px-Giotto_di_Bondone_%28Ambrogio_Bondone_Giotto%29_-_Virgin_and_Child_Enthroned_with_Four_Saints_-_03.566_-_Museum_of_Fine_Arts.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "jan-van-eyck",
@@ -23,7 +37,21 @@
     "epoch": "Renaissance",
     "epochRange": "1400–1600",
     "bio": "Flemish painter who perfected oil painting technique and brought unprecedented realism to portraiture and religious scenes. The Ghent Altarpiece and Arnolfini Portrait remain landmarks of Northern Renaissance art.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Jan_van_Eyck_-_Arnolfini_Portrait_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Jan_van_Eyck_-_Arnolfini_Portrait_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Annunciation - Jan van Eyck - 1434 - NG Wash DC",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Annunciation_-_Jan_van_Eyck_-_1434_-_NG_Wash_DC.jpg/960px-Annunciation_-_Jan_van_Eyck_-_1434_-_NG_Wash_DC.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Jan van Eyck - Kardinal Niccolò Albergati - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Jan_van_Eyck_-_Kardinal_Niccol%C3%B2_Albergati_-_Google_Art_Project.jpg/960px-Jan_van_Eyck_-_Kardinal_Niccol%C3%B2_Albergati_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Jan van Eyck - Man in a Blue Cap (c.1430)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Jan_van_Eyck_-_Man_in_a_Blue_Cap_%28c.1430%29.jpg/960px-Jan_van_Eyck_-_Man_in_a_Blue_Cap_%28c.1430%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "leonardo-da-vinci",
@@ -36,7 +64,21 @@
     "epoch": "Renaissance",
     "epochRange": "1400–1600",
     "bio": "Italian polymath and painter whose studies of anatomy, light, engineering, and nature shaped the ideal of the Renaissance artist. His paintings are known for subtle modeling, psychological presence, and experimental composition.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg",
+    "artworks": [
+      {
+        "title": "Annunciation (Leonardo)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Annunciation_%28Leonardo%29.jpg/960px-Annunciation_%28Leonardo%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Da Vinci Vitruve Luc Viatour",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Da_Vinci_Vitruve_Luc_Viatour.jpg/960px-Da_Vinci_Vitruve_Luc_Viatour.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Lady with an Ermine - Leonardo da Vinci - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Lady_with_an_Ermine_-_Leonardo_da_Vinci_-_Google_Art_Project.jpg/960px-Lady_with_an_Ermine_-_Leonardo_da_Vinci_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "michelangelo",
@@ -49,7 +91,21 @@
     "epoch": "Renaissance",
     "epochRange": "1400–1600",
     "bio": "Florentine sculptor, painter, architect, and poet. Michelangelo brought monumental anatomy and dramatic spiritual force to Renaissance art, from the Sistine Chapel ceiling to marble figures such as David.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg",
+    "artworks": [
+      {
+        "title": "Daniele da volterra, ritratto di michelangelo buonarroti, 1544 ca.",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Daniele_da_volterra%2C_ritratto_di_michelangelo_buonarroti%2C_1544_ca..JPG/960px-Daniele_da_volterra%2C_ritratto_di_michelangelo_buonarroti%2C_1544_ca..JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Michelangelo Buonarroti (1475–1564) MET DP312760",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Michelangelo_Buonarroti_%281475%E2%80%931564%29_MET_DP312760.jpg/960px-Michelangelo_Buonarroti_%281475%E2%80%931564%29_MET_DP312760.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Michelangelo Buonarroti (1475–1564) MET Ingresletter",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Michelangelo_Buonarroti_%281475%E2%80%931564%29_MET_Ingresletter.jpg/960px-Michelangelo_Buonarroti_%281475%E2%80%931564%29_MET_Ingresletter.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "raphael",
@@ -62,7 +118,21 @@
     "epoch": "Renaissance",
     "epochRange": "1400–1600",
     "bio": "Italian painter and architect celebrated for clarity, balanced composition, and graceful figures. Raphael's Vatican frescoes became defining examples of High Renaissance harmony.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/La_scuola_di_Atene.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/La_scuola_di_Atene.jpg",
+    "artworks": [
+      {
+        "title": "La Fornarina by Raffaello",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/La_Fornarina_by_Raffaello.jpg/960px-La_Fornarina_by_Raffaello.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Pala degli Oddi (Raphael) September 2015-1a",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Pala_degli_Oddi_%28Raphael%29_September_2015-1a.jpg/960px-Pala_degli_Oddi_%28Raphael%29_September_2015-1a.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Portrait of a Cardinal, by Raffael, from Prado in Google Earth",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Portrait_of_a_Cardinal%2C_by_Raffael%2C_from_Prado_in_Google_Earth.jpg/960px-Portrait_of_a_Cardinal%2C_by_Raffael%2C_from_Prado_in_Google_Earth.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "sandro-botticelli",
@@ -75,7 +145,21 @@
     "epoch": "Renaissance",
     "epochRange": "1400–1600",
     "bio": "Florentine painter associated with lyrical line, mythological scenes, and refined devotional works. His Birth of Venus and Primavera helped define the poetic visual language of early Renaissance Florence.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",
+    "artworks": [
+      {
+        "title": "Botticelli-primavera",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Botticelli-primavera.jpg/960px-Botticelli-primavera.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Dante Alighieri's portrait by Sandro Botticelli",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/82/Dante_Alighieri%27s_portrait_by_Sandro_Botticelli.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "Madonna of the Magnificat",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Madonna_of_the_Magnificat.png/960px-Madonna_of_the_Magnificat.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "titian",
@@ -88,7 +172,21 @@
     "epoch": "Renaissance",
     "epochRange": "1400–1600",
     "bio": "Venetian master whose rich color, loose handling, and confident portraiture influenced European painting for centuries. Titian's work bridged Renaissance ideals with a more sensual painterly approach.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Tizian_102.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Tizian_102.jpg",
+    "artworks": [
+      {
+        "title": "Titian's Mistress",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Titian%27s_Mistress.png/960px-Titian%27s_Mistress.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Titian's Mistress (crop)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Titian%27s_Mistress_%28crop%29.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "Titian - Portrait of a Venetian Gentleman painted over a copy of Giacomo Dolfin",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Titian_-_Portrait_of_a_Venetian_Gentleman_painted_over_a_copy_of_Giacomo_Dolfin.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      }
+    ]
   },
   {
     "id": "albrecht-durer",
@@ -101,7 +199,21 @@
     "epoch": "Renaissance",
     "epochRange": "1400–1600",
     "bio": "German painter, printmaker, and theorist who brought Italian Renaissance ideas north of the Alps. His woodcuts and engravings achieved unprecedented technical mastery and spread across Europe.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Albrecht_D%C3%BCrer_-_Self-Portrait_%281500%29_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Albrecht_D%C3%BCrer_-_Self-Portrait_%281500%29_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Albrecht Dürer - Hare, 1502 - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Albrecht_D%C3%BCrer_-_Hare%2C_1502_-_Google_Art_Project.jpg/960px-Albrecht_D%C3%BCrer_-_Hare%2C_1502_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Albrecht Dürer - Jesus among the Doctors - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Albrecht_D%C3%BCrer_-_Jesus_among_the_Doctors_-_Google_Art_Project.jpg/960px-Albrecht_D%C3%BCrer_-_Jesus_among_the_Doctors_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Albrecht Dürer - Lot's Flight - National Gallery of Art",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Albrecht_D%C3%BCrer_-_Lot%27s_Flight_-_National_Gallery_of_Art.jpg/960px-Albrecht_D%C3%BCrer_-_Lot%27s_Flight_-_National_Gallery_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "hieronymus-bosch",
@@ -114,7 +226,21 @@
     "epoch": "Renaissance",
     "epochRange": "1400–1600",
     "bio": "Dutch painter whose surreal, nightmarish visions of heaven and hell were centuries ahead of their time. The Garden of Earthly Delights remains one of the most enigmatic artworks ever created.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution.jpg",
+    "artworks": [
+      {
+        "title": "Accademia - Visioni dell'Aldilà - L'inferno - Bosch",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Accademia_-_Visioni_dell%27Aldil%C3%A0_-_L%27inferno_-_Bosch.jpg/960px-Accademia_-_Visioni_dell%27Aldil%C3%A0_-_L%27inferno_-_Bosch.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Hieronymus Bosch- The Seven Deadly Sins and the Four Last Things",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Hieronymus_Bosch-_The_Seven_Deadly_Sins_and_the_Four_Last_Things.JPG/960px-Hieronymus_Bosch-_The_Seven_Deadly_Sins_and_the_Four_Last_Things.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Hieronymus Bosch - Christ Mocked (The Crowning with Thorns) - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Hieronymus_Bosch_-_Christ_Mocked_%28The_Crowning_with_Thorns%29_-_Google_Art_Project.jpg/960px-Hieronymus_Bosch_-_Christ_Mocked_%28The_Crowning_with_Thorns%29_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "caravaggio",
@@ -127,7 +253,21 @@
     "epoch": "Barock",
     "epochRange": "1600–1750",
     "bio": "Revolutionary painter who brought dramatic chiaroscuro and gritty realism to sacred subjects. His intense lighting and visceral human figures changed the course of European painting.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Michelangelo_Merisi_da_Caravaggio_-_Supper_at_Emmaus_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Michelangelo_Merisi_da_Caravaggio_-_Supper_at_Emmaus_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Bacchus by Caravaggio 1",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Bacchus_by_Caravaggio_1.jpg/960px-Bacchus_by_Caravaggio_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Hieronymus Bosch - Christ Mocked (The Crowning with Thorns) - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Hieronymus_Bosch_-_Christ_Mocked_%28The_Crowning_with_Thorns%29_-_Google_Art_Project.jpg/960px-Hieronymus_Bosch_-_Christ_Mocked_%28The_Crowning_with_Thorns%29_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Isenmann, Colmar Altarpiece (Flagellation, Crowning with Thorns)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Isenmann%2C_Colmar_Altarpiece_%28Flagellation%2C_Crowning_with_Thorns%29.jpg/960px-Isenmann%2C_Colmar_Altarpiece_%28Flagellation%2C_Crowning_with_Thorns%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "rembrandt",
@@ -140,7 +280,21 @@
     "epoch": "Barock",
     "epochRange": "1600–1750",
     "bio": "Dutch master of light, shadow, and human psychology. His portraits, self-portraits, and biblical scenes remain unmatched in their emotional depth and technical brilliance.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rembrandt_-_The_Nightwatch_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Rembrandt_-_The_Nightwatch_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "George I (György) Rákóczi (1593-1648) - Rembrandt van Rijn & Jan Gillisz. van Vliet",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/George_I_%28Gy%C3%B6rgy%29_R%C3%A1k%C3%B3czi_%281593-1648%29_-_Rembrandt_van_Rijn_%26_Jan_Gillisz._van_Vliet.jpg/960px-George_I_%28Gy%C3%B6rgy%29_R%C3%A1k%C3%B3czi_%281593-1648%29_-_Rembrandt_van_Rijn_%26_Jan_Gillisz._van_Vliet.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "La ronda de noche, por Rembrandt van Rijn",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/La_ronda_de_noche%2C_por_Rembrandt_van_Rijn.jpg/960px-La_ronda_de_noche%2C_por_Rembrandt_van_Rijn.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Rembrandt Harmensz van Rijn - Return of the Prodigal Son - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Rembrandt_Harmensz_van_Rijn_-_Return_of_the_Prodigal_Son_-_Google_Art_Project.jpg/960px-Rembrandt_Harmensz_van_Rijn_-_Return_of_the_Prodigal_Son_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "vermeer",
@@ -153,7 +307,21 @@
     "epoch": "Barock",
     "epochRange": "1600–1750",
     "bio": "Dutch painter famed for his serene domestic interiors bathed in cool northern light. His meticulous technique and quiet intimacy make every scene feel like a private moment frozen in time.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Johannes_Vermeer_-_Girl_with_a_Pearl_Earring_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Johannes_Vermeer_-_Girl_with_a_Pearl_Earring_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Jan Vermeer van Delft - The Glass of Wine - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Jan_Vermeer_van_Delft_-_The_Glass_of_Wine_-_Google_Art_Project.jpg/960px-Jan_Vermeer_van_Delft_-_The_Glass_of_Wine_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Johannes Vermeer (1632-1675) - The Girl With The Pearl Earring (1665)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Johannes_Vermeer_%281632-1675%29_-_The_Girl_With_The_Pearl_Earring_%281665%29.jpg/960px-Johannes_Vermeer_%281632-1675%29_-_The_Girl_With_The_Pearl_Earring_%281665%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Johannes Vermeer - Woman Holding a Balance - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Johannes_Vermeer_-_Woman_Holding_a_Balance_-_Google_Art_Project.jpg/960px-Johannes_Vermeer_-_Woman_Holding_a_Balance_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "rubens",
@@ -166,7 +334,21 @@
     "epoch": "Barock",
     "epochRange": "1600–1750",
     "bio": "Flemish painter known for dynamic movement, lush color, and exuberant compositions. His large-scale altarpieces and mythological scenes defined the Baroque visual language.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Peter_Paul_Rubens_-_The_Fall_of_Phaeton_%28National_Gallery_of_Art%29.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Peter_Paul_Rubens_-_The_Fall_of_Phaeton_%28National_Gallery_of_Art%29.jpg",
+    "artworks": [
+      {
+        "title": "Jan Brueghel de Oude en Peter Paul Rubens - Het aards paradijs met de zondeval van Adam en Eva",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Jan_Brueghel_de_Oude_en_Peter_Paul_Rubens_-_Het_aards_paradijs_met_de_zondeval_van_Adam_en_Eva.jpg/960px-Jan_Brueghel_de_Oude_en_Peter_Paul_Rubens_-_Het_aards_paradijs_met_de_zondeval_van_Adam_en_Eva.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Peter Paul Rubens - Abundance (Abundantia) - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Peter_Paul_Rubens_-_Abundance_%28Abundantia%29_-_Google_Art_Project.jpg/960px-Peter_Paul_Rubens_-_Abundance_%28Abundantia%29_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Peter Paul Rubens - Diana and Callisto - WGA20326",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Peter_Paul_Rubens_-_Diana_and_Callisto_-_WGA20326.jpg/960px-Peter_Paul_Rubens_-_Diana_and_Callisto_-_WGA20326.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "bernini",
@@ -179,7 +361,21 @@
     "epoch": "Barock",
     "epochRange": "1600–1750",
     "bio": "Sculptor, architect, and painter who gave marble the appearance of living flesh. His works in Rome, including the Ecstasy of Saint Teresa, embody Baroque theatricality.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Ecstasy_of_Saint_Teresa_Gian_Lorenzo_Bernini.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Ecstasy_of_Saint_Teresa_Gian_Lorenzo_Bernini.jpg",
+    "artworks": [
+      {
+        "title": "GIANLORENZO BERNINI NAPLES 1598 - 1680 ROME CHRIST MOCKED",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/GIANLORENZO_BERNINI_NAPLES_1598_-_1680_ROME_CHRIST_MOCKED.jpg/960px-GIANLORENZO_BERNINI_NAPLES_1598_-_1680_ROME_CHRIST_MOCKED.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Gian Lorenzo Bernini, self-portrait, c1623",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Gian_Lorenzo_Bernini%2C_self-portrait%2C_c1623.jpg/960px-Gian_Lorenzo_Bernini%2C_self-portrait%2C_c1623.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Gian Lorenzo Bernini - Totenkopf",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Gian_Lorenzo_Bernini_-_Totenkopf.jpg/960px-Gian_Lorenzo_Bernini_-_Totenkopf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "velazquez",
@@ -192,7 +388,21 @@
     "epoch": "Barock",
     "epochRange": "1600–1750",
     "bio": "Spanish court painter whose masterful brushwork and psychological depth made him one of the greatest portraitists in history. Las Meninas is a meditation on painting, reality, and royal power.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg",
+    "artworks": [
+      {
+        "title": "Diego Velázquez - Coronation of the Virgin - Prado",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Diego_Vel%C3%A1zquez_-_Coronation_of_the_Virgin_-_Prado.jpg/960px-Diego_Vel%C3%A1zquez_-_Coronation_of_the_Virgin_-_Prado.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Diego Velázquez - Maria Anna of Spain - Prado",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Diego_Vel%C3%A1zquez_-_Maria_Anna_of_Spain_-_Prado.jpg/960px-Diego_Vel%C3%A1zquez_-_Maria_Anna_of_Spain_-_Prado.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Diego Velázquez - The Three Musicians - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Diego_Vel%C3%A1zquez_-_The_Three_Musicians_-_Google_Art_Project.jpg/960px-Diego_Vel%C3%A1zquez_-_The_Three_Musicians_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "artemisia-gentileschi",
@@ -205,7 +415,21 @@
     "epoch": "Barock",
     "epochRange": "1600–1750",
     "bio": "One of the most accomplished Baroque painters and the first woman admitted to Florence's Accademia delle Arti del Disegno. Her powerful depictions of biblical heroines are marked by dramatic realism.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Artemisia_Gentileschi_-_Judith_Beheading_Holofernes_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Artemisia_Gentileschi_-_Judith_Beheading_Holofernes_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Artemisia Gentileschi - David with the Head of Goliath, Hampel-116058045",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Artemisia_Gentileschi_-_David_with_the_Head_of_Goliath%2C_Hampel-116058045.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "Artemisia Gentileschi - Self-Portrait as the Allegory of Painting (detail) - WGA08570",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Artemisia_Gentileschi_-_Self-Portrait_as_the_Allegory_of_Painting_%28detail%29_-_WGA08570.jpg/960px-Artemisia_Gentileschi_-_Self-Portrait_as_the_Allegory_of_Painting_%28detail%29_-_WGA08570.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Artemisia Gentileschi Selfportrait Martyr",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/32/Artemisia_Gentileschi_Selfportrait_Martyr.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      }
+    ]
   },
   {
     "id": "caspar-david-friedrich",
@@ -218,7 +442,21 @@
     "epoch": "Romantik",
     "epochRange": "1780–1850",
     "bio": "German Romantic painter whose misty landscapes and solitary wanderers evoke spiritual longing and the sublime power of nature. Wanderer above the Sea of Fog became an icon of Romanticism.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Caspar David Friedrich - Cairn in Snow - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Caspar_David_Friedrich_-_Cairn_in_Snow_-_Google_Art_Project.jpg/960px-Caspar_David_Friedrich_-_Cairn_in_Snow_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Caspar David Friedrich - Der einsame Baum - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Caspar_David_Friedrich_-_Der_einsame_Baum_-_Google_Art_Project.jpg/960px-Caspar_David_Friedrich_-_Der_einsame_Baum_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Caspar David Friedrich - Wanderer above the Sea of Fog",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg/960px-Caspar_David_Friedrich_-_Wanderer_above_the_Sea_of_Fog.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "jmw-turner",
@@ -231,7 +469,21 @@
     "epoch": "Romantik",
     "epochRange": "1780–1850",
     "bio": "British painter whose luminous, atmospheric seascapes and landscapes dissolved form into pure light and color. Turner paved the way for Impressionism and modern abstraction.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Joseph_Mallord_William_Turner_-_The_Fighting_Temeraire_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Joseph_Mallord_William_Turner_-_The_Fighting_Temeraire_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "J.M.W. Turner - Walton Bridges on the Thames",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/J.M.W._Turner_-_Walton_Bridges_on_the_Thames.jpg/960px-J.M.W._Turner_-_Walton_Bridges_on_the_Thames.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "J. M. W. TURNER Evesham Abbey",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/7/74/J._M._W._TURNER_Evesham_Abbey.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "J. M. W. Turner - Nantes from the Ile Feydeau (1830) (Edited)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/J._M._W._Turner_-_Nantes_from_the_Ile_Feydeau_%281830%29_%28Edited%29.jpg/960px-J._M._W._Turner_-_Nantes_from_the_Ile_Feydeau_%281830%29_%28Edited%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "eugene-delacroix",
@@ -244,7 +496,21 @@
     "epoch": "Romantik",
     "epochRange": "1780–1850",
     "bio": "French Romantic painter whose explosive color and energetic brushwork challenged the calm classicism of his era. Liberty Leading the People remains a symbol of revolutionary spirit.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne_Delacroix_-_La_libert%C3%A9_guidant_le_peuple.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Eug%C3%A8ne_Delacroix_-_La_libert%C3%A9_guidant_le_peuple.jpg",
+    "artworks": [
+      {
+        "title": "Death of Sardanapalus by Eugène Delacroix",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Death_of_Sardanapalus_by_Eug%C3%A8ne_Delacroix.jpg/960px-Death_of_Sardanapalus_by_Eug%C3%A8ne_Delacroix.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Delacroix - Tiger and Lion, 1850",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Delacroix_-_Tiger_and_Lion%2C_1850.jpg/960px-Delacroix_-_Tiger_and_Lion%2C_1850.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Don Juan by Eugène Delacroix",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Don_Juan_by_Eug%C3%A8ne_Delacroix.jpg/960px-Don_Juan_by_Eug%C3%A8ne_Delacroix.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "francisco-goya",
@@ -257,7 +523,21 @@
     "epoch": "Romantik",
     "epochRange": "1780–1850",
     "bio": "Spanish court painter who evolved from elegant Rococo portraits to dark, haunting visions of war, madness, and the supernatural. His Black Paintings and The Third of May 1808 are searing indictments of human cruelty.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_in_Google_Earth.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_in_Google_Earth.jpg",
+    "artworks": [
+      {
+        "title": "(Castres) Portrait de Francisco del Mazo, Francisco de Goya y Lucientes, Musée Goya",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/%28Castres%29_Portrait_de_Francisco_del_Mazo%2C_Francisco_de_Goya_y_Lucientes%2C_Mus%C3%A9e_Goya.jpg/960px-%28Castres%29_Portrait_de_Francisco_del_Mazo%2C_Francisco_de_Goya_y_Lucientes%2C_Mus%C3%A9e_Goya.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "(Castres) Portrait de Mariano Goya - Musée Goya",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/%28Castres%29_Portrait_de_Mariano_Goya_-_Mus%C3%A9e_Goya.jpg/960px-%28Castres%29_Portrait_de_Mariano_Goya_-_Mus%C3%A9e_Goya.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "El Tres de Mayo, by Francisco de Goya, from Prado thin black margin",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg/960px-El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "monet",
@@ -270,7 +550,21 @@
     "epoch": "Impressionismus",
     "epochRange": "1860–1900",
     "bio": "French Impressionist who painted light itself rather than objects. His series of water lilies, haystacks, and Rouen Cathedral capture fleeting moments in vibrating color.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Claude_Monet_-_Water_Lilies_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Claude Monet.- Le Pont d'Argenteuil",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Claude_Monet.-_Le_Pont_d%27Argenteuil.JPG/960px-Claude_Monet.-_Le_Pont_d%27Argenteuil.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Claude Monet - Woman with a Parasol - Madame Monet and Her Son - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg/960px-Claude_Monet_-_Woman_with_a_Parasol_-_Madame_Monet_and_Her_Son_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Claude Monet 023",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Claude_Monet_023.jpg/960px-Claude_Monet_023.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "van-gogh",
@@ -283,7 +577,21 @@
     "epoch": "Impressionismus",
     "epochRange": "1860–1900",
     "bio": "Dutch painter whose bold, swirling brushstrokes and intense color expressed deep emotion. In just a decade he created some of the most recognizable images in art history.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Vincent_van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Farmhouse in Provence, 1888, Vincent van Gogh, NGA",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Farmhouse_in_Provence%2C_1888%2C_Vincent_van_Gogh%2C_NGA.jpg/960px-Farmhouse_in_Provence%2C_1888%2C_Vincent_van_Gogh%2C_NGA.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Van Gogh - Starry Night - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/960px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Vincent Willem van Gogh 128",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Vincent_Willem_van_Gogh_128.jpg/960px-Vincent_Willem_van_Gogh_128.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "degas",
@@ -296,7 +604,21 @@
     "epoch": "Impressionismus",
     "epochRange": "1860–1900",
     "bio": "French painter and sculptor celebrated for his compositions of dancers, racehorses, and bathers. Degas combined classical draftsmanship with modern, off-center viewpoints.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Edgar_Degas_-_The_Ballet_Class_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Edgar_Degas_-_The_Ballet_Class_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "(Albi) Repasseuse c.1874 - Edgar Degas - Musée Angladon Avignon",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/%28Albi%29_Repasseuse_c.1874_-_Edgar_Degas_-_Mus%C3%A9e_Angladon_Avignon.jpg/960px-%28Albi%29_Repasseuse_c.1874_-_Edgar_Degas_-_Mus%C3%A9e_Angladon_Avignon.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Edgar Degas - Ballet (L'Étoile)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Edgar_Degas_-_Ballet_%28L%27%C3%89toile%29.jpg/960px-Edgar_Degas_-_Ballet_%28L%27%C3%89toile%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Edgar Degas - In a Café - Google Art Project 2",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Edgar_Degas_-_In_a_Caf%C3%A9_-_Google_Art_Project_2.jpg/960px-Edgar_Degas_-_In_a_Caf%C3%A9_-_Google_Art_Project_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "renoir",
@@ -309,7 +631,21 @@
     "epoch": "Impressionismus",
     "epochRange": "1860–1900",
     "bio": "French Impressionist painter of radiant light, warm flesh tones, and joyful social scenes. Renoir's touch remained gentle even as his style evolved toward classical form.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Pierre-Auguste_Renoir_-_Dance_at_Le_moulin_de_la_Galette_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Pierre-Auguste_Renoir_-_Dance_at_Le_moulin_de_la_Galette_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Femme Nue dans un Paysage, by Pierre-Auguste Renoir, from C2RMF cropped",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Femme_Nue_dans_un_Paysage%2C_by_Pierre-Auguste_Renoir%2C_from_C2RMF_cropped.jpg/960px-Femme_Nue_dans_un_Paysage%2C_by_Pierre-Auguste_Renoir%2C_from_C2RMF_cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Gabrielle et Jean, by Pierre-Auguste Renoir, from C2RMF cropped",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Gabrielle_et_Jean%2C_by_Pierre-Auguste_Renoir%2C_from_C2RMF_cropped.jpg/960px-Gabrielle_et_Jean%2C_by_Pierre-Auguste_Renoir%2C_from_C2RMF_cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Pierre-Auguste Renoir, The Umbrellas, ca. 1881-86",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Pierre-Auguste_Renoir%2C_The_Umbrellas%2C_ca._1881-86.jpg/960px-Pierre-Auguste_Renoir%2C_The_Umbrellas%2C_ca._1881-86.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "cezanne",
@@ -322,7 +658,21 @@
     "epoch": "Impressionismus",
     "epochRange": "1860–1900",
     "bio": "French painter who bridged Impressionism and Cubism. His methodical approach to form and color—building compositions with modulated planes—laid the foundation for 20th-century modern art.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Paul_C%C3%A9zanne_-_Mont_Sainte-Victoire_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Paul_C%C3%A9zanne_-_Mont_Sainte-Victoire_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Autoportrait au béret, par Paul Cézanne",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Autoportrait_au_b%C3%A9ret%2C_par_Paul_C%C3%A9zanne.jpg/960px-Autoportrait_au_b%C3%A9ret%2C_par_Paul_C%C3%A9zanne.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "La Montagne Sainte-Victoire vue de la carrière Bibémus, par Paul Cézanne",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/La_Montagne_Sainte-Victoire_vue_de_la_carri%C3%A8re_Bib%C3%A9mus%2C_par_Paul_C%C3%A9zanne.jpg/960px-La_Montagne_Sainte-Victoire_vue_de_la_carri%C3%A8re_Bib%C3%A9mus%2C_par_Paul_C%C3%A9zanne.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Le Garçon au gilet rouge, par Paul Cézanne, National Gallery of Art",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Le_Gar%C3%A7on_au_gilet_rouge%2C_par_Paul_C%C3%A9zanne%2C_National_Gallery_of_Art.jpg/960px-Le_Gar%C3%A7on_au_gilet_rouge%2C_par_Paul_C%C3%A9zanne%2C_National_Gallery_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "seurat",
@@ -335,7 +685,21 @@
     "epoch": "Impressionismus",
     "epochRange": "1860–1900",
     "bio": "French painter who developed Pointillism—a scientific technique of applying tiny dots of pure color that blend in the viewer's eye. A Sunday Afternoon on La Grande Jatte is his masterpiece.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Georges_Seurat_-_A_Sunday_on_La_Grande_Jatte_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Georges_Seurat_-_A_Sunday_on_La_Grande_Jatte_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "A Sunday on La Grande Jatte, Georges Seurat, 1884",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg/960px-A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Georges-Pierre Seurat - Honfleur, un soir, embouchure de la Seine - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Georges-Pierre_Seurat_-_Honfleur%2C_un_soir%2C_embouchure_de_la_Seine_-_Google_Art_Project.jpg/960px-Georges-Pierre_Seurat_-_Honfleur%2C_un_soir%2C_embouchure_de_la_Seine_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Georges Seurat - A Fisherman - 1966.79.14 - Yale University Art Gallery",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Georges_Seurat_-_A_Fisherman_-_1966.79.14_-_Yale_University_Art_Gallery.jpg/960px-Georges_Seurat_-_A_Fisherman_-_1966.79.14_-_Yale_University_Art_Gallery.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "gustav-klimt",
@@ -348,7 +712,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "Austrian Symbolist painter whose gilded, decorative portraits and allegorical works defined Vienna's Golden Age. The Kiss remains one of the most beloved paintings in the world.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Gustav_Klimt_-_The_Kiss_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Gustav_Klimt_-_The_Kiss_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "(Venice) Gustav Klimt - Giuditta II (Judith II) - Museo d'arte moderna",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/%28Venice%29_Gustav_Klimt_-_Giuditta_II_%28Judith_II%29_-_Museo_d%27arte_moderna.jpg/960px-%28Venice%29_Gustav_Klimt_-_Giuditta_II_%28Judith_II%29_-_Museo_d%27arte_moderna.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Gustav Klimt - Beech Grove I - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Gustav_Klimt_-_Beech_Grove_I_-_Google_Art_Project.jpg/960px-Gustav_Klimt_-_Beech_Grove_I_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Gustav Klimt - Death and Life - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Gustav_Klimt_-_Death_and_Life_-_Google_Art_Project.jpg/960px-Gustav_Klimt_-_Death_and_Life_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "picasso",
@@ -361,7 +739,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "Spanish painter and sculptor who shattered perspective with Cubism. Picasso's restless experimentation across decades—from Blue Period to Guernica—made him the most influential artist of the 20th century.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Pablo_Picasso_-_Guernica_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Pablo_Picasso_-_Guernica_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Pablo Picasso's ceramic3",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Pablo_Picasso%27s_ceramic3.jpg/960px-Pablo_Picasso%27s_ceramic3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Pablo Picasso Graffiti",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Pablo_Picasso_Graffiti.jpg/960px-Pablo_Picasso_Graffiti.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Pablo Picasso dando instrucciones a una modelo en su taller de pintura",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Pablo_Picasso_dando_instrucciones_a_una_modelo_en_su_taller_de_pintura.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      }
+    ]
   },
   {
     "id": "kandinsky",
@@ -374,7 +766,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "Russian painter and theorist credited with creating the first purely abstract artworks. Kandinsky believed color and form could express spiritual truths without depicting reality.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Vassily_Kandinsky_-_Composition_VIII_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Vassily_Kandinsky_-_Composition_VIII_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Composition VII - Wassily Kandinsky, GAC",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Composition_VII_-_Wassily_Kandinsky%2C_GAC.jpg/960px-Composition_VII_-_Wassily_Kandinsky%2C_GAC.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Kandinsky - Improvisation Klamm PA291186",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Kandinsky_-_Improvisation_Klamm_PA291186.jpg/960px-Kandinsky_-_Improvisation_Klamm_PA291186.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Kandinsky - Jaune Rouge Bleu",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Kandinsky_-_Jaune_Rouge_Bleu.jpg/960px-Kandinsky_-_Jaune_Rouge_Bleu.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "salvador-dali",
@@ -387,7 +793,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "Spanish Surrealist whose meticulously painted dreamscapes—melting clocks, burning giraffes—explored the unconscious mind with hallucinatory precision.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Salvador_Dal%C3%AD_-_The_Persistence_of_Memory_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Salvador_Dal%C3%AD_-_The_Persistence_of_Memory_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "'Hair' (1930) by Salvador Dalí - Museo Soumaya - Mexico 2024",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/%27Hair%27_%281930%29_by_Salvador_Dal%C3%AD_-_Museo_Soumaya_-_Mexico_2024.jpg/960px-%27Hair%27_%281930%29_by_Salvador_Dal%C3%AD_-_Museo_Soumaya_-_Mexico_2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Salvador Dali - Statue - Cadaques - Spain",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Salvador_Dali_-_Statue_-_Cadaques_-_Spain.jpg/960px-Salvador_Dali_-_Statue_-_Cadaques_-_Spain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Salvador Dali A (Dali Atomicus) 09633u",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Salvador_Dali_A_%28Dali_Atomicus%29_09633u.jpg/960px-Salvador_Dali_A_%28Dali_Atomicus%29_09633u.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "frida-kahlo",
@@ -400,7 +820,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "Mexican painter whose intensely personal self-portraits blended realism with symbolism, indigenous culture, and raw emotional honesty. Her work became a global icon of identity and resilience.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Frida_Kahlo_-_The_Broken_Column_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Frida_Kahlo_-_The_Broken_Column_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "20191025 121220 Pat and Debbie Wiley donating a original Frida Kahlo painting in Playa de Carmen",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/20191025_121220_Pat_and_Debbie_Wiley_donating_a_original_Frida_Kahlo_painting_in_Playa_de_Carmen.jpg/960px-20191025_121220_Pat_and_Debbie_Wiley_donating_a_original_Frida_Kahlo_painting_in_Playa_de_Carmen.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Arbol de la Esperanza, Mantente Firme (Tree of Hope, Remain Strong) by Frida Kahlo, created in 1946",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Arbol_de_la_Esperanza%2C_Mantente_Firme_%28Tree_of_Hope%2C_Remain_Strong%29_by_Frida_Kahlo%2C_created_in_1946.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "Deya and Frida Kahlo",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Deya_and_Frida_Kahlo.jpg/960px-Deya_and_Frida_Kahlo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "matisse",
@@ -413,7 +847,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "French painter and sculptor who led Fauvism with explosive, non-naturalistic color. His later cut-out works—vibrant shapes of pure color—redefined what painting could be in old age.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Henri_Matisse_-_The_Dance_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Henri_Matisse_-_The_Dance_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "(Bemberg Foundation) - Henri Matisse - Boats in a Port, Oil on canvas (1926)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/%28Bemberg_Foundation%29_-_Henri_Matisse_-_Boats_in_a_Port%2C_Oil_on_canvas_%281926%29.jpg/960px-%28Bemberg_Foundation%29_-_Henri_Matisse_-_Boats_in_a_Port%2C_Oil_on_canvas_%281926%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Dinner Table, Henri Matisse, 1897",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/02/Dinner_Table%2C_Henri_Matisse%2C_1897.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "Henri matisse, odalisca, 1923",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Henri_matisse%2C_odalisca%2C_1923.jpg/960px-Henri_matisse%2C_odalisca%2C_1923.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "mondrian",
@@ -426,7 +874,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "Dutch painter who reduced art to its essentials: horizontal and vertical black lines, and primary colors on a white ground. His grid paintings influenced architecture, design, and fashion.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Piet_Mondrian_-_Composition_with_Large_Red_Plane%2C_Yellow%2C_Black%2C_Gray_and_Blue_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Piet_Mondrian_-_Composition_with_Large_Red_Plane%2C_Yellow%2C_Black%2C_Gray_and_Blue_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "2 Chrysanthemes by Piet Mondrian 1899-1900",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/2_Chrysanthemes_by_Piet_Mondrian_1899-1900.jpg/960px-2_Chrysanthemes_by_Piet_Mondrian_1899-1900.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "By the Sea, Piet Mondrian, 1909",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/By_the_Sea%2C_Piet_Mondrian%2C_1909.jpg/960px-By_the_Sea%2C_Piet_Mondrian%2C_1909.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Piet Mondriaan - Boslandschap met beek - A21 - Piet Mondrian, catalogue raisonné",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Piet_Mondriaan_-_Boslandschap_met_beek_-_A21_-_Piet_Mondrian%2C_catalogue_raisonn%C3%A9.jpg/960px-Piet_Mondriaan_-_Boslandschap_met_beek_-_A21_-_Piet_Mondrian%2C_catalogue_raisonn%C3%A9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "georgia-okeeffe",
@@ -439,7 +901,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "American painter known as the 'Mother of American Modernism.' Her large-scale flower paintings, New York skyscrapers, and New Mexico landscapes transformed everyday subjects into iconic images.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Georgia_O%27Keeffe_-_Oriental_Poppies_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Georgia_O%27Keeffe_-_Oriental_Poppies_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Blue and Green Music by Georgia O'Keeffe, 1921",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/84/Blue_and_Green_Music_by_Georgia_O%27Keeffe%2C_1921.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "Drawing XIII by Georgia O'Keeffe 1915",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Drawing_XIII_by_Georgia_O%27Keeffe_1915.jpg/960px-Drawing_XIII_by_Georgia_O%27Keeffe_1915.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Flower Abstraction, by Georgia O'Keeffe",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Flower_Abstraction%2C_by_Georgia_O%27Keeffe.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      }
+    ]
   },
   {
     "id": "hokusai",
@@ -452,7 +928,21 @@
     "epoch": "Asiatische Kunst",
     "epochRange": "1600–1900",
     "bio": "Japanese ukiyo-e master whose woodblock prints—especially The Great Wave off Kanagawa—became some of the most recognized images in world art. His work profoundly influenced European Impressionists.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Great_Wave_off_Kanagawa.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Great_Wave_off_Kanagawa.jpg",
+    "artworks": [
+      {
+        "title": "Album of Sketches by Katsushika Hokusai and His Disciples MET 14.76.59.1–.102 DP206832",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Album_of_Sketches_by_Katsushika_Hokusai_and_His_Disciples_MET_14.76.59.1%E2%80%93.102_DP206832.jpg/960px-Album_of_Sketches_by_Katsushika_Hokusai_and_His_Disciples_MET_14.76.59.1%E2%80%93.102_DP206832.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Katsushika Hokusai - Album of Sketches by Katsushika Hokusai and His Disciples - 14.76.59.1–.102 - Metropolitan Museum of Art",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Katsushika_Hokusai_-_Album_of_Sketches_by_Katsushika_Hokusai_and_His_Disciples_-_14.76.59.1%E2%80%93.102_-_Metropolitan_Museum_of_Art.jpg/960px-Katsushika_Hokusai_-_Album_of_Sketches_by_Katsushika_Hokusai_and_His_Disciples_-_14.76.59.1%E2%80%93.102_-_Metropolitan_Museum_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Katsushika Hokusai - Album of Sketches by Katsushika Hokusai and His Disciples - 14.76.60.1–.109 - Metropolitan Museum of Art",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Katsushika_Hokusai_-_Album_of_Sketches_by_Katsushika_Hokusai_and_His_Disciples_-_14.76.60.1%E2%80%93.109_-_Metropolitan_Museum_of_Art.jpg/960px-Katsushika_Hokusai_-_Album_of_Sketches_by_Katsushika_Hokusai_and_His_Disciples_-_14.76.60.1%E2%80%93.109_-_Metropolitan_Museum_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "hiroshige",
@@ -465,7 +955,21 @@
     "epoch": "Asiatische Kunst",
     "epochRange": "1600–1900",
     "bio": "Japanese ukiyo-e artist celebrated for his poetic landscape series, especially The Fifty-three Stations of the Tōkaidō. His atmospheric scenes of rain, snow, and mist influenced Van Gogh and Monet.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Hiroshige_-_Sudden_Shower_over_Shin-%C5%8Chashi_and_Atake_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Hiroshige_-_Sudden_Shower_over_Shin-%C5%8Chashi_and_Atake_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Imaginary painting of the America by Utagawa Hiroshige II",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Imaginary_painting_of_the_America_by_Utagawa_Hiroshige_II.jpg/960px-Imaginary_painting_of_the_America_by_Utagawa_Hiroshige_II.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Utagawa Hiroshige - Honmoku Bay of Musashi Province - 08.148.9 - Metropolitan Museum of Art",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Utagawa_Hiroshige_-_Honmoku_Bay_of_Musashi_Province_-_08.148.9_-_Metropolitan_Museum_of_Art.jpg/960px-Utagawa_Hiroshige_-_Honmoku_Bay_of_Musashi_Province_-_08.148.9_-_Metropolitan_Museum_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Utagawa Hiroshige - Kannon Slope of the Kiso Highway - 08.148.6 - Metropolitan Museum of Art",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Utagawa_Hiroshige_-_Kannon_Slope_of_the_Kiso_Highway_-_08.148.6_-_Metropolitan_Museum_of_Art.jpg/960px-Utagawa_Hiroshige_-_Kannon_Slope_of_the_Kiso_Highway_-_08.148.6_-_Metropolitan_Museum_of_Art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "andy-warhol",
@@ -478,7 +982,21 @@
     "epoch": "Zeitgenössisch",
     "epochRange": "1945–heute",
     "bio": "American artist who turned consumer products and celebrity faces into art. His Campbell's Soup Cans and Marilyn Monroe silkscreens blurred the line between high art and mass culture.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Andy_Warhol_-_Marilyn_Monroe_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Andy_Warhol_-_Marilyn_Monroe_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "1989 Ter-Oganian Andy Warhol. Marilyn 180x260",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/1989_Ter-Oganian_Andy_Warhol._Marilyn_180x260.jpg/960px-1989_Ter-Oganian_Andy_Warhol._Marilyn_180x260.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Andy Warhol Foundation v. Goldsmith, opinion of Justice Kagan, page 32 image",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/24/Andy_Warhol_Foundation_v._Goldsmith%2C_opinion_of_Justice_Kagan%2C_page_32_image.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "Andy Warhol Foundation v. Goldsmith, opinion of Justice Kagan, page 33 image 1",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/81/Andy_Warhol_Foundation_v._Goldsmith%2C_opinion_of_Justice_Kagan%2C_page_33_image_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      }
+    ]
   },
   {
     "id": "jackson-pollock",
@@ -491,7 +1009,21 @@
     "epoch": "Zeitgenössisch",
     "epochRange": "1945–heute",
     "bio": "American painter who revolutionized art with his drip technique—pouring and splattering paint onto canvases laid on the floor. His 'action painting' made the creative process itself the subject.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Jackson_Pollock_-_Number_1%2C_1950_%28Lavender_Mist%29_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Jackson_Pollock_-_Number_1%2C_1950_%28Lavender_Mist%29_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Circle by Jackson Pollock",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/6/63/Circle_by_Jackson_Pollock.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "Crustose lichens decorate arctic rocks like splashes of paint from a Jackson Pollock painting. (c509b507-1dd8-b71c-0700-4432e909f3af)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Crustose_lichens_decorate_arctic_rocks_like_splashes_of_paint_from_a_Jackson_Pollock_painting._%28c509b507-1dd8-b71c-0700-4432e909f3af%29.jpg/960px-Crustose_lichens_decorate_arctic_rocks_like_splashes_of_paint_from_a_Jackson_Pollock_painting._%28c509b507-1dd8-b71c-0700-4432e909f3af%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "De-Jackson-Pollock-Gemälde",
+        "imageUrl": "https://commons.wikimedia.org/w/resources/assets/file-type-icons/fileicon-ogg.png"
+      }
+    ]
   },
   {
     "id": "mark-rothko",
@@ -504,7 +1036,21 @@
     "epoch": "Zeitgenössisch",
     "epochRange": "1945–heute",
     "bio": "American painter whose large, luminous rectangles of color were designed to envelop the viewer in a meditative, almost spiritual experience. His works are meant to be encountered, not just seen.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Mark_Rothko_-_No._61_%28Rust_and_Blue%29_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Mark_Rothko_-_No._61_%28Rust_and_Blue%29_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "A galley of paintings by Mark Rothko, Tate Modern",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/A_galley_of_paintings_by_Mark_Rothko%2C_Tate_Modern.jpg/960px-A_galley_of_paintings_by_Mark_Rothko%2C_Tate_Modern.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Chess game Staunton No. 6 perfil view 8",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Chess_game_Staunton_No._6_perfil_view_8.jpg/960px-Chess_game_Staunton_No._6_perfil_view_8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Mark Rothko, Seagram Murals, shown at the Fondation Louis Vuitton, Paris in 2024",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Mark_Rothko%2C_Seagram_Murals%2C_shown_at_the_Fondation_Louis_Vuitton%2C_Paris_in_2024.jpg/960px-Mark_Rothko%2C_Seagram_Murals%2C_shown_at_the_Fondation_Louis_Vuitton%2C_Paris_in_2024.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "yayoi-kusama",
@@ -517,7 +1063,21 @@
     "epoch": "Zeitgenössisch",
     "epochRange": "1945–heute",
     "bio": "Japanese artist whose immersive Infinity Mirror Rooms and obsessive polka-dot patterns explore themes of repetition, infinity, and self-obliteration. One of the most popular living artists worldwide.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Yayoi_Kusama_-_Infinity_Mirror_Room_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Yayoi_Kusama_-_Infinity_Mirror_Room_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Inhotim yayoi kusama 01",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Inhotim_yayoi_kusama_01.jpg/960px-Inhotim_yayoi_kusama_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Kusama Yayoi The Spirits of the Pumpkins Descended into the Heavens",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Kusama_Yayoi_The_Spirits_of_the_Pumpkins_Descended_into_the_Heavens.jpg/960px-Kusama_Yayoi_The_Spirits_of_the_Pumpkins_Descended_into_the_Heavens.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Nmacc-2023-0331-kusama",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Nmacc-2023-0331-kusama.jpg/960px-Nmacc-2023-0331-kusama.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "banksy",
@@ -530,7 +1090,21 @@
     "epoch": "Zeitgenössisch",
     "epochRange": "1945–heute",
     "bio": "Anonymous British street artist whose stenciled works combine dark humor with political commentary. From shredding a painting at auction to painting on the West Bank barrier, Banksy redefined what art can be.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Banksy_-_Girl_with_Balloon_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Banksy_-_Girl_with_Balloon_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "14. Bucharest, Romania. Arcul de Triumf. Expozitia The Art of Banksy. (Interior cu tablourile lui Banksy)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/14._Bucharest%2C_Romania._Arcul_de_Triumf._Expozitia_The_Art_of_Banksy._%28Interior_cu_tablourile_lui_Banksy%29.jpg/960px-14._Bucharest%2C_Romania._Arcul_de_Triumf._Expozitia_The_Art_of_Banksy._%28Interior_cu_tablourile_lui_Banksy%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Banksy @ Travessa do Judeu (33513638076)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Banksy_%40_Travessa_do_Judeu_%2833513638076%29.jpg/960px-Banksy_%40_Travessa_do_Judeu_%2833513638076%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Ben Ksy (Banksy für Arme)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Ben_Ksy_%28Banksy_f%C3%BCr_Arme%29.jpg/960px-Ben_Ksy_%28Banksy_f%C3%BCr_Arme%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "gerhard-richter",
@@ -543,7 +1117,21 @@
     "epoch": "Zeitgenössisch",
     "epochRange": "1945–heute",
     "bio": "German painter who moves effortlessly between photorealism and abstraction. His blurred photo-paintings and squeegeed abstract canvases make him one of the most important living artists.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Gerhard_Richter_-_Abstract_Painting_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Gerhard_Richter_-_Abstract_Painting_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Gerhard Richter, Abstract Pictures, SFMOMA 06",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Gerhard_Richter%2C_Abstract_Pictures%2C_SFMOMA_06.jpg/960px-Gerhard_Richter%2C_Abstract_Pictures%2C_SFMOMA_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Gerhard Richter, Fenster (Window), 2002, SFMOMA 03",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Gerhard_Richter%2C_Fenster_%28Window%29%2C_2002%2C_SFMOMA_03.jpg/960px-Gerhard_Richter%2C_Fenster_%28Window%29%2C_2002%2C_SFMOMA_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Gerhard Richter, Lesende (Reader), 1994, SFMOMA 09",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Gerhard_Richter%2C_Lesende_%28Reader%29%2C_1994%2C_SFMOMA_09.jpg/960px-Gerhard_Richter%2C_Lesende_%28Reader%29%2C_1994%2C_SFMOMA_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "edward-hopper",
@@ -556,7 +1144,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "American realist painter whose scenes of urban loneliness—diners at night, solitary figures in sunlit rooms—captured the quiet isolation of modern American life. Nighthawks is his most iconic work.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Edward_Hopper_-_Nighthawks_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Edward_Hopper_-_Nighthawks_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "(Painting Class), by Edward Hopper",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/%28Painting_Class%29%2C_by_Edward_Hopper.jpg/960px-%28Painting_Class%29%2C_by_Edward_Hopper.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "(Portrait of Marion Hopper), by Edward Hopper",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/%28Portrait_of_Marion_Hopper%29%2C_by_Edward_Hopper.jpg/960px-%28Portrait_of_Marion_Hopper%29%2C_by_Edward_Hopper.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "(Soldier Entering a Parlor), by Edward Hopper",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/%28Soldier_Entering_a_Parlor%29%2C_by_Edward_Hopper.jpg/960px-%28Soldier_Entering_a_Parlor%29%2C_by_Edward_Hopper.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "magritte",
@@ -569,7 +1171,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "Belgian Surrealist who challenged perceptions of reality with deadpan wit. A pipe labeled 'This is not a pipe' and men in bowler hats with apples obscuring their faces became icons of philosophical art.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Ren%C3%A9_Magritte_-_The_Son_of_Man_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Ren%C3%A9_Magritte_-_The_Son_of_Man_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Golconda Fort, Hyderabad (Oct 2025) - 3",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Golconda_Fort%2C_Hyderabad_%28Oct_2025%29_-_3.jpg/960px-Golconda_Fort%2C_Hyderabad_%28Oct_2025%29_-_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Golconda Fort 002 - Baradari",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Golconda_Fort_002_-_Baradari.jpg/960px-Golconda_Fort_002_-_Baradari.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Golconda Fort 012 - Ambar Khana",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Golconda_Fort_012_-_Ambar_Khana.jpg/960px-Golconda_Fort_012_-_Ambar_Khana.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "munch",
@@ -582,7 +1198,21 @@
     "epoch": "Moderne",
     "epochRange": "1900–1945",
     "bio": "Norwegian painter whose intensely psychological works explored anxiety, love, and death. The Scream became one of the most recognizable images in art history—a universal symbol of existential dread.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Edvard_Munch_-_The_Scream_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Edvard_Munch_-_The_Scream_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Edvard Munch - Madonna (1894-1895)",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Edvard_Munch_-_Madonna_%281894-1895%29.jpg/960px-Edvard_Munch_-_Madonna_%281894-1895%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Edvard Munch - Madonna - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Edvard_Munch_-_Madonna_-_Google_Art_Project.jpg/960px-Edvard_Munch_-_Madonna_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Edvard Munch - The Kiss - Google Art Project",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Edvard_Munch_-_The_Kiss_-_Google_Art_Project.jpg/960px-Edvard_Munch_-_The_Kiss_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   },
   {
     "id": "david-hockney",
@@ -595,7 +1225,21 @@
     "epoch": "Zeitgenössisch",
     "epochRange": "1945–heute",
     "bio": "British artist whose vibrant California pool paintings, double portraits, and recent iPad landscapes span six decades of restless innovation. One of the most influential British artists of the 20th century.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/David_Hockney_-_A_Bigger_Splash_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/David_Hockney_-_A_Bigger_Splash_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "FILE São Paulo 2014 - No Rastro Digital, programação do Festival Internacional de Linguagem Eletrônica",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/FILE_S%C3%A3o_Paulo_2014_-_No_Rastro_Digital%2C_programa%C3%A7%C3%A3o_do_Festival_Internacional_de_Linguagem_Eletr%C3%B4nica.pdf/page1-960px-FILE_S%C3%A3o_Paulo_2014_-_No_Rastro_Digital%2C_programa%C3%A7%C3%A3o_do_Festival_Internacional_de_Linguagem_Eletr%C3%B4nica.pdf.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Gay art homosexual couple queer art paintings lgbt painter raphael perez biography resume artist statement יוצרים ישראליים",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Gay_art_homosexual_couple_queer_art_paintings_lgbt_painter_raphael_perez_biography_resume_artist_statement_%D7%99%D7%95%D7%A6%D7%A8%D7%99%D7%9D_%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%99%D7%9D.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      },
+      {
+        "title": "Gay art homosexual painter raphael perez interview resume artist statement articles אמנים ישראלים",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Gay_art_homosexual_painter_raphael_perez_interview_resume_artist_statement_articles_%D7%90%D7%9E%D7%A0%D7%99%D7%9D_%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%9D.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+      }
+    ]
   },
   {
     "id": "jean-michel-basquiat",
@@ -608,6 +1252,20 @@
     "epoch": "Zeitgenössisch",
     "epochRange": "1945–heute",
     "bio": "American artist who rose from graffiti on New York streets to international fame. His raw, text-laden paintings addressed race, power, and identity with explosive energy before his death at 27.",
-    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Jean-Michel_Basquiat_-_Untitled_%28Skull%29_-_Google_Art_Project.jpg"
+    "imageUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Jean-Michel_Basquiat_-_Untitled_%28Skull%29_-_Google_Art_Project.jpg",
+    "artworks": [
+      {
+        "title": "Basquait-johnnyblancoart",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Basquait-johnnyblancoart.jpg/960px-Basquait-johnnyblancoart.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Graffiti Jean-Michel Basquiat Eme Freethinker Pen Chill Mauerpark Berlin-Prenzlauer Berg",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Graffiti_Jean-Michel_Basquiat_Eme_Freethinker_Pen_Chill_Mauerpark_Berlin-Prenzlauer_Berg.jpg/960px-Graffiti_Jean-Michel_Basquiat_Eme_Freethinker_Pen_Chill_Mauerpark_Berlin-Prenzlauer_Berg.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      },
+      {
+        "title": "Notary Publics",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Notary_Publics.jpg/960px-Notary_Publics.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+      }
+    ]
   }
 ]
