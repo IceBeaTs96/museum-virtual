@@ -1133,7 +1133,7 @@ function moveCamera(delta) {
   const mv = new THREE.Vector3();
   if (keys.has("KeyW")) mv.add(fwd); if (keys.has("KeyS")) mv.sub(fwd);
   if (keys.has("KeyD")) mv.add(rgt); if (keys.has("KeyA")) mv.sub(rgt);
-  if (mv.lengthSq() > 0) { mv.normalize().multiplyScalar(s); camera.position.add(mv); camera.position.x = THREE.MathUtils.clamp(camera.position.x, -5.25, 5.25); camera.position.z = THREE.MathUtils.clamp(camera.position.z, -5.25, 5.25); }
+  if (mv.lengthSq() > 0) { mv.normalize().multiplyScalar(s); camera.position.add(mv); camera.position.x = THREE.MathUtils.clamp(camera.position.x, -roomBounds.x, roomBounds.x); camera.position.z = THREE.MathUtils.clamp(camera.position.z, -roomBounds.z, roomBounds.z); }
 }
 function resizeRenderer() {
   const w = canvas.clientWidth, h = canvas.clientHeight;
@@ -1305,8 +1305,8 @@ function applyTouchMove(delta) {
   if (mv.lengthSq() > 0) {
     mv.normalize().multiplyScalar(s);
     camera.position.add(mv);
-    camera.position.x = THREE.MathUtils.clamp(camera.position.x, -5.25, 5.25);
-    camera.position.z = THREE.MathUtils.clamp(camera.position.z, -5.25, 5.25);
+    camera.position.x = THREE.MathUtils.clamp(camera.position.x, -roomBounds.x, roomBounds.x);
+    camera.position.z = THREE.MathUtils.clamp(camera.position.z, -roomBounds.z, roomBounds.z);
   }
 }
 
