@@ -46,6 +46,7 @@ const carouselCounter = document.querySelector("#carousel-counter");
 const ttsBtn = document.querySelector("#tts-btn");
 const artistRelations = document.querySelector("#artist-relations");
 const relationsList = document.querySelector("#relations-list");
+const favBtn = document.querySelector("#fav-btn");
 
 // Three.js refs
 let renderer, scene, camera;
@@ -433,7 +434,14 @@ function animateTimeline() {
   const moved = Math.abs(viewZoom - 1) > 0.01 || Math.abs(viewPanX) > 1;
   timelineHint.style.opacity = moved ? "0.25" : "1";
   document.querySelectorAll(".epoch-marker").forEach(m => {
-    m.style.display = (activeFilter === "all" || m.dataset.epoch === activeFilter) ? "" : "none";
+    if (activeFilter === "favorites") {
+      const favs = getFavorites();
+      const epochId = m.dataset.epoch;
+      const hasFav = allArtists.some(a => a.epoch === epochId && favs.includes(a.id));
+      m.style.display = hasFav ? "" : "none";
+    } else {
+      m.style.display = (activeFilter === "all" || m.dataset.epoch === activeFilter) ? "" : "none";
+    }
   });
   requestAnimationFrame(animateTimeline);
 }
@@ -476,6 +484,8 @@ function showArtistInPanel(artist) {
   artistName.textContent = artist.name;
   artistYears.textContent = `${artist.years} · ${artist.movement}`;
   artistBio.textContent = artist.bio;
+  currentPanelArtistId = artist.id;
+  updateFavButton();
   // Build the carousel list: primary image + any additional artworks.
   const works = [
     { title: artist.name, imageUrl: artist.imageUrl },
@@ -506,6 +516,50 @@ function renderRelations(artist) {
       if (target) showArtistInPanel(target);
     });
     relationsList.appendChild(chip);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  FAVORITES (localStorage)
+// ═══════════════════════════════════════════════════════════════════════════════
+const FAV_KEY = "museum-favorites";
+let currentPanelArtistId = null;
+
+function getFavorites() {
+  try {
+    return JSON.parse(localStorage.getItem(FAV_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function setFavorites(ids) {
+  localStorage.setItem(FAV_KEY, JSON.stringify(ids));
+}
+
+function isFavorite(id) {
+  return getFavorites().includes(id);
+}
+
+function toggleFavorite(id) {
+  const favs = getFavorites();
+  const idx = favs.indexOf(id);
+  if (idx >= 0) favs.splice(idx, 1);
+  else favs.push(id);
+  setFavorites(favs);
+  updateFavButton();
+}
+
+function updateFavButton() {
+  if (!currentPanelArtistId) return;
+  const saved = isFavorite(currentPanelArtistId);
+  favBtn.classList.toggle("saved", saved);
+  favBtn.textContent = saved ? "★ Saved" : "☆ Save";
+}
+
+function initFavorites() {
+  favBtn.addEventListener("click", () => {
+    if (currentPanelArtistId) toggleFavorite(currentPanelArtistId);
   });
 }
 
@@ -1244,6 +1298,7 @@ async function init() {
     initCarousel();
     initTTS();
     initLanguage();
+    initFavorites();
     applyLanguage();
     museumView.hidden = true;
     timelineOverlay.hidden = false;
