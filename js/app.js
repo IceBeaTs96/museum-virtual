@@ -740,7 +740,7 @@ function showEpochDetail(epochId) {
   currentEpoch = epoch.id;
   currentEpochArtists = allArtists.filter(a => a.epoch === epoch.id);
 
-  epochDetailName.textContent = epoch.name;
+  epochDetailName.textContent = getDisplayNameLocalized(epoch.id);
   const n = currentEpochArtists.length;
   epochDetailRange.textContent = `${epoch.start}–${epoch.end} · ${n} ${n !== 1 ? t("artists") : t("artist")}`;
 
