@@ -343,7 +343,7 @@ function buildTimeline() {
 
     const label = document.createElement("div");
     label.className = "epoch-label";
-    label.textContent = epoch.name;
+    label.textContent = getDisplayNameLocalized(epoch.id);
     marker.appendChild(label);
 
     const years = document.createElement("div");
