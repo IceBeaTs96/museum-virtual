@@ -1153,6 +1153,8 @@ function isClickModeActive() { return [...clickModeKeys].some(c => keys.has(c));
 function releasePointerLock() { if (document.pointerLockElement === canvas) document.exitPointerLock?.(); }
 function updateCameraRotation() {
   pitch = Math.max(-1.25, Math.min(1.25, pitch));
+  // Normalize yaw to [-π, π] to avoid Euler-angle flips when turning past 180°.
+  yaw = Math.atan2(Math.sin(yaw), Math.cos(yaw));
   camera.rotation.order = "YXZ"; camera.rotation.y = yaw; camera.rotation.x = pitch;
 }
 function moveCamera(delta) {
