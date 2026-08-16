@@ -325,6 +325,22 @@ body {
 
 /* ── Timeline Axis ────────────────────────────────── */
 
+.epoch-band {
+  position: absolute;
+  height: 90px;
+  transform: translateY(-50%);
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.2s ease, height 0.2s ease;
+  pointer-events: auto;
+}
+
+.epoch-band:hover {
+  opacity: 0.85;
+  height: 110px;
+}
+
 .timeline-axis {
   position: absolute;
   left: 0;

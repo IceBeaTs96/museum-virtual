@@ -334,6 +334,25 @@ function buildTimeline() {
   axis.style.width = WORLD_WIDTH + "px";
   timelineWorld.appendChild(axis);
 
+  // Overlapping epoch bands (color-coded time ranges, like the Fable-5 "Atlas")
+  epochDefs.forEach(epoch => {
+    const startX = yearToWorldX(epoch.start);
+    const endX = yearToWorldX(epoch.end);
+    const band = document.createElement("div");
+    band.className = "epoch-band";
+    band.style.left = startX + "px";
+    band.style.width = (endX - startX) + "px";
+    band.style.top = "55%";
+    band.style.background = `linear-gradient(90deg, ${epoch.color}22, ${epoch.color}55, ${epoch.color}22)`;
+    band.style.boxShadow = `0 0 18px ${epoch.glow}33`;
+    band.dataset.epoch = epoch.id;
+    band.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showEpochDetail(epoch.id);
+    });
+    timelineWorld.appendChild(band);
+  });
+
   epochDefs.forEach(epoch => {
     const centerX = yearToWorldX((epoch.start + epoch.end) / 2);
     const count = allArtists.filter(a => a.epoch === epoch.id).length;
