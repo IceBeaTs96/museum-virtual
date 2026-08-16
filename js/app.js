@@ -82,7 +82,7 @@ const roomPalette = {
 const TIMELINE_START = 1200;
 const TIMELINE_END = 2025;
 const TIMELINE_SPAN = TIMELINE_END - TIMELINE_START;
-const WORLD_WIDTH = 8000;
+const WORLD_WIDTH = 5200;
 
 let viewZoom = 1;
 let viewPanX = 0;
@@ -251,11 +251,20 @@ function initStarfield() {
     offset: Math.random() * Math.PI * 2,
   }));
   nebulae = [
-    { x: 0.3, y: 0.35, rx: 0.3, ry: 0.15, c: { r: 80, g: 40, b: 120 }, o: 0.08, a: 0.3 },
-    { x: 0.6, y: 0.45, rx: 0.35, ry: 0.18, c: { r: 30, g: 60, b: 140 }, o: 0.07, a: 0.5 },
-    { x: 0.45, y: 0.55, rx: 0.28, ry: 0.14, c: { r: 120, g: 40, b: 80 }, o: 0.06, a: 1.2 },
-    { x: 0.7, y: 0.3, rx: 0.32, ry: 0.16, c: { r: 20, g: 80, b: 100 }, o: 0.07, a: 0.8 },
-    { x: 0.25, y: 0.5, rx: 0.25, ry: 0.12, c: { r: 100, g: 60, b: 30 }, o: 0.05, a: 0.6 },
+    // Galaxy core — a bright, warm center that anchors the "cosmic" feel
+    { x: 0.5, y: 0.42, rx: 0.5, ry: 0.28, c: { r: 150, g: 90, b: 200 }, o: 0.16, a: 0.15 },
+    { x: 0.5, y: 0.42, rx: 0.3, ry: 0.16, c: { r: 220, g: 160, b: 240 }, o: 0.14, a: 0.4 },
+    // Purple / magenta nebulae (left)
+    { x: 0.22, y: 0.3, rx: 0.34, ry: 0.18, c: { r: 120, g: 50, b: 170 }, o: 0.14, a: 0.3 },
+    { x: 0.3, y: 0.55, rx: 0.3, ry: 0.16, c: { r: 90, g: 40, b: 140 }, o: 0.12, a: 0.9 },
+    // Blue / cyan nebulae (right)
+    { x: 0.72, y: 0.32, rx: 0.36, ry: 0.2, c: { r: 40, g: 80, b: 180 }, o: 0.14, a: 0.5 },
+    { x: 0.78, y: 0.55, rx: 0.3, ry: 0.16, c: { r: 30, g: 100, b: 160 }, o: 0.12, a: 1.1 },
+    // Warm amber / rose accents
+    { x: 0.42, y: 0.2, rx: 0.26, ry: 0.13, c: { r: 200, g: 90, b: 90 }, o: 0.1, a: 0.7 },
+    { x: 0.6, y: 0.68, rx: 0.28, ry: 0.14, c: { r: 180, g: 70, b: 120 }, o: 0.1, a: 1.3 },
+    // Teal / green hint
+    { x: 0.15, y: 0.7, rx: 0.24, ry: 0.12, c: { r: 40, g: 120, b: 110 }, o: 0.09, a: 0.6 },
   ];
   particles = Array.from({ length: 200 }, () => ({
     x: Math.random(), y: Math.random(), r: Math.random() * 1.2 + 0.3,
