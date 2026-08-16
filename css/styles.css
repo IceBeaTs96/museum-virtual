@@ -715,6 +715,38 @@ body {
   font-weight: 700;
 }
 
+.panel-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tts-button {
+  padding: 8px 14px;
+  border: 1px solid rgba(155, 64, 47, 0.35);
+  border-radius: 6px;
+  background: rgba(155, 64, 47, 0.08);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.tts-button:hover {
+  background: rgba(155, 64, 47, 0.16);
+  border-color: var(--accent);
+}
+
+.tts-button.speaking {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
 .icon-button {
   position: absolute;
   top: 10px;

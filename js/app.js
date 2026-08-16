@@ -43,6 +43,7 @@ const artistUrl = document.querySelector("#artist-url");
 const carouselPrev = document.querySelector("#carousel-prev");
 const carouselNext = document.querySelector("#carousel-next");
 const carouselCounter = document.querySelector("#carousel-counter");
+const ttsBtn = document.querySelector("#tts-btn");
 
 // Three.js refs
 let renderer, scene, camera;
@@ -385,6 +386,71 @@ function stepWork(dir) {
 function initCarousel() {
   carouselPrev.addEventListener("click", () => stepWork(-1));
   carouselNext.addEventListener("click", () => stepWork(1));
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  AUDIO GUIDE (TTS)
+// ═══════════════════════════════════════════════════════════════════════════════
+let ttsSpeaking = false;
+let ttsUtterance = null;
+
+function ttsSupported() {
+  return typeof window !== "undefined" && "speechSynthesis" in window;
+}
+
+function pickVoice() {
+  if (!ttsSupported()) return null;
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+  // Prefer a German or English voice matching the bio language.
+  const preferred = ["de-DE", "de", "en-GB", "en-US", "en"];
+  for (const lang of preferred) {
+    const v = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(lang));
+    if (v) return v;
+  }
+  return voices[0];
+}
+
+function toggleTTS() {
+  if (!ttsSupported()) {
+    ttsBtn.textContent = "🔇 TTS not supported";
+    return;
+  }
+  if (ttsSpeaking) {
+    window.speechSynthesis.cancel();
+    return;
+  }
+  const text = `${artistName.textContent}. ${artistBio.textContent}`;
+  if (!text.trim()) return;
+  const u = new SpeechSynthesisUtterance(text);
+  const voice = pickVoice();
+  if (voice) u.voice = voice;
+  u.lang = voice?.lang || "en";
+  u.rate = 0.95;
+  u.onstart = () => { ttsSpeaking = true; ttsBtn.classList.add("speaking"); ttsBtn.textContent = "⏹ Stop"; };
+  u.onend = resetTTS;
+  u.onerror = resetTTS;
+  ttsUtterance = u;
+  window.speechSynthesis.speak(u);
+}
+
+function resetTTS() {
+  ttsSpeaking = false;
+  ttsUtterance = null;
+  ttsBtn.classList.remove("speaking");
+  ttsBtn.textContent = "🔊 Read aloud";
+}
+
+function initTTS() {
+  if (!ttsSupported()) {
+    ttsBtn.disabled = true;
+    ttsBtn.textContent = "🔇 TTS not supported";
+    return;
+  }
+  ttsBtn.addEventListener("click", toggleTTS);
+  // Warm up the voice list (some browsers load it async).
+  window.speechSynthesis.onvoiceschanged = () => { /* voices ready */ };
+  window.speechSynthesis.getVoices();
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1028,6 +1094,7 @@ async function init() {
     bindGlobalControls();
     bindTouchControls();
     initCarousel();
+    initTTS();
     museumView.hidden = true;
     timelineOverlay.hidden = false;
   } catch (err) {
