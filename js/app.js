@@ -1346,6 +1346,8 @@ function bindGlobalControls() {
   window.addEventListener("keydown", e => {
     keys.add(e.code);
     if (clickModeKeys.has(e.code)) { e.preventDefault(); releasePointerLock(); }
+    // Escape exits the museum (clear, predictable back-out)
+    if (e.key === "Escape" && isInMuseum) { e.preventDefault(); exitMuseum(); }
   });
   window.addEventListener("keyup", e => keys.delete(e.code));
   window.addEventListener("resize", () => {
