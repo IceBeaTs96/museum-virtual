@@ -806,6 +806,7 @@ function exitMuseum() {
   }
   scene = null;
   camera = null;
+  textureLoader = null;
   paintings = [];
   portals = [];
   // Remove any dynamically created elements
