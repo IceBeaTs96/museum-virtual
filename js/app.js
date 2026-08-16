@@ -47,6 +47,7 @@ const ttsBtn = document.querySelector("#tts-btn");
 const artistRelations = document.querySelector("#artist-relations");
 const relationsList = document.querySelector("#relations-list");
 const favBtn = document.querySelector("#fav-btn");
+const shareBtn = document.querySelector("#share-btn");
 
 // Three.js refs
 let renderer, scene, camera;
@@ -561,6 +562,51 @@ function initFavorites() {
   favBtn.addEventListener("click", () => {
     if (currentPanelArtistId) toggleFavorite(currentPanelArtistId);
   });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  SHARE / DEEP LINK
+// ═══════════════════════════════════════════════════════════════════════════════
+function shareUrlForArtist(id) {
+  const url = new URL(window.location.href);
+  url.search = "";
+  url.searchParams.set("artist", id);
+  return url.toString();
+}
+
+function initShare() {
+  shareBtn.addEventListener("click", async () => {
+    if (!currentPanelArtistId) return;
+    const url = shareUrlForArtist(currentPanelArtistId);
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: artistName.textContent, url });
+        return;
+      }
+    } catch (e) {
+      // user cancelled or share failed — fall through to clipboard
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      shareBtn.classList.add("copied");
+      shareBtn.textContent = "✓ Copied";
+      setTimeout(() => {
+        shareBtn.classList.remove("copied");
+        shareBtn.textContent = "🔗 Share";
+      }, 1500);
+    } catch (e) {
+      // clipboard unavailable — show the URL in a prompt
+      window.prompt("Copy this link:", url);
+    }
+  });
+}
+
+function handleDeepLink() {
+  const params = new URLSearchParams(window.location.search);
+  const artistId = params.get("artist");
+  if (!artistId) return;
+  const artist = allArtists.find(a => a.id === artistId);
+  if (artist) showArtistInPanel(artist);
 }
 
 let currentWorks = [];
@@ -1299,7 +1345,9 @@ async function init() {
     initTTS();
     initLanguage();
     initFavorites();
+    initShare();
     applyLanguage();
+    handleDeepLink();
     museumView.hidden = true;
     timelineOverlay.hidden = false;
   } catch (err) {
