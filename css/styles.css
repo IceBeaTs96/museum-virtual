@@ -68,6 +68,38 @@ body {
   font-size: 0.9rem;
 }
 
+.lang-switch {
+  display: flex;
+  gap: 4px;
+  margin-top: 10px;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.lang-btn {
+  padding: 4px 12px;
+  border: 1px solid rgba(160, 140, 220, 0.25);
+  border-radius: 14px;
+  background: rgba(30, 20, 60, 0.3);
+  color: rgba(200, 190, 230, 0.6);
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-btn:hover {
+  border-color: rgba(180, 160, 240, 0.5);
+  color: #e8e0f0;
+}
+
+.lang-btn.active {
+  background: rgba(167, 139, 250, 0.25);
+  border-color: #a78bfa;
+  color: #c4b5fd;
+}
+
 /* ── Search & Filter Bar ──────────────────────────── */
 
 .search-bar {

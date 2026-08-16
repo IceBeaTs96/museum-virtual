@@ -115,6 +115,126 @@ const epochDisplayNames = {
 function getDisplayName(e) { return epochDisplayNames[e] || e; }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+//  I18N (EN / DE)
+// ═══════════════════════════════════════════════════════════════════════════════
+let currentLang = "en";
+
+const I18N = {
+  en: {
+    subtitle: (n, e) => `Explore ${n} masterpieces across ${e} epochs of art history`,
+    all: "All",
+    surprise: "🎲 Surprise Me!",
+    timelineHint: "🖱️ Scroll to zoom · Drag to pan · Click an epoch to explore",
+    enterMuseum: "Enter 3D Museum Hall →",
+    readAloud: "🔊 Read aloud",
+    stop: "⏹ Stop",
+    ttsUnsupported: "🔇 TTS not supported",
+    openImage: "Open image source",
+    backToTimeline: "← Back to Timeline",
+    hudHint: "Click the room to look around. WASD moves, mouse drags/locks view, hold Shift or Space to click paintings.",
+    artists: "artists",
+    artist: "artist",
+    noArtists: "No artists found",
+    tryDifferent: "Try a different search term",
+    found: "found",
+    searchPlaceholder: "🔍 Search artists, movements, nationalities...",
+    hall: "Hall",
+  },
+  de: {
+    subtitle: (n, e) => `Entdecke ${n} Meisterwerke aus ${e} Epochen der Kunstgeschichte`,
+    all: "Alle",
+    surprise: "🎲 Überrasch mich!",
+    timelineHint: "🖱️ Scrollen zum Zoomen · Ziehen zum Verschieben · Epoche anklicken zum Erkunden",
+    enterMuseum: "3D-Museumssaal betreten →",
+    readAloud: "🔊 Vorlesen",
+    stop: "⏹ Stopp",
+    ttsUnsupported: "🔇 TTS nicht unterstützt",
+    openImage: "Bildquelle öffnen",
+    backToTimeline: "← Zurück zur Timeline",
+    hudHint: "Klicke in den Raum zum Umschauen. WASD bewegt, Maus zieht/sperrt die Sicht, Shift oder Leertaste halten zum Anklicken der Gemälde.",
+    artists: "Künstler",
+    artist: "Künstler",
+    noArtists: "Keine Künstler gefunden",
+    tryDifferent: "Versuche einen anderen Suchbegriff",
+    found: "gefunden",
+    searchPlaceholder: "🔍 Künstler, Strömungen, Nationalitäten suchen...",
+    hall: "Saal",
+  },
+};
+
+// German epoch display names (used when currentLang === "de")
+const epochDisplayNamesDe = {
+  Vorreformatorisch: "Proto-Renaissance", Renaissance: "Renaissance", Barock: "Barock",
+  Romantik: "Romantik", Impressionismus: "Impressionismus", Moderne: "Moderne",
+  Zeitgenössisch: "Zeitgenössisch", "Asiatische Kunst": "Asiatische Kunst",
+};
+
+function t(key) {
+  return I18N[currentLang][key] ?? I18N.en[key] ?? key;
+}
+
+function getDisplayNameLocalized(e) {
+  if (currentLang === "de") return epochDisplayNamesDe[e] || e;
+  return epochDisplayNames[e] || e;
+}
+
+function applyLanguage() {
+  const lang = currentLang;
+  document.documentElement.lang = lang;
+
+  // Subtitle
+  const subtitle = document.querySelector("#timeline-subtitle");
+  if (subtitle && allArtists.length) {
+    subtitle.textContent = I18N[lang].subtitle(allArtists.length, epochDefs.length);
+  }
+
+  // Filter chips
+  document.querySelectorAll(".filter-chip").forEach(chip => {
+    const f = chip.dataset.filter;
+    if (f === "all") { chip.textContent = t("all"); return; }
+    chip.textContent = getDisplayNameLocalized(f);
+  });
+
+  // Static buttons / hints
+  surpriseBtn.textContent = t("surprise");
+  timelineHint.textContent = t("timelineHint");
+  enterMuseumBtn.textContent = t("enterMuseum");
+  backToTimelineBtn.textContent = t("backToTimeline");
+  document.querySelector("#hud-hint").textContent = t("hudHint");
+  searchInput.placeholder = t("searchPlaceholder");
+  artistUrl.textContent = t("openImage");
+  if (!ttsSpeaking) ttsBtn.textContent = t("readAloud");
+
+  // Epoch markers (labels + years already localized via getDisplayNameLocalized)
+  document.querySelectorAll(".epoch-marker").forEach(m => {
+    const epochId = m.dataset.epoch;
+    const label = m.querySelector(".epoch-label");
+    if (label && epochId) label.textContent = getDisplayNameLocalized(epochId);
+  });
+
+  // HUD title (if in museum)
+  if (isInMuseum && currentEpoch) {
+    hudTitle.textContent = `${getDisplayNameLocalized(currentEpoch)} ${t("hall")}`;
+  }
+
+  // Lang switch active state
+  document.querySelectorAll(".lang-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.lang === lang);
+  });
+}
+
+function initLanguage() {
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentLang = btn.dataset.lang;
+      applyLanguage();
+      // Rebuild timeline markers so labels reflect the new language.
+      buildTimeline();
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 //  STARFIELD CANVAS
 // ═══════════════════════════════════════════════════════════════════════════════
 let sctx, stars = [], nebulae = [], particles = [];
@@ -230,7 +350,7 @@ function buildTimeline() {
 
     const cnt = document.createElement("div");
     cnt.className = "epoch-count";
-    cnt.textContent = `${count} artist${count !== 1 ? "s" : ""}`;
+    cnt.textContent = `${count} ${count !== 1 ? t("artists") : t("artist")}`;
     marker.appendChild(cnt);
 
     marker.addEventListener("click", (e) => {
@@ -330,12 +450,12 @@ function initSearch() {
       searchResultsCount.textContent = "No artists found";
       searchResultsGrid.innerHTML = '<p style="color:var(--muted);text-align:center;grid-column:1/-1">Try a different search term</p>';
     } else {
-      searchResultsCount.textContent = `${results.length} artist${results.length > 1 ? "s" : ""} found`;
+      searchResultsCount.textContent = `${results.length} ${results.length > 1 ? t("artists") : t("artist")} ${t("found")}`;
       searchResultsGrid.innerHTML = "";
       results.forEach(a => {
         const c = document.createElement("div");
         c.className = "search-result-card";
-        c.innerHTML = `<img class="artist-thumb" src="${a.imageUrl}" alt="${a.name}" loading="lazy" onerror="this.style.display='none'" /><span class="artist-name">${a.name}</span><span class="artist-meta">${a.years} · ${getDisplayName(a.epoch)}</span>`;
+        c.innerHTML = `<img class="artist-thumb" src="${a.imageUrl}" alt="${a.name}" loading="lazy" onerror="this.style.display='none'" /><span class="artist-name">${a.name}</span><span class="artist-meta">${a.years} · ${getDisplayNameLocalized(a.epoch)}</span>`;
         c.addEventListener("click", () => { searchResults.hidden = true; searchInput.value = ""; showArtistInPanel(a); });
         searchResultsGrid.appendChild(c);
       });
@@ -488,7 +608,7 @@ function showEpochDetail(epochId) {
 
   epochDetailName.textContent = epoch.name;
   const n = currentEpochArtists.length;
-  epochDetailRange.textContent = `${epoch.start}–${epoch.end} · ${n} artist${n !== 1 ? "s" : ""}`;
+  epochDetailRange.textContent = `${epoch.start}–${epoch.end} · ${n} ${n !== 1 ? t("artists") : t("artist")}`;
 
   epochArtistsGrid.innerHTML = "";
   currentEpochArtists.forEach(a => {
@@ -525,7 +645,7 @@ function enterMuseum() {
 
   timelineOverlay.hidden = true;
   museumView.hidden = false;
-  hudTitle.textContent = `${getDisplayName(currentEpoch)} Hall`;
+  hudTitle.textContent = `${getDisplayNameLocalized(currentEpoch)} ${t("hall")}`;
   showTouchControls();
 
   try {
@@ -648,11 +768,11 @@ function loadRoom(index, fromPortal = null) {
   scene.fog = new THREE.Fog(palette.fog, 13, 34);
   buildRoomShell(palette);
   addRoomLighting();
-  addRoomLabel(getDisplayName(currentEpoch), palette);
+  addRoomLabel(getDisplayNameLocalized(currentEpoch), palette);
   addNavigationPortals(palette);
   placePaintings(currentEpochArtists);
 
-  hudTitle.textContent = `${getDisplayName(currentEpoch)} Hall`;
+  hudTitle.textContent = `${getDisplayNameLocalized(currentEpoch)} ${t("hall")}`;
   if (fromPortal === "next") {
     camera.position.set(0, 1.65, 4.15);
     yaw = 0;
@@ -740,8 +860,8 @@ function addRoomLabel(label, palette) {
 function addNavigationPortals(palette) {
   const prev = epochDefs[(currentRoomIndex - 1 + epochDefs.length) % epochDefs.length];
   const next = epochDefs[(currentRoomIndex + 1) % epochDefs.length];
-  addPortal(`← ${getDisplayName(prev.id)}`, -3.6, 2.75, -5.88, 0, () => loadRoom(currentRoomIndex - 1, "prev"), palette);
-  addPortal(`${getDisplayName(next.id)} →`, 3.6, 2.75, -5.88, 0, () => loadRoom(currentRoomIndex + 1, "next"), palette);
+  addPortal(`← ${getDisplayNameLocalized(prev.id)}`, -3.6, 2.75, -5.88, 0, () => loadRoom(currentRoomIndex - 1, "prev"), palette);
+  addPortal(`${getDisplayNameLocalized(next.id)} →`, 3.6, 2.75, -5.88, 0, () => loadRoom(currentRoomIndex + 1, "next"), palette);
 }
 
 function addPortal(label, x, y, z, rotationY, action, palette) {
@@ -1095,6 +1215,8 @@ async function init() {
     bindTouchControls();
     initCarousel();
     initTTS();
+    initLanguage();
+    applyLanguage();
     museumView.hidden = true;
     timelineOverlay.hidden = false;
   } catch (err) {
